@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/DungeonKit/Scenes/GameUI.unity
+- path: Assets/Scenes/Levels/Lvl_0.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
