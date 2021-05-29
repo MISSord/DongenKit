@@ -2,59 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DungeonKIT
+
+public class AIStats : MonoBehaviour
 {
-    public class AIStats : MonoBehaviour
-    {
-        //Cached components
-        AIController aiController;
-        AICanvas aICanvas;
-        SpriteRenderer aiSprite;
-        AudioSource audioSource;
+    //Cached components
+    AIController aiController;
+    AICanvas aICanvas;
+    SpriteRenderer aiSprite;
+    AudioSource audioSource;
+    public int ID = 0;
 
         //Event
-        public delegate void DeathAction(); // AI Death Event
-        public event DeathAction onDeath;
+    public delegate void DeathAction(); // AI Death Event
+    public event DeathAction onDeath;
 
-        [HideInInspector] public DamageEffect damageEffect; //Visual damage effect
+    [HideInInspector]
+    public DamageEffect damageEffect; //Visual damage effect
 
-        [Header("Settings")]
-        public DoubleFloat HP = new DoubleFloat(100, 100); //DoubleFloat(currentHP,maxHP)
+    [Header("Settings")]
+    public DoubleFloat HP = new DoubleFloat(100, 100); //DoubleFloat(currentHP,maxHP)
 
-        private void Start()
+    private void Start()
+    {
+        aiSprite = GetComponentInChildren<SpriteRenderer>();
+        aICanvas = GetComponentInChildren<AICanvas>();
+        aiController = GetComponent<AIController>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    //Сaused by taking damage
+    public void TakingDamage(float damage)
+    {
+        aiController.isAttacked = true; //sends AI that he was attacked
+
+        HP.current -= damage; //damage
+        aICanvas.UpdateUI(); //Update AI ui (hp bar)
+
+        AudioManager.Instance.Play(audioSource, AudioManager.Instance.aiDamage, false); //play damage sound
+
+        StartCoroutine(damageEffect.Damage(aiSprite)); //Start damage effect
+
+        if (HP.current <= 0) //if HP < 0 Death
         {
-            aiSprite = GetComponentInChildren<SpriteRenderer>();
-            aICanvas = GetComponentInChildren<AICanvas>();
-            aiController = GetComponent<AIController>();
-            audioSource = GetComponent<AudioSource>();
+            Death();
         }
+    }
 
-        //Сaused by taking damage
-        public void TakingDamage(float damage)
-        {
-            aiController.isAttacked = true; //sends AI that he was attacked
+    void Death()
+    {
+        if (onDeath != null)
+            onDeath(); // Death event
 
-            HP.current -= damage; //damage
-            aICanvas.UpdateUI(); //Update AI ui (hp bar)
+        GameManager.Instance.EnemyDeath(ID);
+    }
 
-            AudioManager.Instance.Play(audioSource, AudioManager.Instance.aiDamage, false); //play damage sound
-
-            StartCoroutine(damageEffect.Damage(aiSprite)); //Start damage effect
-
-            if (HP.current <= 0) //if HP < 0 Death
-            {
-                Death();
-            }
-        }
-
-        void Death()
-        {
-            if (onDeath != null)
-                onDeath(); // Death event
-
-            Destroy(gameObject);
-        }
-
-
+    public  void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }
+

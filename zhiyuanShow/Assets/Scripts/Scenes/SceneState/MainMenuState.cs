@@ -13,7 +13,6 @@ public class MainMenuState : BaseSceneState
     {
         gameRoot.AddManagerToRoot(BaseData.MainMenuManager);
         gameRoot.AddManagerToRoot(BaseData.AudioManager);
-        gameRoot.AddManagerToRoot(BaseData.SceneManager);
         base.EnterScene();
     }
 }

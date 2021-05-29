@@ -108,13 +108,11 @@
     <Compile Include="Assets\Scripts\Scenes\BaseSceneState.cs" />
     <Compile Include="Assets\Scripts\Scenes\LevelComponents\Door.cs" />
     <Compile Include="Assets\Scripts\Scenes\LevelComponents\DoorKey.cs" />
-    <Compile Include="Assets\Scripts\Scenes\LoadingScene\LoadingSceneManager.cs" />
     <Compile Include="Assets\Scripts\Scenes\MainMenu\MainMenuManager.cs" />
     <Compile Include="Assets\Scripts\Scenes\NextLevelDoor.cs" />
-    <Compile Include="Assets\Scripts\Scenes\ScenesManager.cs" />
+    <Compile Include="Assets\Scripts\Scenes\ScenesServer.cs" />
     <Compile Include="Assets\Scripts\Scenes\SceneState\GameSceneState.cs" />
     <Compile Include="Assets\Scripts\Scenes\SceneState\MainMenuState.cs" />
-    <Compile Include="Assets\Scripts\Scenes\UI\UISceneManager.cs" />
     <Compile Include="Assets\Scripts\Shop\ShopSystem.cs" />
     <Compile Include="Assets\Scripts\UI\BaseUI.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenuUI.cs" />

@@ -32,5 +32,6 @@ public class BaseManager : MonoBehaviour, IBaseManager
             return;
         }
         isInit = true;
+        EnableManager();
     }
 }

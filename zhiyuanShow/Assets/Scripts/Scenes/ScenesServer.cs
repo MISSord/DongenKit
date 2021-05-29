@@ -5,19 +5,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class ScenesManager : BaseManager
+public class ScenesServer : MonoBehaviour
 {
-    public static ScenesManager Instance; //Singleton
+    public static ScenesServer Instance; //Singleton
 
     [Header("Parameters")]
     public string sceneToLoad; //Set this parameter to the name of the scene you want to go to
-    public int levelID; //Current level
-
-    public bool continueGame;
     private Action prgCB = null;
 
     //Singleton
-    public override void Init()
+    public  void Init()
     {
         if (Instance == null)
         {
@@ -25,9 +22,8 @@ public class ScenesManager : BaseManager
         }
         else
         {
-            Destroy(gameObject);
+            Instance = new ScenesServer();
         }
-        base.Init();
     }
 
     //Method to add a scene to the background
@@ -51,9 +47,17 @@ public class ScenesManager : BaseManager
                 }
                 prgCB = null;
                 sceneAsync = null;
-                GameRoot.Instance.ShowDownLoadUI(true);
+                GameRoot.Instance.ShowDownLoadUI(false);
             }
         });
+    }
+
+    private void Update()
+    {
+        if (prgCB != null)
+        {
+            prgCB();
+        }
     }
 }
 

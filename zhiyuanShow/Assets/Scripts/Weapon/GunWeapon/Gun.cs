@@ -5,13 +5,15 @@ using DungeonKIT;
 
 public class Gun : MonoBehaviour, IGun
 {
+    //发射间隔
     public float interval;
-    public string bulletname;
-    public string shellname;
+    protected string bulletname;
+    protected string shellname;
     protected Transform muzzlePos;
     protected Transform shellPos;
     protected Vector2 mousePos;
     protected Vector2 direction;
+    
     protected float timer;
     protected float flipY;
     protected Animator animator;
@@ -19,8 +21,16 @@ public class Gun : MonoBehaviour, IGun
     public virtual void Init()
     {
         animator = GetComponent<Animator>();
+
         muzzlePos = transform.Find("Muzzle");
+        muzzlePos.localPosition = BaseData.MuzzlePosition;
+
         shellPos = transform.Find("BulletShell");
+        if(shellPos != null)
+        {
+            shellPos.localPosition = BaseData.BulletShellPosition;
+        }
+        
         flipY = transform.localScale.y;
         bulletname = BaseData.Bullet;
         shellname = BaseData.BulletShell;
@@ -62,6 +72,7 @@ public class Gun : MonoBehaviour, IGun
         // GameObject bullet = Instantiate(bulletPrefab, muzzlePos.position, Quaternion.identity);
         GameObject bullet = ObjectPool.Instance.GetObject(bulletname);
         bullet.transform.position = muzzlePos.position;
+        bullet.transform.rotation = Quaternion.identity;
 
         float angel = Random.Range(-5f, 5f);
         bullet.GetComponent<Bullet>().SetSpeedAndDamage(Quaternion.AngleAxis(angel, Vector3.forward) * direction, 

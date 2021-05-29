@@ -13,24 +13,19 @@ public class GameSceneState : BaseSceneState
     {
         Action done = () =>
                 {
-                    gameRoot.AddManagerToRoot(BaseData.AudioManager);
-                    gameRoot.AddManagerToRoot(BaseData.SceneManager);
-                    gameRoot.AddManagerToRoot(BaseData.GameManager);
                 };
-        if (ScenesManager.Instance.continueGame)
+        if (GameRoot.Instance.continueGame)
         {
             gameRoot.LevelNum = 1;
-            ScenesManager.Instance.AsyncLoadScene(BaseData.SecondGameScene, done);
+            ScenesServer.Instance.AsyncLoadScene(BaseData.SecondGameScene, done);
         }
         else
         {
-            ScenesManager.Instance.AsyncLoadScene(BaseData.FirstGameScene,done);
+            ScenesServer.Instance.AsyncLoadScene(BaseData.FirstGameScene,done);
         }
         gameRoot.AddManagerToRoot(BaseData.AudioManager);
-        gameRoot.AddManagerToRoot(BaseData.SceneManager);
         gameRoot.AddManagerToRoot(BaseData.GameManager);
         gameRoot.AddManagerToRoot(BaseData.UIManager);
-
         base.EnterScene();
     }
 }

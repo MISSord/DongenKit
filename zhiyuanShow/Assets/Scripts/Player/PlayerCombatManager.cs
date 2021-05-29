@@ -21,6 +21,7 @@ public class PlayerCombatManager : MonoBehaviour
     {
         player = GameManager.Instance.player;
         gunGameObjects.Add(player.GetChild(1).gameObject);
+        gunGameObjects.Add(player.GetChild(2).gameObject);
         gunNum = 0;
         GunInit();
     }
@@ -41,7 +42,7 @@ public class PlayerCombatManager : MonoBehaviour
 
     private void Update() //Every frame
     {
-        if (GameManager.Instance.playState.canMove) //If pause disable, and is game
+        if (PlayerStats.Instance.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
         {
             SwitchGun();
             guns[gunNum].UpdateGunPosture();

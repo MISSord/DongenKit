@@ -196,8 +196,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Pause
+      - m_Target: {fileID: 8670308884393501417}
+        m_MethodName: ShowPauseMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -752,8 +752,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: LoadMainMenu
+      - m_Target: {fileID: 8670308884393501417}
+        m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2239,7 +2239,7 @@ GameObject:
   - component: {fileID: 8670308884393501417}
   - component: {fileID: 6066289117376626836}
   m_Layer: 0
-  m_Name: UManager
+  m_Name: UIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2272,6 +2272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90bdfbe521b1ab945af25523110a153e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInit: 0
   playerStats: {fileID: 0}
   hpParent: {fileID: 5627973310883249130}
   hpIconPrefab: {fileID: 1676210946979814, guid: 1b59fcbb7b260824dac8f1ba8e5ad787,
@@ -4639,8 +4640,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: LoadMainMenu
+      - m_Target: {fileID: 8670308884393501417}
+        m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

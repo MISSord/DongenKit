@@ -5,12 +5,14 @@ using UnityEngine;
 public class RocketLauncher : Gun
 {
     public int rocketNum = 3;
-    public float rocketAngle = 15;
+    public float rocketAngle = 30;
 
     public override void Init()
     {
         base.Init();
         bulletname = BaseData.Rocket;
+        transform.localPosition = new Vector3(-0.05f, 0.01f, 0);
+        transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
     }
 
     protected override void Fire()
@@ -28,6 +30,7 @@ public class RocketLauncher : Gun
         {
             GameObject bullet = ObjectPool.Instance.GetObject(bulletname);
             bullet.transform.position = muzzlePos.position;
+            bullet.transform.rotation = Quaternion.identity;
 
             if (rocketNum % 2 == 1)
             {

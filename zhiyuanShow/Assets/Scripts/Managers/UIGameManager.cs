@@ -31,8 +31,9 @@ public class UIGameManager : BaseManager
 
     //Singleton method
 
-    private void Start()
+    public override void Init()
     {
+        base.Init();
         //Check active platform
 #if UNITY_ANDROID || UNITY_IOS //mobile 
 
@@ -42,7 +43,7 @@ public class UIGameManager : BaseManager
 
         dialogClosed += CloseShopMenu; //Add event
 
-        //playerStats = PlayerStats.Instance; //Set playerstats in static object of PlayerStats
+        playerStats = PlayerStats.Instance; //Set playerstats in static object of PlayerStats
         UpdateUI(); //UpdateUI
 
     }
@@ -114,22 +115,26 @@ public class UIGameManager : BaseManager
         dialogGO.SetActive(false); //Disable dialog screen
     }
     //Close shop menu method
+
     public void CloseShopMenu(object sender, EventArgs e)
     {
         shopGO.SetActive(false); //Disable shop screen
     }
     //Pause method
-    public void Pause()
+
+    public void ShowPauseMenu()
     {
-        isPause = !isPause; //Reverse pause status
-        playerStats.canMove = !playerStats.canMove;
         pauseGo.SetActive(!pauseGo.activeSelf); //Reverse pause screen active status 
     }
     //UI GameOver method
     public void GameOver()
     {
-        playerStats.canMove = !playerStats.canMove;
         gameoverGO.SetActive(true); //gameover screen enable
+    }
+
+    public void ExitGame()
+    {
+        //GameManager.Instance.ReturnMainMenu();
     }
 
     //Check active platform

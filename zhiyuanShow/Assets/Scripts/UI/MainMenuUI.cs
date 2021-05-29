@@ -18,7 +18,7 @@ public class MainMenuUI : BaseUI
         });
         ContinueBtn = GameObject.Find("Continue").transform.GetComponent<Button>();
         ContinueBtn.onClick.AddListener(() => {
-            ScenesManager.Instance.continueGame = true;
+            GameRoot.Instance.continueGame = true;
             gameRoot.ChangeSceneState(new GameSceneState(gameRoot));
         });
         QuitBtn = GameObject.Find("Quit").transform.GetComponent<Button>();

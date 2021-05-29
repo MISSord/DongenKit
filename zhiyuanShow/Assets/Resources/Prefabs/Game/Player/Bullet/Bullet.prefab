@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4028690415889179283}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -48,7 +48,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -121,7 +120,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.14
+  m_Radius: 0.05
 --- !u!114 &2866389288798764952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +133,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66d57a78e8f608441bae3f171f142751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  explosionPrefab: {fileID: 3217125097851079088, guid: 2be4eb6338a97ad42bf2801937e8fb6b,
-    type: 3}
+  speed: 1
+  explosionname: 

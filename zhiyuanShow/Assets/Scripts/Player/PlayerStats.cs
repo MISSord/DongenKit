@@ -23,7 +23,8 @@ public class PlayerStats : MonoBehaviour
     }
 
     [HideInInspector] public AudioSource audioSource;
-    [HideInInspector] public DamageEffect damageEffect; //Damage effect
+    //[HideInInspector] 
+    public DamageEffect damageEffect; //Damage effect
 
     [Header("Variables")]
     public DoubleInt HP = new DoubleInt(3, 3);
@@ -38,7 +39,7 @@ public class PlayerStats : MonoBehaviour
     [Header("Graphics")]
     private SpriteRenderer playerSprite; //Player sprite
 
-    public bool canMove = true;
+    public bool isLive = true;
 
     public void Init()
     {
@@ -51,8 +52,8 @@ public class PlayerStats : MonoBehaviour
             instance = this;
         }
 
-        //if (ScenesManager.Instance.continueGame)
-        //    SaveManager.Load();
+        if (GameRoot.Instance.continueGame)
+             SaveManager.Load();
     }
 
     //Taking damage method
@@ -67,7 +68,7 @@ public class PlayerStats : MonoBehaviour
 
             GameManager.Instance.uiManager.UpdateUI(); //Update UI
 
-            StartCoroutine(damageEffect.Damage(playerSprite)); //Damage effect
+            //StartCoroutine(damageEffect.Damage(playerSprite)); //Damage effect
 
             AudioManager.Instance.Play(audioSource, AudioManager.Instance.playerDamage, false); //play damage sound
 
@@ -94,7 +95,7 @@ public class PlayerStats : MonoBehaviour
     void Death()
     {
         GameManager.Instance.GameOver(); //Game over in gamemanager
-        Destroy(gameObject); //Destroy this GameObject
+        //Destroy(gameObject); //Destroy this GameObject
     }
     IEnumerator timeDamage()
     {

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DungeonKIT
-{
+
     public class AICombat : MonoBehaviour
     {
         [HideInInspector] public AIStats aiStats;
@@ -27,10 +26,9 @@ namespace DungeonKIT
         //Virtual method for Melee Attack, reconfigured in child classes
         public virtual void MeleeAttack(GameObject target)
         {
-            PlayerStats playerStats = PlayerStats.Instance;
+            PlayerStats playerStats = GameManager.Instance.playState;
 
             playerStats.TakingDamage();
 
         }
     }
-}

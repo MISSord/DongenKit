@@ -17,10 +17,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Parameters")]
     public float moveSpeed;
-
-    public bool isPause = false;
-
-
     public void Init()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -28,14 +24,9 @@ public class PlayerController : MonoBehaviour
         SaveManager.Save(); //Save level state
     }
 
-    private void Update()
-    {
-        Inputs(); //Check inputs
-    }
-
     void FixedUpdate()
     {
-        if (PlayerStats.Instance.canMove) //If pause disable, and is game
+        if (PlayerStats.Instance.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
         {
             CheckActions();
         }
@@ -100,28 +91,6 @@ public class PlayerController : MonoBehaviour
     }
 
     //Inputs method
-    void Inputs()
-    {
-        if (InputManager.Pause) //If player press pause button
-        {
-            InputManager.Pause = false; //Unpress
-            GameManager.Instance.uiManager.Pause(); //Show UI pause screen
-        }
-
-        //if pause disable and game
-        if (PlayerStats.Instance.canMove)
-        {
-            if (InputManager.Health) //If player press helath button
-            {
-                InputManager.Health = false; //Unpress
-                PlayerStats.Instance.Health(); //Player health hp
-            }
-        }
-    }
-
-    private void OnDestroy()
-    {
-        Debug.Log("我死了");
-    }
+    
 }
 

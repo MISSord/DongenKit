@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DungeonKIT
-{
+
     public class NPC : MonoBehaviour
     {
         public DialogConfig dialogConfig; //config containing the text of the dialogue
@@ -35,4 +34,4 @@ namespace DungeonKIT
         }
 
     }
-}
+

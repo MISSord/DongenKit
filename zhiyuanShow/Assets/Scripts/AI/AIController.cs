@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DungeonKIT
-{
+
     public class AIController : MonoBehaviour
     {
         [HideInInspector] public Transform playerPos; //cached player position
@@ -31,13 +30,12 @@ namespace DungeonKIT
         {
             animator = GetComponentInChildren<Animator>();
             playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); //Find player
-
             startPosition = transform.position; //cached start position
         }
 
         private void Update()
         {
-            if (!GameManager.Instance.uiManager.isPause && GameManager.Instance.isGame) // check for pause and game state
+            if (!GameManager.Instance.isPaues && !GameManager.Instance.isGameOver) // check for pause and game state
             {
                 Animation(); //Animation logic
                 Move(); // Move logic
@@ -123,4 +121,3 @@ namespace DungeonKIT
         }
 
     }
-}

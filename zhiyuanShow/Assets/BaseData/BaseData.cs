@@ -6,6 +6,10 @@ public class BaseData
 {
     public static readonly Vector3 gunLocalPosition = new Vector3(0f, -0.02f, 0);
     public static readonly Vector3 gunScale = Vector3.one;
+    public static readonly Vector3 MuzzlePosition = new Vector3(0.2f, 0.01f, 0);
+    public static readonly Vector3 BulletShellPosition = new Vector3(0.1f, 0.01f, 0);
+    public static Vector3 normalScale = new Vector3(0.6f,0.6f, 0.6f);
+
     public static readonly Vector3 Level0Player = new Vector3(0, 0, 0);
     public static readonly Vector3 Level1Player = new Vector3(0, 0, 0);
     public static Vector3 offset = new Vector3(0, 0, -10);

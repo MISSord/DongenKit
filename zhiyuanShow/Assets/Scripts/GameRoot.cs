@@ -25,14 +25,16 @@ public class GameRoot : MonoBehaviour
     private FactoryManager factoryManager;
     private ObjectPool objectPool;
     private GameObject GamePool;
-    private BaseSceneState currentSceneState;
+    public BaseSceneState currentSceneState;
     private GameObject loadingUI;
 
+    private ScenesServer sceneserver;
+
     public int LevelNum = 0;
+    public bool continueGame;
 
     private Dictionary<string, GameObject> ManagerGameObDict = new Dictionary<string, GameObject>();
     private Dictionary<string, IBaseManager> ManagerDict = new Dictionary<string, IBaseManager>();
-    //private Dictionary<string, >
 
     public void Awake()
     {
@@ -52,6 +54,10 @@ public class GameRoot : MonoBehaviour
 
         loadingUI = transform.GetChild(0).gameObject;
         loadingUI.SetActive(false);
+
+        //服务类
+        sceneserver = transform.GetComponent<ScenesServer>();
+        sceneserver.Init();
     }
 
     public GameObject InstantiateGameObject(GameObject item)
@@ -79,6 +85,7 @@ public class GameRoot : MonoBehaviour
             if (itemManager == null)
             {
                 Debug.Log("获取面板上的IBaseManager脚本失败");
+                continue;
             }
             ManagerDict.Add(item.Key, itemManager);
             itemManager.Init();
@@ -102,7 +109,7 @@ public class GameRoot : MonoBehaviour
                 Debug.Log("获取面板上的IBaseManager脚本失败");
             }
             itemManager.DisableManager();
-            GameRoot.Instance.PushGameObToPool(item.Value);
+            objectPool.PushObject(item.Value);
         }
         ManagerGameObDict.Clear();
         ManagerDict.Clear();

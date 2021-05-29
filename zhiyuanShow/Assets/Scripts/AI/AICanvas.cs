@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DungeonKIT
-{
+
     public class AICanvas : MonoBehaviour
     {
         AIStats aIStats;
@@ -25,4 +24,4 @@ namespace DungeonKIT
         }
 
     }
-}
+
