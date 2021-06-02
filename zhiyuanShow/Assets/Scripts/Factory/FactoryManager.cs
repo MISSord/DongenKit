@@ -6,6 +6,7 @@ public class FactoryManager
 {
     public GameRoot gameRoot;
     public Dictionary<FactoryType, BaseFactory> factoryDict = new Dictionary<FactoryType, BaseFactory>();
+    public AudioFactory audioFactory;
 
     public void Init()
     {
@@ -13,6 +14,7 @@ public class FactoryManager
         factoryDict.Add(FactoryType.GameObFactory, new GameObFactory());
         factoryDict.Add(FactoryType.ManagerFactory, new ManagerFactory());
         factoryDict.Add(FactoryType.UIFactory, new UIFactory());
+        audioFactory = new AudioFactory();
     }
 }
 

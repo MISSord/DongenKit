@@ -12,6 +12,8 @@ public class AIStats : MonoBehaviour
     AudioSource audioSource;
     public int ID = 0;
 
+    public bool isAttackState = false;
+
         //Event
     public delegate void DeathAction(); // AI Death Event
     public event DeathAction onDeath;
@@ -38,7 +40,7 @@ public class AIStats : MonoBehaviour
         HP.current -= damage; //damage
         aICanvas.UpdateUI(); //Update AI ui (hp bar)
 
-        AudioManager.Instance.Play(audioSource, AudioManager.Instance.aiDamage, false); //play damage sound
+        GameRoot.Instance.PlayMusicOrBG(BaseData.EnemyDamage, false); //play damage sound
 
         StartCoroutine(damageEffect.Damage(aiSprite)); //Start damage effect
 

@@ -14,7 +14,7 @@ public class ScenesServer : MonoBehaviour
     private Action prgCB = null;
 
     //Singleton
-    public  void Init()
+    public void Init()
     {
         if (Instance == null)
         {

@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 
 
-public class SaveManager : MonoBehaviour
+public class SaveServer : MonoBehaviour
 {
     public static void Save()
     {

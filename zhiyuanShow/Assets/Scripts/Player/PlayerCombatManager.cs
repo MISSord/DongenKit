@@ -53,6 +53,8 @@ public class PlayerCombatManager : MonoBehaviour
         }
     }
 
+
+
     /*
     //Attack method
     void Attack()

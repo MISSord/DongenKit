@@ -12,7 +12,6 @@ public class MainMenuState : BaseSceneState
     public override void EnterScene()
     {
         gameRoot.AddManagerToRoot(BaseData.MainMenuManager);
-        gameRoot.AddManagerToRoot(BaseData.AudioManager);
         base.EnterScene();
     }
 }

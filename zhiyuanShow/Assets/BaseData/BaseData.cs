@@ -71,4 +71,15 @@ public class BaseData
     #region UI
     public static readonly string HealthPoint = "HealthPoint";
     #endregion
+
+    #region 音乐
+    public static readonly string BattleBG = "Music/CleytonRX - Battle RPG Theme";
+    public static readonly string MainMenuBG = "Music/medieval_loop";
+    public static readonly string UseItem = "Sound/drinking-and-swallow";
+    public static readonly string EnemyDamage = "Sound/EnemyDamage";
+    public static readonly string ItemUp = "Sound/item-pickup";
+    public static readonly string OpenDoor = "Sound/opening-door-1";
+    public static readonly string CoinUp = "Sound/Pickup_Coin69";
+    public static readonly string PlayerDamage = "Sound/PlayerDamage";
+    #endregion
 }

@@ -48,7 +48,7 @@ public class Door : MonoBehaviour
         isLocked = false; //Unlock door
         PlayerStats.Instance.doorKeys.Remove(needKeyID); //remove key from player
 
-        AudioManager.Instance.Play(PlayerStats.Instance.audioSource, AudioManager.Instance.openDoor, false); //play opendoor sound
+        GameRoot.Instance.PlayMusicOrBG(BaseData.OpenDoor, false); //play opendoor sound
 
         spriteRenderer.sprite = doorUnlockedSprite; //Change door sprite to unlock
 

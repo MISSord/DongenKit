@@ -17,6 +17,7 @@ public class Gun : MonoBehaviour, IGun
     protected float timer;
     protected float flipY;
     protected Animator animator;
+    protected PlayerCombatManager playCombatManager;
 
     public virtual void Init()
     {
@@ -34,6 +35,7 @@ public class Gun : MonoBehaviour, IGun
         flipY = transform.localScale.y;
         bulletname = BaseData.Bullet;
         shellname = BaseData.BulletShell;
+        playCombatManager = GameManager.Instance.playerCombatManager;
     }
     
     public virtual void UpdateGunPosture()

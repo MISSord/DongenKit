@@ -27,6 +27,8 @@ public class GameManager : BaseManager
 
     public UIGameManager uiManager;
 
+    public bool isUsekeyboard = true;
+
     public int LevelNum = 0;
 
     public Transform player;
@@ -37,6 +39,8 @@ public class GameManager : BaseManager
     public bool isGameOver = false;
     public bool isPaues = false;
     public bool levelComplete;
+
+    [Header("Enemy")]
     public GameObject[] EnemyList;
     public AIStats[] EnemyStateList; 
 
@@ -61,6 +65,7 @@ public class GameManager : BaseManager
         playState = player.GetComponent<PlayerStats>();
         playerCombatManager = GetComponent<PlayerCombatManager>();
         playerController = player.transform.GetComponent<PlayerController>();
+
         isGameOver = false;
         isPaues = false;
         playState.Init();
@@ -96,6 +101,7 @@ public class GameManager : BaseManager
             Debug.Log("怪物初始化失败");
         }
     }
+
 
     public void TakeDamageToEnemy(int i, float damage)
     {

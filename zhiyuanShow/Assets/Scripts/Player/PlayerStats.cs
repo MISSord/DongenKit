@@ -22,7 +22,6 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    [HideInInspector] public AudioSource audioSource;
     //[HideInInspector] 
     public DamageEffect damageEffect; //Damage effect
 
@@ -43,7 +42,6 @@ public class PlayerStats : MonoBehaviour
 
     public void Init()
     {
-        audioSource = GameManager.Instance.player.GetComponent<AudioSource>();
         playerSprite = GameManager.Instance.player.GetChild(0).GetComponent<SpriteRenderer>();
         timeToDamage = BaseData.DamageTime;
         damageEffect = new DamageEffect();
@@ -53,7 +51,7 @@ public class PlayerStats : MonoBehaviour
         }
 
         if (GameRoot.Instance.continueGame)
-             SaveManager.Load();
+             SaveServer.Load();
     }
 
     //Taking damage method
@@ -70,7 +68,7 @@ public class PlayerStats : MonoBehaviour
 
             //StartCoroutine(damageEffect.Damage(playerSprite)); //Damage effect
 
-            AudioManager.Instance.Play(audioSource, AudioManager.Instance.playerDamage, false); //play damage sound
+            GameRoot.Instance.PlayMusicOrBG(BaseData.PlayerDamage, false); //play damage sound
 
             if (HP.current <= 0) //If hp < 0
             {
@@ -86,7 +84,7 @@ public class PlayerStats : MonoBehaviour
             bottles--; //Bottles - 1
             HP.current++; //HP + 1
 
-            AudioManager.Instance.Play(audioSource, AudioManager.Instance.drinkBottle, false); //play drink sound
+            GameRoot.Instance.PlayMusicOrBG(BaseData.UseItem, false); //play drink sound
 
             GameManager.Instance.uiManager.UpdateUI(); //Update UI
         }

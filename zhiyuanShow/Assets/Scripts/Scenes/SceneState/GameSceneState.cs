@@ -13,6 +13,7 @@ public class GameSceneState : BaseSceneState
     {
         Action done = () =>
                 {
+                    
                 };
         if (GameRoot.Instance.continueGame)
         {
@@ -23,7 +24,6 @@ public class GameSceneState : BaseSceneState
         {
             ScenesServer.Instance.AsyncLoadScene(BaseData.FirstGameScene,done);
         }
-        gameRoot.AddManagerToRoot(BaseData.AudioManager);
         gameRoot.AddManagerToRoot(BaseData.GameManager);
         gameRoot.AddManagerToRoot(BaseData.UIManager);
         base.EnterScene();

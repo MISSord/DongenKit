@@ -29,6 +29,8 @@ public class GameRoot : MonoBehaviour
     private GameObject loadingUI;
 
     private ScenesServer sceneserver;
+    private AudioServer audioServer;
+    private SaveServer saveServer;
 
     public int LevelNum = 0;
     public bool continueGame;
@@ -58,6 +60,24 @@ public class GameRoot : MonoBehaviour
         //服务类
         sceneserver = transform.GetComponent<ScenesServer>();
         sceneserver.Init();
+        audioServer = transform.GetComponent<AudioServer>();
+        audioServer.Init();
+        saveServer = transform.GetComponent<SaveServer>();
+
+
+    }
+
+    public void PlayMusicOrBG(string path, bool isLoop)
+    {
+        AudioClip item =  factoryManager.audioFactory.GetResourceFactory(path);
+        if (isLoop)
+        {
+            audioServer.PlayBGround(item);
+        }
+        else
+        {
+            audioServer.PlayMusic(item);
+        }
     }
 
     public GameObject InstantiateGameObject(GameObject item)
@@ -76,6 +96,8 @@ public class GameRoot : MonoBehaviour
     {
         objectPool.PushObject(item);
     }
+
+
 
     public void InitManagerDict()
     {

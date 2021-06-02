@@ -17,11 +17,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("Parameters")]
     public float moveSpeed;
+
+    private float currentBlend = 0;
+    private float targetBlend;
     public void Init()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         playerAnimator = transform.GetChild(0).GetComponentInChildren<Animator>();
-        SaveManager.Save(); //Save level state
+        SaveServer.Save(); //Save level state
     }
 
     void FixedUpdate()
@@ -39,11 +42,29 @@ public class PlayerController : MonoBehaviour
         Animation(); //Player animation 播放动画
     }
 
+    Vector3 velocity = Vector3.zero;
+    [SerializeField, Range(0f,20f)]
+    float maxAcceleration = 10f;
     //Move method
     void Move()
     {
         //Movement of the character depending on the values InputManager.Horizontal, InputManager.Vertical
-        transform.Translate(new Vector3(InputManager.Horizontal, InputManager.Vertical, 0) * moveSpeed * Time.deltaTime);
+        //rigidbody2d.MovePosition(InputManager.dir * moveSpeed * Time.deltaTime);
+        Vector3 desiredVelocity;
+        if (GameManager.Instance.isUsekeyboard)
+        {
+            desiredVelocity = new Vector2(InputManager.Horizontal, InputManager.Vertical) * moveSpeed;
+        }
+        else
+        {
+            desiredVelocity = InputManager.dirOne;
+            Debug.Log(InputManager.dirOne);
+        }
+        
+        float maxSpeedChange = maxAcceleration * Time.deltaTime;
+        velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+        velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
+        rigidbody2d.velocity = velocity;
     }
 
     //Rotation method
@@ -80,7 +101,7 @@ public class PlayerController : MonoBehaviour
     //Animation method
     void Animation()
     {
-        if (InputManager.Horizontal != 0 || InputManager.Vertical != 0) //if character is move
+        if (velocity != Vector3.zero) //if character is move
         {
             playerAnimator.SetBool("Move", true); //Animator set move 
         }
@@ -90,7 +111,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //Inputs method
-    
+    private void UpdateMixBlend()
+    {
+        if (Mathf.Abs(currentBlend - targetBlend) < maxAcceleration * Time.deltaTime)
+        {
+            currentBlend = targetBlend;
+        }
+        else if (currentBlend > targetBlend)
+        {
+            currentBlend -= maxAcceleration * Time.deltaTime;
+        }
+        else
+        {
+            currentBlend += maxAcceleration * Time.deltaTime;
+        }
+        playerAnimator.SetFloat("Blend", currentBlend);
+    }
+
+    public void SetBlend(float blend)
+    {
+        targetBlend = blend;
+    }
+
 }
 

@@ -7,6 +7,7 @@ public class BaseUI : MonoBehaviour, IBaseUI
 {
     [HideInInspector]
     public GameRoot gameRoot;
+
     public virtual void Init()
     {
         gameRoot = GameRoot.Instance;
@@ -16,6 +17,11 @@ public class BaseUI : MonoBehaviour, IBaseUI
     {
         
     }
+
+    public virtual void ExitUI()
+    {
+
+    }
 }
 
 public interface IBaseUI
@@ -24,6 +30,6 @@ public interface IBaseUI
 
     void UpdateUI();
 
-    
+    void ExitUI();
 }
 

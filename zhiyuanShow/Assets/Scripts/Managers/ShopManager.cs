@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-    public class ShopSystem : MonoBehaviour
+    public class ShopManager : BaseManager
     {
         [Header("Items")]
         public ShopItem[] shopItems;
