@@ -1,0 +1,53 @@
+ManifestFileVersion: 0
+CRC: 1357940737
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7f5f7fe65fe56b0084a91b72bf053cd4
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f7ba908d79ee4ce5f73ac15c18bd67c3
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 50
+  Script: {instanceID: 0}
+- Class: 61
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: e6e518039444d69458476cc01cb8b8cb, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 67e3d99587ea2824199d9bc4a00875a3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f45a70d7f252da241ad65fdfad9b31bb, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 04be05c92a0cc2647b8574a3d6cdc904, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6df9bf8c62a9c8f42ac1ce1a669d9918, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Game/Player/Player.prefab
+Dependencies:
+- "F:/Unity\u5B66\u4E60\u8D44\u6599\u4E0B\u8F7D/UnityProject/DongenKit/zhiyuanShow/AB/weapon"

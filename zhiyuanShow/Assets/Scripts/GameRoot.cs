@@ -97,8 +97,6 @@ public class GameRoot : MonoBehaviour
         objectPool.PushObject(item);
     }
 
-
-
     public void InitManagerDict()
     {
         foreach(var item in ManagerGameObDict)

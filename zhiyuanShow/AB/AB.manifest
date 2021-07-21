@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 1677775140
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: ui.uiab
+      Dependencies: {}
+    Info_1:
+      Name: manager
+      Dependencies:
+        Dependency_0: ui.uiab
+    Info_2:
+      Name: player
+      Dependencies:
+        Dependency_0: weapon
+    Info_3:
+      Name: weapon
+      Dependencies: {}
+    Info_4:
+      Name: item
+      Dependencies: {}
+    Info_5:
+      Name: enemy
+      Dependencies: {}

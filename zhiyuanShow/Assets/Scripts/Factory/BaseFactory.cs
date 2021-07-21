@@ -16,6 +16,11 @@ public class BaseFactory : IBaseFactory
         loadPath = "Prefabs/";
     }
 
+    public virtual void Init()
+    {
+        //AssetBundle.LoadFromFileAsync(Application.dataPath + "/AB");
+    }
+
     public GameObject GetGameObject(string path)
     {
         GameObject go = null;

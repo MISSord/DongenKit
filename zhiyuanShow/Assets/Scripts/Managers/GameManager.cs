@@ -125,7 +125,7 @@ public class GameManager : BaseManager
 
     private void Start()
     {
-        GameObject NextDoor = GameRoot.Instance.GetGameOb("Level/" + BaseData.NextDoorGameOb);
+        GameObject NextDoor = GameRoot.Instance.GetGameOb("Items/" + BaseData.NextDoorGameOb);
         NextDoor.transform.position = BaseData.NextLevelDoolPosititon;
         nextLevelDoor = NextDoor.GetComponent<NextLevelDoor>();
         InitEnemy();

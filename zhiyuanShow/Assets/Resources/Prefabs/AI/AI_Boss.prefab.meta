@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: c5671e9fee801da45951a4b5f772afe6
-NativeFormatImporter:
+PrefabImporter:
   externalObjects: {}
-  mainObjectFileID: 100100000
   userData: 
-  assetBundleName: 
+  assetBundleName: enemy
   assetBundleVariant: 

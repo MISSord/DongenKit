@@ -21,7 +21,6 @@ public class PlayerCombatManager : MonoBehaviour
     {
         player = GameManager.Instance.player;
         gunGameObjects.Add(player.GetChild(1).gameObject);
-        gunGameObjects.Add(player.GetChild(2).gameObject);
         gunNum = 0;
         GunInit();
     }
@@ -52,8 +51,6 @@ public class PlayerCombatManager : MonoBehaviour
             }
         }
     }
-
-
 
     /*
     //Attack method
@@ -139,6 +136,10 @@ public class PlayerCombatManager : MonoBehaviour
     */
     void SwitchGun()
     {
+        if(gunGameObjects.Count == 1)
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             gunGameObjects[gunNum].SetActive(false);

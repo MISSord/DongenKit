@@ -151,7 +151,7 @@ TextureImporter:
     second: Dungeon_Tileset_48
   - first:
       213: 21300098
-    second: Dungeon_Tileset_49
+    second: Shit2
   - first:
       213: 21300100
     second: Dungeon_Tileset_50
@@ -181,7 +181,7 @@ TextureImporter:
     second: Dungeon_Tileset_58
   - first:
       213: 21300118
-    second: Dungeon_Tileset_59
+    second: Shit
   - first:
       213: 21300120
     second: Dungeon_Tileset_60
@@ -202,13 +202,13 @@ TextureImporter:
     second: Dungeon_Tileset_65
   - first:
       213: 21300132
-    second: Dungeon_Tileset_66
+    second: LeftDoor
   - first:
       213: 21300134
-    second: Dungeon_Tileset_67
+    second: RightDoor
   - first:
       213: 21300136
-    second: Dungeon_Tileset_68
+    second: GoneTwo
   - first:
       213: 21300138
     second: Dungeon_Tileset_69
@@ -226,7 +226,7 @@ TextureImporter:
     second: Dungeon_Tileset_73
   - first:
       213: 21300148
-    second: Dungeon_Tileset_74
+    second: Flag
   - first:
       213: 21300150
     second: Dungeon_Tileset_75
@@ -235,7 +235,7 @@ TextureImporter:
     second: Dungeon_Tileset_76
   - first:
       213: 21300154
-    second: Dungeon_Tileset_77
+    second: Gone
   - first:
       213: 21300156
     second: Dungeon_Tileset_78
@@ -268,28 +268,28 @@ TextureImporter:
     second: Dungeon_Tileset_87
   - first:
       213: 21300176
-    second: Dungeon_Tileset_88
+    second: SilverKey
   - first:
       213: 21300178
     second: Dungeon_Tileset_89
   - first:
       213: 21300180
-    second: Dungeon_Tileset_90
+    second: huoba
   - first:
       213: 21300182
-    second: Dungeon_Tileset_91
+    second: huoba2
   - first:
       213: 21300184
     second: Dungeon_Tileset_92
   - first:
       213: 21300186
-    second: Dungeon_Tileset_93
+    second: lazhu
   - first:
       213: 21300188
     second: Dungeon_Tileset_94
   - first:
       213: 21300190
-    second: Dungeon_Tileset_95
+    second: lazhu2
   - first:
       213: 21300192
     second: Dungeon_Tileset_96
@@ -301,7 +301,7 @@ TextureImporter:
     second: Dungeon_Tileset_98
   - first:
       213: 21300198
-    second: Dungeon_Tileset_99
+    second: GoldKey
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -345,7 +345,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 15
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -369,7 +369,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -381,7 +381,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
@@ -1159,7 +1159,7 @@ TextureImporter:
         serializedVersion: 2
         x: 96
         y: 96
-        width: 32
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1385,7 +1385,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_49
+      name: Shit2
       rect:
         serializedVersion: 2
         x: 144
@@ -1595,7 +1595,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_59
+      name: Shit
       rect:
         serializedVersion: 2
         x: 144
@@ -1742,7 +1742,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_66
+      name: LeftDoor
       rect:
         serializedVersion: 2
         x: 96
@@ -1763,7 +1763,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_67
+      name: RightDoor
       rect:
         serializedVersion: 2
         x: 112
@@ -1784,7 +1784,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_68
+      name: GoneTwo
       rect:
         serializedVersion: 2
         x: 128
@@ -1910,7 +1910,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_74
+      name: Flag
       rect:
         serializedVersion: 2
         x: 64
@@ -1973,7 +1973,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_77
+      name: Gone
       rect:
         serializedVersion: 2
         x: 112
@@ -2204,7 +2204,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_88
+      name: SilverKey
       rect:
         serializedVersion: 2
         x: 128
@@ -2246,7 +2246,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_90
+      name: huoba
       rect:
         serializedVersion: 2
         x: 0
@@ -2267,7 +2267,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_91
+      name: huoba2
       rect:
         serializedVersion: 2
         x: 16
@@ -2309,7 +2309,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_93
+      name: lazhu
       rect:
         serializedVersion: 2
         x: 48
@@ -2351,7 +2351,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_95
+      name: lazhu2
       rect:
         serializedVersion: 2
         x: 80
@@ -2435,7 +2435,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon_Tileset_99
+      name: GoldKey
       rect:
         serializedVersion: 2
         x: 144
@@ -2451,6 +2451,27 @@ TextureImporter:
       bones: []
       spriteID: e8d1d4fcd1f77a7499ae9c463e119d9a
       internalID: 21300198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon_Tileset_37
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8574a8f91ff07c44fab233402902a720
+      internalID: 21300074
       vertices: []
       indices: 
       edges: []

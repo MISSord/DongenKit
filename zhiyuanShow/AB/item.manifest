@@ -1,0 +1,77 @@
+ManifestFileVersion: 0
+CRC: 659781697
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9bc8017e0485ce5c08c4ff76d9e5c7d2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b3f4e6e0c6207190c455c8ea28ea2f30
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 50
+  Script: {instanceID: 0}
+- Class: 58
+  Script: {instanceID: 0}
+- Class: 61
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 46232554aad27fc428280683ab59cf19, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f3afd084e0f66b544a8cbb6b8bb9861e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 99135f760f51b404486a9fa3c96710fa, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e4d797cabb56a934b9bcafbe3d926c33, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1eaec52bd9ef04e44a8a67a338f011fd, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f2a6e92c583c3a3438c43e80ab4d72c3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c209a0c54f4d1714f97ab96104f95f55, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f9ce474ecb6c8844d9c7fdc71f8e2d7e, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Game/Items/Helmet of strength_Item.prefab
+- Assets/Resources/Prefabs/Game/Level/NextLevelDoor.prefab
+- Assets/Resources/Prefabs/Game/Level/Door.prefab
+- Assets/Resources/Prefabs/Game/Level/MusicZoneTrigger.prefab
+- Assets/Resources/Prefabs/Game/Level/DoorKey.prefab
+- Assets/Resources/Prefabs/Game/Items/Coin.prefab
+Dependencies: []
