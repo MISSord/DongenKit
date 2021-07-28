@@ -22,14 +22,15 @@ public class AIStats : MonoBehaviour
     public DamageEffect damageEffect; //Visual damage effect
 
     [Header("Settings")]
-    public DoubleFloat HP = new DoubleFloat(100, 100); //DoubleFloat(currentHP,maxHP)
+    public DoubleFloat HP; //DoubleFloat(currentHP,maxHP)
 
-    private void Start()
+    public void Init(int ab, int m_ID)
     {
         aiSprite = GetComponentInChildren<SpriteRenderer>();
         aICanvas = GetComponentInChildren<AICanvas>();
         aiController = GetComponent<AIController>();
-        audioSource = GetComponent<AudioSource>();
+        HP = new DoubleFloat(ab,ab);
+        ID = m_ID;
     }
 
     //Сaused by taking damage
@@ -40,7 +41,7 @@ public class AIStats : MonoBehaviour
         HP.current -= damage; //damage
         aICanvas.UpdateUI(); //Update AI ui (hp bar)
 
-        GameRoot.Instance.PlayMusicOrBG(BaseData.EnemyDamage, false); //play damage sound
+        MessageServer.Broadcast<string, bool>(EventType.PlayMusicOrBG, BaseData.EnemyDamage, false); //play damage sound
 
         StartCoroutine(damageEffect.Damage(aiSprite)); //Start damage effect
 
@@ -55,12 +56,13 @@ public class AIStats : MonoBehaviour
         if (onDeath != null)
             onDeath(); // Death event
 
-        GameManager.Instance.EnemyDeath(ID);
+        //GameManager.Instance.EnemyDeath(ID);
     }
 
-    public  void DestroySelf()
+    public void DestroySelf()
     {
         Destroy(gameObject);
     }
+
 }
 

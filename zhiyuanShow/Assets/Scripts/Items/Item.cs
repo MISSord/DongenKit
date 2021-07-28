@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum ItemType { Item, Key, Coin }
+public enum ItemType { Item, Coin }
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -23,17 +23,14 @@ public class Item : MonoBehaviour
             switch (type)
             {
                 case ItemType.Item:
-                    GameRoot.Instance.PlayMusicOrBG(BaseData.ItemUp, false); //play pickup item sound
-                    break;
-                case ItemType.Key:
-                    GameRoot.Instance.PlayMusicOrBG(BaseData.ItemUp, false); //play pickup key sound
+                    MessageServer.Broadcast<string,bool>(EventType.PlayMusicOrBG, BaseData.ItemUp, false); //play pickup item sound
                     break;
                 case ItemType.Coin:
-                    GameRoot.Instance.PlayMusicOrBG(BaseData.CoinUp, false); //play pickup coin sound
+                    MessageServer.Broadcast<string, bool>(EventType.PlayMusicOrBG, BaseData.CoinUp, false); //play pickup coin sound
                     break;
             }
 
-            Destroy(gameObject); // Destroy this GameObject
+            //Destroy(gameObject); // Destroy this GameObject
         }
     }
 

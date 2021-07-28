@@ -15,7 +15,7 @@ public interface IBaseFactory
 /// 获取多种资源的工厂
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public interface IBaseResourceFactory<T>
+public interface IBaseResourceFactory<T> 
 {
-    T GetResourceFactory(string path);
+    T GetResource(string path);
 }

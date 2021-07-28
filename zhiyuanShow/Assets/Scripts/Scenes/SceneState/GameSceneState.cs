@@ -5,27 +5,28 @@ using UnityEngine;
 
 public class GameSceneState : BaseSceneState
 {
-    public GameSceneState(GameRoot Root) : base(Root)
+    public GameSceneState()
     {
+
     }
 
     public override void EnterScene()
     {
         Action done = () =>
                 {
-                    
+                    MessageServer.Broadcast<string>(EventType.AddManager, BaseData.GameManager);
+                    MessageServer.Broadcast<string>(EventType.AddManager, BaseData.UIGameManager);
+                    base.EnterScene();
+                    MessageServer.Broadcast(EventType.FinishSceneLoad);
                 };
         if (GameRoot.Instance.continueGame)
         {
-            gameRoot.LevelNum = 1;
             ScenesServer.Instance.AsyncLoadScene(BaseData.SecondGameScene, done);
         }
         else
         {
             ScenesServer.Instance.AsyncLoadScene(BaseData.FirstGameScene,done);
         }
-        gameRoot.AddManagerToRoot(BaseData.GameManager);
-        gameRoot.AddManagerToRoot(BaseData.UIManager);
-        base.EnterScene();
+        
     }
 }

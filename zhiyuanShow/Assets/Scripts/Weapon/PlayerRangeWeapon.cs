@@ -21,7 +21,7 @@ namespace DungeonKIT
         //Damage method
         void Damage(AIStats enemy)
         {
-            GameManager.Instance.TakeDamageToEnemy(enemy.ID, damageRange.RandomFloat()); //Random damage between damageRange.min and max
+            //GameManager.Instance.TakeDamageToEnemy(enemy.ID, damageRange.RandomFloat()); //Random damage between damageRange.min and max
             Destroying(); 
         }
     }

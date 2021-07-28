@@ -12,7 +12,7 @@ using UnityEngine;
         {
             PlayerStats.Instance.doorKeys.Add(keyID, true);
 
-            GameManager.Instance.uiManager.UpdateUI(); //Update UI
+            //GameManager.Instance.uiGameManager.UpdateUI(); //Update UI
         }
 
         public override void OnTriggerEnter2D(Collider2D collision)

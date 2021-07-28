@@ -4,6 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class SaveServer : MonoBehaviour
 {
+    public ConfigManager m_configManager;
+
+    public void Init()
+    {
+        m_configManager = new ConfigManager();
+        m_configManager.Init();
+    }
+
     public static void Save()
     {
         PlayerPrefs.SetInt(BaseData.Hp, GameManager.Instance.playState.HP.max);

@@ -23,7 +23,9 @@ public class PlayerController : MonoBehaviour
     public void Init()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
-        playerAnimator = transform.GetChild(0).GetComponentInChildren<Animator>();
+
+        //playerSprite = 
+        playerAnimator = transform.GetChild(0).GetComponent<Animator>();
         SaveServer.Save(); //Save level state
     }
 

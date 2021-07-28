@@ -1,0 +1,32 @@
+﻿[
+  {
+    "m_MonsterID": "A0001",
+    "MonsterInfor": [
+      {
+        "Hp": 100,
+        "MonsterID": "AI_Orc",
+        "amount": 4
+      },
+      {
+        "Hp": 100,
+        "MonsterID": "AI_Mage",
+        "amount": 4
+      }
+    ]
+  },
+  {
+    "m_MonsterID": "A0002",
+    "MonsterInfor": [
+      {
+        "Hp": 100,
+        "MonsterID": "AI_Orc",
+        "amount": 4
+      },
+      {
+        "Hp": 100,
+        "MonsterID": "AI_Mage",
+        "amount": 4
+      }
+    ]
+  }
+]

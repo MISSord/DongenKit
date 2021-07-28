@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 
 public class NextLevelDoor : MonoBehaviour
@@ -8,9 +9,11 @@ public class NextLevelDoor : MonoBehaviour
     CircleCollider2D collider2D;
 
     [Header("Components")]
-    SpriteRenderer spriteRenderer;
+    SpriteRenderer m_OpenspriteRenderer;
+    Transform m_ClosespriteRenderer;
     public Sprite lockedSprite, openedSprite;
-    public bool lockedDoor; //Door status
+    [HideInInspector]
+    public bool lockedDoor = true; //Door status
 
     bool inTrigger;
     InteractionTrigger interactionTrigger;
@@ -19,9 +22,11 @@ public class NextLevelDoor : MonoBehaviour
     {
         interactionTrigger = GetComponent<InteractionTrigger>();
         interactionTrigger.Init();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        m_OpenspriteRenderer = GetComponent<SpriteRenderer>();
+        m_ClosespriteRenderer = transform.GetChild(0);
         collider2D = GetComponent<CircleCollider2D>();
 
+        MessageServer.AddListener(EventType.LevelComplete, OpenDoor);
         CheckLockStatus(); //Check door status
     }
 
@@ -36,26 +41,30 @@ public class NextLevelDoor : MonoBehaviour
                 InputManager.Interaction = false; //unpress button
                 if (!lockedDoor) //if door unlocked
                 {
-                    GameManager.Instance.NextLevel();
+                    MessageServer.Broadcast(EventType.NextLevel);
                 }
             }
         }
     }
 
-    //Check door status method
+    public void OpenDoor()
+    {
+        m_ClosespriteRenderer.DOLocalMoveX(1, 1.0f);
+        lockedDoor = false;
+        CheckLockStatus();
+    }
+
+    //检查楼梯的开关状态
     public void CheckLockStatus()
     {
         if (lockedDoor) //if door locked
         {
-            spriteRenderer.sprite = lockedSprite; //sprite locked door
             collider2D.enabled = false; //trigger disabled
         }
         else
         {
-            spriteRenderer.sprite = openedSprite; //sprite unloced door
             collider2D.enabled = true; //trigger enabled
         }
     }
-    //Next level method
 }
 

@@ -8,7 +8,7 @@ using UnityEngine;
         public void OnPickedUp() //Method Pick Up item
         {
             PlayerStats.Instance.money++; //Player +1 to money
-            GameManager.Instance.uiManager.UpdateUI(); //Update UI
+            MessageServer.Broadcast(EventType.UpdateUI); //Update UI
         }
 
         public override void OnTriggerEnter2D(Collider2D collision)

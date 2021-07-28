@@ -11,7 +11,7 @@ public interface IBaseManager
     void DisableManager();
 }
 
-public class BaseManager : MonoBehaviour, IBaseManager
+public class BaseManager: MonoBehaviour, IBaseManager
 {
     public bool isInit = false;
     public virtual void DisableManager()

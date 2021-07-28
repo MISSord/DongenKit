@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 纯粹的工厂，只生产不存放
+/// 工厂基类
 /// </summary>
 public class BaseFactory : IBaseFactory
 {
+    //游戏资源
     protected Dictionary<string, GameObject> factoryDic = new Dictionary<string, GameObject>();
 
     protected string loadPath;
@@ -16,12 +17,12 @@ public class BaseFactory : IBaseFactory
         loadPath = "Prefabs/";
     }
 
-    public virtual void Init()
-    {
-        //AssetBundle.LoadFromFileAsync(Application.dataPath + "/AB");
-    }
-
-    public GameObject GetGameObject(string path)
+    /// <summary>
+    /// 获取未实例化的游戏物体
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public virtual GameObject GetGameObject(string path)
     {
         GameObject go = null;
         string itemPath = loadPath + path;
@@ -40,7 +41,6 @@ public class BaseFactory : IBaseFactory
             Debug.Log("获取资源失败，路径：" + itemPath);
             return null;
         }
-        GameObject item = GameRoot.Instance.InstantiateGameObject(go);
-        return item;
+        return go;
     }
 }

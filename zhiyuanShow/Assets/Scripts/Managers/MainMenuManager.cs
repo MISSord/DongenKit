@@ -17,14 +17,18 @@ public class MainMenuManager : BaseManager
     public override void Init()
     {
         mainMenuAnimatorManager = GameObject.Find(BaseData.AnimatorManager).GetComponent<AnimatorManager>();
+
         mainMenuUI = transform.GetComponent<MainMenuUI>();
         mainMenuUI.Init();
+        mainMenuUI.baseManager = this;
+
         loadGameBtn = GameObject.Find("Continue");
         loadGameBtn.SetActive(false);
+
         if (PlayerPrefs.GetString(BaseData.GameLevel) != "")
             loadGameBtn.SetActive(true);
-        
-        //AudioManager.Instance.PlayMusic(AudioManager.Instance.music);
+
+        MessageServer.Broadcast<string,bool>(EventType.PlayMusicOrBG, BaseData.MainMenuBG,true);
         base.Init();
     }
 
@@ -35,13 +39,13 @@ public class MainMenuManager : BaseManager
             SplashScreenClose(); //Splash screen disable
         }
     }
+
     //Splash screen disable method
     void SplashScreenClose()
     {
         isAnyKeyDown = true;
         mainMenuAnimatorManager.PlayPlayableDirector(mainMenuAnimatorManager.timelineAssets[1], DirectorWrapMode.None); //Play main menu animation
     }
-    //New game method
     
 
 }

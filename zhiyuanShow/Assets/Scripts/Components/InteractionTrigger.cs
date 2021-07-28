@@ -4,14 +4,14 @@ using UnityEngine.UI;
 
 public class InteractionTrigger : MonoBehaviour
 {
-    InteractionCanvas canvas;
+    //InteractionCanvas canvas;
 
     [HideInInspector] public bool inTrigger; //Tracking trigger status
 
     public void Init()
     {
-        canvas = GetComponentInChildren<InteractionCanvas>(true);
-        canvas.Init();
+        //canvas = GetComponentInChildren<InteractionCanvas>(true);
+        //canvas.Init();
     }
 
     private void OnTriggerEnter2D(Collider2D collision) //if player ENTER in trigger
@@ -19,7 +19,7 @@ public class InteractionTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player") //if its player
         {
             inTrigger = true;
-            canvas.gameObject.SetActive(true); //UI enable
+            MessageServer.Broadcast<Vector3,InteractionShowType>(EventType.ShowInteractionKey,transform.position,InteractionShowType.NextDoor); //UI enable
         }
     }
 
@@ -28,7 +28,7 @@ public class InteractionTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             inTrigger = false;
-            canvas.gameObject.SetActive(false); //UI disable
+            MessageServer.Broadcast(EventType.CloseInteractionKey); ; //UI disable
         }
     }
 }

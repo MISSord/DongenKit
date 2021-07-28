@@ -16,11 +16,6 @@ public class DoubleFloat
         current = currentFloat;
         max = maxFloat;
     }
-
-    public float RandomFloat() //Random value of variables
-    {
-        return UnityEngine.Random.Range(current, max);
-    }
 }
 
 [Serializable]

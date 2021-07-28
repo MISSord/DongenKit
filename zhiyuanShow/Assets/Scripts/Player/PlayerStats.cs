@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 玩家数据
 /// </summary>
-public class PlayerStats : MonoBehaviour
+public class PlayerStats 
 {
     private static PlayerStats instance; //Singleton
 
@@ -45,13 +45,7 @@ public class PlayerStats : MonoBehaviour
         playerSprite = GameManager.Instance.player.GetChild(0).GetComponent<SpriteRenderer>();
         timeToDamage = BaseData.DamageTime;
         damageEffect = new DamageEffect();
-        if (instance == null)
-        {
-            instance = this;
-        }
 
-        if (GameRoot.Instance.continueGame)
-             SaveServer.Load();
     }
 
     //Taking damage method
@@ -60,19 +54,20 @@ public class PlayerStats : MonoBehaviour
         if (!isDamaged) // if player is't damaged
         {
             isDamaged = true; //block damage
-            StartCoroutine(timeDamage()); //set timer to next damage
+            //StartCoroutine(timeDamage()); //set timer to next damage
 
             HP.current -= 1; //HP - 1
 
-            GameManager.Instance.uiManager.UpdateUI(); //Update UI
+            MessageServer.Broadcast<PlayerStats>(EventType.UpdateUI, this); //Update UI
 
             //StartCoroutine(damageEffect.Damage(playerSprite)); //Damage effect
 
-            GameRoot.Instance.PlayMusicOrBG(BaseData.PlayerDamage, false); //play damage sound
+            MessageServer.Broadcast<string, bool>(EventType.PlayMusicOrBG,BaseData.PlayerDamage, false); //play damage sound
 
             if (HP.current <= 0) //If hp < 0
             {
                 Death(); //Lose 
+                MessageServer.Broadcast(EventType.EndGame);
             }
         }
     }
@@ -83,18 +78,18 @@ public class PlayerStats : MonoBehaviour
         {
             bottles--; //Bottles - 1
             HP.current++; //HP + 1
-
-            GameRoot.Instance.PlayMusicOrBG(BaseData.UseItem, false); //play drink sound
-
-            GameManager.Instance.uiManager.UpdateUI(); //Update UI
+            MessageServer.Broadcast<string, bool>(EventType.PlayMusicOrBG, BaseData.UseItem, false); //play drink sound
+            MessageServer.Broadcast<PlayerStats>(EventType.UpdateUI, this);
         }
     }
+
     //Death method
     void Death()
     {
         GameManager.Instance.GameOver(); //Game over in gamemanager
         //Destroy(gameObject); //Destroy this GameObject
     }
+
     IEnumerator timeDamage()
     {
         yield return new WaitForSeconds(timeToDamage); //Wait timeToDamage

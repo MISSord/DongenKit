@@ -22,17 +22,15 @@ public class GameRoot : MonoBehaviour
         }
     }
 
-    private FactoryManager factoryManager;
-    private ObjectPool objectPool;
     private GameObject GamePool;
     public BaseSceneState currentSceneState;
     private GameObject loadingUI;
 
-    private ScenesServer sceneserver;
-    private AudioServer audioServer;
-    private SaveServer saveServer;
+    private ScenesServer m_sceneserver;
+    private AudioServer m_audioServer;
+    private SaveServer m_saveServer;
+    private AssetServer m_AssetServer;
 
-    public int LevelNum = 0;
     public bool continueGame;
 
     private Dictionary<string, GameObject> ManagerGameObDict = new Dictionary<string, GameObject>();
@@ -42,59 +40,43 @@ public class GameRoot : MonoBehaviour
     {
         instance = this;
         DontDestroyOnLoad(transform);
-        factoryManager = new FactoryManager();
-        factoryManager.Init();
 
-        objectPool = ObjectPool.Instance;
-        objectPool.Init();
-        GamePool = objectPool.pool;
 
-        ManagerDict.Clear();
+        //服务类
+        m_sceneserver = transform.GetComponent<ScenesServer>();
+        m_sceneserver.Init();
+        m_audioServer = transform.GetComponent<AudioServer>();
+        m_audioServer.Init(m_audioServer);
+        m_saveServer = transform.GetComponent<SaveServer>();
+        m_saveServer.Init();
+        m_AssetServer = transform.GetComponent<AssetServer>();
+        m_AssetServer.Init();
 
-        currentSceneState = new MainMenuState(this);
-        currentSceneState.EnterScene();
+
+        MessageServer.AddListener<BaseSceneState, bool>(EventType.InitGame, NewOrLoadGame);
+        MessageServer.AddListener(EventType.InitManagerDic, InitManagerDict);
+        MessageServer.AddListener(EventType.ClearDic, ClearDict);
+
+        ManagerDict.Clear(); 
 
         loadingUI = transform.GetChild(0).gameObject;
         loadingUI.SetActive(false);
 
-        //服务类
-        sceneserver = transform.GetComponent<ScenesServer>();
-        sceneserver.Init();
-        audioServer = transform.GetComponent<AudioServer>();
-        audioServer.Init();
-        saveServer = transform.GetComponent<SaveServer>();
-
+        currentSceneState = new MainMenuState();
+        currentSceneState.EnterScene();
 
     }
 
-    public void PlayMusicOrBG(string path, bool isLoop)
+    public void PlayMusicOrBG(AudioClip item,bool isLoop)
     {
-        AudioClip item =  factoryManager.audioFactory.GetResourceFactory(path);
         if (isLoop)
         {
-            audioServer.PlayBGround(item);
+            m_audioServer.PlayBGround(item);
         }
         else
         {
-            audioServer.PlayMusic(item);
+            m_audioServer.PlayMusic(item);
         }
-    }
-
-    public GameObject InstantiateGameObject(GameObject item)
-    {
-        GameObject itemOne = GameObject.Instantiate(item);
-        return itemOne;
-    }
-
-    public GameObject GetGameOb(string path)
-    {
-        GameObject item = factoryManager.factoryDict[FactoryType.GameObFactory].GetGameObject(path);
-        return item;
-    }
-
-    public void PushGameObToPool(GameObject item)
-    {
-        objectPool.PushObject(item);
     }
 
     public void InitManagerDict()
@@ -110,6 +92,15 @@ public class GameRoot : MonoBehaviour
             ManagerDict.Add(item.Key, itemManager);
             itemManager.Init();
         }
+    }
+
+    public void NewOrLoadGame(BaseSceneState item, bool isLoad)
+    {
+        if (isLoad)
+        {
+            continueGame = true;
+        }
+        ChangeSceneState(item);
     }
 
     public void ChangeSceneState(BaseSceneState item)
@@ -129,27 +120,20 @@ public class GameRoot : MonoBehaviour
                 Debug.Log("获取面板上的IBaseManager脚本失败");
             }
             itemManager.DisableManager();
-            objectPool.PushObject(item.Value);
+            m_AssetServer.PushObjectToPool(item.Value);
         }
         ManagerGameObDict.Clear();
         ManagerDict.Clear();
     }
 
-    public void AddManagerToRoot(string name)
+    public void AddManagerToRoot(GameObject item)
     {
-        GameObject item = factoryManager.factoryDict[FactoryType.ManagerFactory].GetGameObject(name);
-        item.transform.SetParent(this.transform);
-        ManagerGameObDict.Add(name, item);
+        item.transform.SetParent(this.transform.GetChild(1).transform);
+        ManagerGameObDict.Add(item.name, item);
     }
 
     public void ShowDownLoadUI(bool isTrue)
     {
         loadingUI.SetActive(isTrue);
-    }
-
-    public GameObject GetUI(string name)
-    {
-        GameObject item = factoryManager.factoryDict[FactoryType.UIFactory].GetGameObject(name);
-        return item;
     }
 }

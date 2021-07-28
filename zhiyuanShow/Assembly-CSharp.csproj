@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BaseData\BaseData.cs" />
+    <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
     <Compile Include="Assets\Scripts\AI\AICanvas.cs" />
     <Compile Include="Assets\Scripts\AI\AICombat.cs" />
     <Compile Include="Assets\Scripts\AI\AIController.cs" />
@@ -78,31 +79,37 @@
     <Compile Include="Assets\Scripts\Components\InteractionTrigger.cs" />
     <Compile Include="Assets\Scripts\Components\LevelMusicZoneTrigger.cs" />
     <Compile Include="Assets\Scripts\Effects\DamageEffect.cs" />
-    <Compile Include="Assets\Scripts\Factory\AudioFactory.cs" />
     <Compile Include="Assets\Scripts\Factory\BaseFactory.cs" />
     <Compile Include="Assets\Scripts\Factory\FactoryManager.cs" />
     <Compile Include="Assets\Scripts\Factory\GameObFactory.cs" />
     <Compile Include="Assets\Scripts\Factory\IBaseFactory.cs" />
     <Compile Include="Assets\Scripts\Factory\ManagerFactory.cs" />
+    <Compile Include="Assets\Scripts\Factory\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\Factory\UIFactory.cs" />
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\Items\Coin.cs" />
+    <Compile Include="Assets\Scripts\Items\DamageText.cs" />
     <Compile Include="Assets\Scripts\Items\Door.cs" />
     <Compile Include="Assets\Scripts\Items\DoorKey.cs" />
+    <Compile Include="Assets\Scripts\Items\HelmetOfStrength_Item.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
-    <Compile Include="Assets\Scripts\Items\Items\HelmetOfStrength_Item.cs" />
     <Compile Include="Assets\Scripts\Items\NextLevelDoor.cs" />
+    <Compile Include="Assets\Scripts\Items\SingltonMap.cs" />
+    <Compile Include="Assets\Scripts\Items\Solider.cs" />
     <Compile Include="Assets\Scripts\Joystick\VirtualJoystick.cs" />
     <Compile Include="Assets\Scripts\Managers\AnimatorManager.cs" />
     <Compile Include="Assets\Scripts\Managers\BaseManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\ConfigManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Managers\MainMenuManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\MapManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\MonsterManager.cs" />
     <Compile Include="Assets\Scripts\Managers\ShopManager.cs" />
     <Compile Include="Assets\Scripts\Managers\UIGameManager.cs" />
-    <Compile Include="Assets\Scripts\MapInfor.cs" />
     <Compile Include="Assets\Scripts\Math\DoubleFloat.cs" />
-    <Compile Include="Assets\Scripts\ObjectPool.cs" />
+    <Compile Include="Assets\Scripts\MonsterInfor.cs" />
+    <Compile Include="Assets\Scripts\ObjectManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCamera.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCombatManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
@@ -111,7 +118,10 @@
     <Compile Include="Assets\Scripts\Scenes\SceneState\BaseSceneState.cs" />
     <Compile Include="Assets\Scripts\Scenes\SceneState\GameSceneState.cs" />
     <Compile Include="Assets\Scripts\Scenes\SceneState\MainMenuState.cs" />
+    <Compile Include="Assets\Scripts\Server\AssetServer.cs" />
     <Compile Include="Assets\Scripts\Server\AudioServer.cs" />
+    <Compile Include="Assets\Scripts\Server\Message\MessageServer.cs" />
+    <Compile Include="Assets\Scripts\Server\Message\MessageType.cs" />
     <Compile Include="Assets\Scripts\Server\SaveServer.cs" />
     <Compile Include="Assets\Scripts\Server\ScenesServer.cs" />
     <Compile Include="Assets\Scripts\UI\BaseUI.cs" />
@@ -133,7 +143,15 @@
     <Compile Include="Assets\Scripts\Weapon\GunWeapon\Shotgun.cs" />
     <Compile Include="Assets\Scripts\Weapon\PlayerRangeWeapon.cs" />
     <Compile Include="Assets\Scripts\Weapon\RangeWeapon.cs" />
-    <None Include="Assets\Resources\Image\UI\license.txt" />
+    <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
+    <None Include="Assets\Demigiant\DemiLib\Core\DemiLib.xml" />
+    <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
+    <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
+    <None Include="Assets\AssetbundleConfig.xml" />
+    <None Include="Assets\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
+    <None Include="Assets\GameData\Image\UI\license.txt" />
+    <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\License.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>F:/Unity学习资料下载/UnityProject/DongenKit/zhiyuanShow/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
@@ -347,6 +365,27 @@
     </Reference>
     <Reference Include="UnityEngine.XRModule">
       <HintPath>E:/Unity2018/Unity Pro 2019.2.4f1/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>F:/Unity学习资料下载/UnityProject/DongenKit/zhiyuanShow/Assets/LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>F:/Unity学习资料下载/UnityProject/DongenKit/zhiyuanShow/Assets/Demigiant/DemiLib/Core/DemiLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>F:/Unity学习资料下载/UnityProject/DongenKit/zhiyuanShow/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>F:/Unity学习资料下载/UnityProject/DongenKit/zhiyuanShow/Assets/Demigiant/DOTween/DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>F:/Unity学习资料下载/UnityProject/DongenKit/zhiyuanShow/Assets/Demigiant/DOTween/DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>F:/Unity学习资料下载/UnityProject/DongenKit/zhiyuanShow/Assets/Demigiant/DOTween/DOTween50.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>F:/Unity学习资料下载/UnityProject/DongenKit/zhiyuanShow/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>F:/Unity学习资料下载/UnityProject/DongenKit/zhiyuanShow/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>

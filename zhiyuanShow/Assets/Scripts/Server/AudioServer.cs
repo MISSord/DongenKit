@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AudioServer : MonoBehaviour
 {
-    public static AudioServer Instance; //Singleton
+    public static AudioServer Instance = null; //Singleton
 
     [Header("AudioSource")] //List of sounds
     public AudioSource backgroundMusic;
@@ -13,11 +13,11 @@ public class AudioServer : MonoBehaviour
     bool isMusicPlay; //for check music status
 
 
-    public void Init()
+    public void Init( AudioServer audio)
     {
-        if (Instance == null)
+        if (Instance == null && audio != null)
         {
-            Instance = this;
+            Instance = audio;
         }
         else
         {

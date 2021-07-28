@@ -52,9 +52,9 @@ public class Rocket : MonoBehaviour
             AIStats enemy = other.gameObject.GetComponent<AIStats>();
             GameManager.Instance.TakeDamageToEnemy(enemy.ID, damageRange);
         }
-        GameObject exp = ObjectPool.Instance.GetObject(explosionname);
-        exp.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        exp.transform.position = transform.position;
+        //GameObject exp = ObjectManager.Instance.GetObject(explosionname);
+        //exp.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //exp.transform.position = transform.position;
 
         rigidbody.velocity = Vector2.zero;
         StartCoroutine(Push(gameObject, 0.3f));
@@ -63,6 +63,6 @@ public class Rocket : MonoBehaviour
     IEnumerator Push(GameObject _object, float time)
     {
         yield return new WaitForSeconds(time);
-        ObjectPool.Instance.PushObject(_object);
+        ObjectManager.Instance.PushObject(_object);
     }
 }

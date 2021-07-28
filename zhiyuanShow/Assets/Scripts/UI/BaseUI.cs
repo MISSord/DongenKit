@@ -6,11 +6,11 @@ using UnityEngine;
 public class BaseUI : MonoBehaviour, IBaseUI
 {
     [HideInInspector]
-    public GameRoot gameRoot;
+    public BaseManager baseManager;
 
     public virtual void Init()
     {
-        gameRoot = GameRoot.Instance;
+
     }
 
     public virtual void UpdateUI()

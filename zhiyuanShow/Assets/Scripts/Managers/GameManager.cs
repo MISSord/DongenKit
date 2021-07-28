@@ -7,7 +7,6 @@ using System;
 public class GameManager : BaseManager
 {
     private static GameManager instance; //Singleton
-
     public static GameManager Instance
     {
         get
@@ -21,11 +20,11 @@ public class GameManager : BaseManager
     }
 
     public PlayerStats playState;
-    public PlayerCombatManager playerCombatManager;
     public PlayerController playerController;
     public PlayerCamera playerCamera;
 
-    public UIGameManager uiManager;
+    public MapManager m_MapManager;
+    public PlayerCamera m_playercamera;
 
     public bool isUsekeyboard = true;
 
@@ -42,16 +41,32 @@ public class GameManager : BaseManager
 
     [Header("Enemy")]
     public GameObject[] EnemyList;
-    public AIStats[] EnemyStateList; 
+    public AIStats[] EnemyStateList;
+    public int EnemyCount = 0;
 
     public override void Init()
     {
         instance = this;
-        LevelNum = GameRoot.Instance.LevelNum;
-        player = GameRoot.Instance.GetGameOb(BaseData.Player).transform;
 
-        uiManager = GameObject.Find("UIManager(Clone)").transform.GetComponent<UIGameManager>();
+        m_MapManager = transform.GetComponent<MapManager>();
+        m_MapManager.Init();
+
+        isGameOver = false;
+        isPaues = false;
+
+        MessageServer.AddListener(EventType.FinishSceneLoad, StartGame); 
         
+        base.Init();
+    }
+
+    public void StartGame()
+    {
+        player = MessageServer.Broadcast<GameObject,string,bool>(ReturnMessageType.GetGameObject, BaseData.Player, true).transform;
+        playState = new PlayerStats();
+        playerController = player.transform.GetComponent<PlayerController>();
+        playState.Init();
+        playerController.Init();
+
         switch (LevelNum)
         {
             case 0:
@@ -61,32 +76,29 @@ public class GameManager : BaseManager
                 player.position = BaseData.Level1Player;
                 break;
         }
-        
-        playState = player.GetComponent<PlayerStats>();
-        playerCombatManager = GetComponent<PlayerCombatManager>();
-        playerController = player.transform.GetComponent<PlayerController>();
 
-        isGameOver = false;
-        isPaues = false;
-        playState.Init();
-        playerCombatManager.Init(); 
-        playerController.Init();
-        base.Init();
+        playerCamera = Camera.main.gameObject.AddComponent<PlayerCamera>();
+        playerCamera.Init();
+        m_MapManager.MakeNewMap();
+        //InitEnemy();
 
+        MessageServer.Broadcast(EventType.OpenDoor);
     }
+
+    
+
 
     public override void EnableManager()
     {
-        InitEnemy();
         base.EnableManager();
     }
 
     #region 关于怪物
-
     public void InitEnemy()
     {
         EnemyList = GameObject.FindGameObjectsWithTag("Enemy");
         EnemyStateList = new AIStats[EnemyList.Length];
+        EnemyCount = EnemyList.Length;
         for(int i = 0; i < EnemyList.Length; i++)
         {
             EnemyStateList[i] = EnemyList[i].GetComponent<AIStats>();
@@ -101,7 +113,6 @@ public class GameManager : BaseManager
             Debug.Log("怪物初始化失败");
         }
     }
-
 
     public void TakeDamageToEnemy(int i, float damage)
     {
@@ -118,6 +129,23 @@ public class GameManager : BaseManager
         EnemyStateList[i].DestroySelf();
         EnemyStateList[i] = null;
         EnemyList[i] = null;
+
+        if (CheckIsAllDead())
+        {
+            MessageServer.Broadcast(EventType.LevelComplete);
+        }
+    }
+
+    public bool CheckIsAllDead()
+    {
+        for(int i = 0; i < EnemyCount; i++)
+        {
+            if(EnemyStateList[i] != null)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     #endregion
@@ -125,10 +153,9 @@ public class GameManager : BaseManager
 
     private void Start()
     {
-        GameObject NextDoor = GameRoot.Instance.GetGameOb("Items/" + BaseData.NextDoorGameOb);
-        NextDoor.transform.position = BaseData.NextLevelDoolPosititon;
-        nextLevelDoor = NextDoor.GetComponent<NextLevelDoor>();
-        InitEnemy();
+        //GameObject NextDoor = MessageServer.Broadcast<GameObject>(ReturnMessageType.GetGameObject, BaseData.NextDoorGameOb);
+        //NextDoor.transform.position = BaseData.NextLevelDoolPosititon;
+        //nextLevelDoor = NextDoor.GetComponent<NextLevelDoor>();
     }
 
     private void Update()
@@ -142,7 +169,7 @@ public class GameManager : BaseManager
         {
             InputManager.Pause = false; //Unpress
             isPaues = true;
-            uiManager.ShowPauseMenu(); //Show UI pause screen
+            MessageServer.Broadcast(EventType.StopGame);
         }
         if (PlayerStats.Instance.isLive)
         {
@@ -157,23 +184,22 @@ public class GameManager : BaseManager
     //GameOver method
     public void GameOver()
     {
-        //isGameOver = true; //Game status is false, and all actions on scene is stop
+        isGameOver = true; //Game status is false, and all actions on scene is stop
         playState.isLive = false;
-        uiManager.GameOver(); //Show GameOver screen
+        
     }
 
     //Complete level method
     public void LevelComplete()
     {
+        MessageServer.Broadcast(EventType.NextLevel);
         levelComplete = true; //Set bool for Check door status
-        nextLevelDoor.lockedDoor = false; //Unlock door
-        nextLevelDoor.CheckLockStatus(); //Check door status
+        //nextLevelDoor.lockedDoor = false; //Unlock door
+        //nextLevelDoor.CheckLockStatus(); //Check door status
     }
 
     public void NextLevel()
     {
-        int lvlID = GameRoot.Instance.LevelNum + 1; //Level id + 1
-        GameRoot.Instance.LevelNum++;
         Action loaded = () =>
         {
             player.transform.position = BaseData.Level1Player;

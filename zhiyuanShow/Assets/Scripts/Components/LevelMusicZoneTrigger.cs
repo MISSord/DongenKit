@@ -11,7 +11,7 @@ public class LevelMusicZoneTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player") //if its player
         {
-            GameRoot.Instance.PlayMusicOrBG(BaseData.OpenDoor,false);
+            MessageServer.Broadcast<string, bool>(EventType.PlayMusicOrBG,BaseData.OpenDoor,false);
         }
     }
 

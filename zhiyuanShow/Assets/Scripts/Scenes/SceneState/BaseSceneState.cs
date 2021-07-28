@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class BaseSceneState : IBaseSceneState
 {
-    protected GameRoot gameRoot;
-
-    public BaseSceneState(GameRoot Root)
-    {
-        gameRoot = Root;
-    }
+    public BaseSceneState(){}
 
     public virtual void EnterScene()
     {
-        gameRoot.InitManagerDict();
+        MessageServer.Broadcast(EventType.InitManagerDic);
     }
 
     public virtual void ExitScene()
     {
-        gameRoot.ClearDict();
+        MessageServer.Broadcast(EventType.ClearDic);
     }
 }
 

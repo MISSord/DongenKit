@@ -12,7 +12,7 @@ public class PlayerCamera : MonoBehaviour
     public float smoothFollow = 0.2f; //Smooth parameter of camera
     public Vector3 offset; //Camera position offset
 
-    public void Start()
+    public void Init()
     {
         //Find player
         playerTransform = GameManager.Instance.player.transform;

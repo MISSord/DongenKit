@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MainMenuState : BaseSceneState
 {
-    public MainMenuState(GameRoot root) : base(root)
+    public MainMenuState()
     {
 
     }
 
     public override void EnterScene()
     {
-        gameRoot.AddManagerToRoot(BaseData.MainMenuManager);
+        MessageServer.Broadcast<string>(EventType.AddManager, BaseData.MainMenuManager);
         base.EnterScene();
     }
 }

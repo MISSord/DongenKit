@@ -8,6 +8,8 @@ TagManager:
   - Obstacle
   - Wall
   - Gift
+  - Door
+  - Soldier
   layers:
   - Default
   - TransparentFX
@@ -47,4 +49,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 40126345
+    locked: 0
+  - name: UI
+    uniqueID: 1370174621
     locked: 0

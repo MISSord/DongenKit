@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DungeonKIT;
+using System;
 
 public class Bullet : MonoBehaviour
 {
@@ -16,6 +16,13 @@ public class Bullet : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         explosionname = BaseData.Explosion;
         transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        StartCoroutine(DestorySelf());
+    }
+
+    IEnumerator DestorySelf()
+    {
+        yield return new WaitForSeconds(10f);
+        ObjectManager.Instance.PushObject(gameObject);
     }
 
     public void SetSpeedAndDamage(Vector2 direction, float damage)
@@ -23,6 +30,8 @@ public class Bullet : MonoBehaviour
         rigidbody.velocity = direction * speed;
         damageRange = damage;
     }
+
+    Action<GameObject> exp;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -35,11 +44,12 @@ public class Bullet : MonoBehaviour
             AIStats enemy = other.gameObject.GetComponent<AIStats>();
             GameManager.Instance.TakeDamageToEnemy(enemy.ID, damageRange);
         }
-        // Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        GameObject exp = ObjectPool.Instance.GetObject(explosionname);
-        exp.transform.position = transform.position;
+        exp = (GameObject expPrefabs) =>
+        {
+            expPrefabs.transform.position = transform.position;
+        };
+        MessageServer.Broadcast<string, Action<GameObject>>(EventType.GetAndSetGameObject,explosionname ,exp);
 
-        // Destroy(gameObject);
-        ObjectPool.Instance.PushObject(gameObject);
+        ObjectManager.Instance.PushObject(gameObject);
     }
 }

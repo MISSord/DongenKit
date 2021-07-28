@@ -14,12 +14,11 @@ public class MainMenuUI : BaseUI
         base.Init();
         NewGameBtn = GameObject.Find("NewGame").transform.GetComponent<Button>();
         NewGameBtn.onClick.AddListener(()=> {
-            gameRoot.ChangeSceneState(new GameSceneState(gameRoot));
+            MessageServer.Broadcast<BaseSceneState, bool>(EventType.InitGame,new GameSceneState(), false);
         });
         ContinueBtn = GameObject.Find("Continue").transform.GetComponent<Button>();
         ContinueBtn.onClick.AddListener(() => {
-            GameRoot.Instance.continueGame = true;
-            gameRoot.ChangeSceneState(new GameSceneState(gameRoot));
+            MessageServer.Broadcast<BaseSceneState,bool>(EventType.InitGame, new GameSceneState(),true);
         });
         QuitBtn = GameObject.Find("Quit").transform.GetComponent<Button>();
         QuitBtn.onClick.AddListener(() => { 

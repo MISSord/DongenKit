@@ -41,15 +41,15 @@ public class PlayerCombatManager : MonoBehaviour
 
     private void Update() //Every frame
     {
-        if (PlayerStats.Instance.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
-        {
-            SwitchGun();
-            guns[gunNum].UpdateGunPosture();
-            if (InputManager.Attack)
-            {
-                guns[gunNum].Shoot();
-            }
-        }
+        //if (PlayerStats.Instance.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
+        //{
+        //    SwitchGun();
+        //    guns[gunNum].UpdateGunPosture();
+        //    if (InputManager.Attack)
+        //    {
+        //        guns[gunNum].Shoot();
+        //    }
+        //}
     }
 
     /*

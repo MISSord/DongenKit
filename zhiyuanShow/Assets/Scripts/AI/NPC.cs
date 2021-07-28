@@ -30,7 +30,7 @@ using UnityEngine;
         //Interaction method
         void Interaction()
         {
-            GameManager.Instance.uiManager.ShowDialogMenu(dialogConfig); //Show dialog UI
+            MessageServer.Broadcast<DialogConfig>(EventType.ShowDialog,dialogConfig); //Show dialog UI
         }
 
     }

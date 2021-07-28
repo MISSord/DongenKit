@@ -6,6 +6,6 @@ public class ManagerFactory : BaseFactory
 {
     public ManagerFactory()
     {
-        loadPath += "Managers/";
+        loadPath += "Manager/";
     }
 }

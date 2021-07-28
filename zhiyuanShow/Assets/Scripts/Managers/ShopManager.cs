@@ -30,7 +30,7 @@ using System;
                 }
             }
 
-            GameManager.Instance.uiManager.UpdateUI(); //Update UI
+            //GameManager.Instance.uiGameManager.UpdateUI(); //Update UI
         }
 
     }

@@ -27,7 +27,7 @@ public class BaseData
     public static readonly string SceneManager = "ScenesManager";
     public static readonly string AnimatorManager = "AnimatorManager";
     public static readonly string GameManager = "GameManager";
-    public static readonly string UIManager = "UIManager";
+    public static readonly string UIGameManager = "UIGameManager";
     #endregion
 
     #region 场景名称
@@ -70,6 +70,7 @@ public class BaseData
 
     #region UI
     public static readonly string HealthPoint = "HealthPoint";
+    public static readonly string DamageText = "DamageText";
     #endregion
 
     #region 音乐
@@ -82,4 +83,57 @@ public class BaseData
     public static readonly string CoinUp = "Sound/Pickup_Coin69";
     public static readonly string PlayerDamage = "Sound/PlayerDamage";
     #endregion
+
+
+    public static readonly int[,] m_Map1 = new int[5, 5]{
+        {0,0,2,5,0},
+        {0,0,2,0,0},
+        {0,0,2,0,0},
+        {0,0,2,0,0},
+        {4,2,2,0,0},
+    };
+
+    public static readonly int[,] m_Map2 = new int[5, 5]{
+        {5,2,2,0,0},
+        {0,0,2,0,0},
+        {0,0,2,0,0},
+        {0,0,2,0,0},
+        {4,2,2,0,0},
+    };
+
+    public static readonly int[,] m_Map3 = new int[5, 5]{
+        {0,0,2,2,2},
+        {0,0,2,0,2},
+        {0,0,2,0,5},
+        {4,2,2,0,0},
+        {0,0,0,0,0},
+    };
+
+    public static readonly string MapStart = "Map/A1000";
+    public static readonly string MapOne = "Map/A1200";
+    public static readonly string MapEnd = "Map/A1201";
+
+    public static readonly string WallUp = "Items/WallUp";
+    public static readonly string WallLeft = "Items/WallLeft";
+    public static readonly string WallRight = "Items/WallRight";
+    public static readonly string WallDown = "Items/WallDown";
+
+    public static readonly string DoorY = "Items/Door2";
+    public static readonly string DoorX = "Items/Door";
+    //public static readonly string MapOne = "Map/A1200";
+
+    public static string GetAIName(string name)
+    {
+        switch (name)
+        {
+            case "AI_Orc":
+                return "AI/AI_Orc";
+            case "AI_Boss":
+                return "AI/AI_Boss";
+            case "AI_Mage":
+                return "AI/AI_Mage";
+        }
+        return "AI_Orc";
+    }
+
 }
