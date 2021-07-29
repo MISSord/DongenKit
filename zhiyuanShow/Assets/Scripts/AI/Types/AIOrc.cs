@@ -16,9 +16,6 @@ public class AIOrc : AICombat
     //Method of attack
     public override void MeleeAttack(GameObject target)
     {
-        //Set up here
-
-        //
         base.MeleeAttack(target);
     }
 }

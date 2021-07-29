@@ -25,9 +25,7 @@ public class NextLevelDoor : MonoBehaviour
         m_OpenspriteRenderer = GetComponent<SpriteRenderer>();
         m_ClosespriteRenderer = transform.GetChild(0);
         collider2D = GetComponent<CircleCollider2D>();
-
-        MessageServer.AddListener(EventType.LevelComplete, OpenDoor);
-        CheckLockStatus(); //Check door status
+        //CheckLockStatus(); //Check door status
     }
 
     private void Update()
@@ -39,10 +37,7 @@ public class NextLevelDoor : MonoBehaviour
             if (InputManager.Interaction)
             {
                 InputManager.Interaction = false; //unpress button
-                if (!lockedDoor) //if door unlocked
-                {
-                    MessageServer.Broadcast(EventType.NextLevel);
-                }
+                MessageServer.Broadcast(EventType.NextLevel);
             }
         }
     }
@@ -51,7 +46,7 @@ public class NextLevelDoor : MonoBehaviour
     {
         m_ClosespriteRenderer.DOLocalMoveX(1, 1.0f);
         lockedDoor = false;
-        CheckLockStatus();
+        //CheckLockStatus();
     }
 
     //检查楼梯的开关状态

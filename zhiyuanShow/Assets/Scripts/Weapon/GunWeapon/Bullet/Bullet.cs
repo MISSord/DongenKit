@@ -42,13 +42,13 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             AIStats enemy = other.gameObject.GetComponent<AIStats>();
-            GameManager.Instance.TakeDamageToEnemy(enemy.ID, damageRange);
+            enemy.TakingDamage(damageRange);
         }
         exp = (GameObject expPrefabs) =>
         {
             expPrefabs.transform.position = transform.position;
         };
-        MessageServer.Broadcast<string, Action<GameObject>>(EventType.GetAndSetGameObject,explosionname ,exp);
+        MessageServer.Broadcast<string, Action<GameObject>>(EventType.GetAndSetGameObject, explosionname ,exp);
 
         ObjectManager.Instance.PushObject(gameObject);
     }

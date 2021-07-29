@@ -32,17 +32,13 @@ public class GameManager : BaseManager
 
     public Transform player;
 
-    NextLevelDoor nextLevelDoor; //Next level door object
-
     [Header("Settings")]
     public bool isGameOver = false;
     public bool isPaues = false;
-    public bool levelComplete;
+    public bool levelComplete = false;
 
     [Header("Enemy")]
-    public GameObject[] EnemyList;
-    public AIStats[] EnemyStateList;
-    public int EnemyCount = 0;
+    public Vector3 playerBorn;
 
     public override void Init()
     {
@@ -54,102 +50,37 @@ public class GameManager : BaseManager
         isGameOver = false;
         isPaues = false;
 
-        MessageServer.AddListener(EventType.FinishSceneLoad, StartGame); 
-        
+        MessageServer.AddListener(EventType.FinishSceneLoad, StartGame);
+        MessageServer.AddListener(EventType.NextLevel, NextLevel);
+        //Mes
         base.Init();
     }
 
     public void StartGame()
     {
+        if(player != null)
+        {
+            return;
+        }
+
         player = MessageServer.Broadcast<GameObject,string,bool>(ReturnMessageType.GetGameObject, BaseData.Player, true).transform;
-        playState = new PlayerStats();
+        playState = player.transform.GetComponent<PlayerStats>();
         playerController = player.transform.GetComponent<PlayerController>();
         playState.Init();
         playerController.Init();
 
-        switch (LevelNum)
-        {
-            case 0:
-                player.position = BaseData.Level0Player;
-                break;
-            case 1:
-                player.position = BaseData.Level1Player;
-                break;
-        }
 
         playerCamera = Camera.main.gameObject.AddComponent<PlayerCamera>();
         playerCamera.Init();
-        m_MapManager.MakeNewMap();
-        //InitEnemy();
+        player.transform.position = m_MapManager.MakeNewMap();
 
         MessageServer.Broadcast(EventType.OpenDoor);
     }
-
-    
-
 
     public override void EnableManager()
     {
         base.EnableManager();
     }
-
-    #region 关于怪物
-    public void InitEnemy()
-    {
-        EnemyList = GameObject.FindGameObjectsWithTag("Enemy");
-        EnemyStateList = new AIStats[EnemyList.Length];
-        EnemyCount = EnemyList.Length;
-        for(int i = 0; i < EnemyList.Length; i++)
-        {
-            EnemyStateList[i] = EnemyList[i].GetComponent<AIStats>();
-            EnemyStateList[i].ID = i;
-        }
-        if(EnemyList.Length > 0)
-        {
-            Debug.Log("怪物初始化成功");
-        }
-        else
-        {
-            Debug.Log("怪物初始化失败");
-        }
-    }
-
-    public void TakeDamageToEnemy(int i, float damage)
-    {
-        if(EnemyStateList[i] != null)
-        {
-            lock(EnemyStateList[i]){
-                EnemyStateList[i].TakingDamage(damage);
-            }
-        }
-    }
-
-    public void EnemyDeath(int i)
-    {
-        EnemyStateList[i].DestroySelf();
-        EnemyStateList[i] = null;
-        EnemyList[i] = null;
-
-        if (CheckIsAllDead())
-        {
-            MessageServer.Broadcast(EventType.LevelComplete);
-        }
-    }
-
-    public bool CheckIsAllDead()
-    {
-        for(int i = 0; i < EnemyCount; i++)
-        {
-            if(EnemyStateList[i] != null)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    #endregion
-
 
     private void Start()
     {
@@ -202,10 +133,18 @@ public class GameManager : BaseManager
     {
         Action loaded = () =>
         {
-            player.transform.position = BaseData.Level1Player;
-            InitEnemy();
+            StartGame();
         };
-        ScenesServer.Instance.AsyncLoadScene(BaseData.SecondGameScene, loaded); //Load next level
+        if(ScenesServer.Instance.m_currentSceneName == BaseData.FirstGameScene)
+        {
+            ScenesServer.Instance.AsyncLoadScene(BaseData.SecondGameScene, loaded);
+        }
+        else
+        {
+            ScenesServer.Instance.AsyncLoadScene(BaseData.FirstGameScene, loaded);
+        }
+        m_MapManager.PushMapToPool();
+         //Load next level
     }
 
     public void PlayisDead()

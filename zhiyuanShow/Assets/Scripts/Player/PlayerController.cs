@@ -22,16 +22,14 @@ public class PlayerController : MonoBehaviour
     private float targetBlend;
     public void Init()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();
-
-        //playerSprite = 
+        rigidbody2d = GetComponent<Rigidbody2D>(); 
         playerAnimator = transform.GetChild(0).GetComponent<Animator>();
         SaveServer.Save(); //Save level state
     }
 
     void FixedUpdate()
     {
-        if (PlayerStats.Instance.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
+        if (!GameManager.Instance.isGameOver && !GameManager.Instance.isPaues) //If pause disable, and is game
         {
             CheckActions();
         }
@@ -52,6 +50,7 @@ public class PlayerController : MonoBehaviour
     {
         //Movement of the character depending on the values InputManager.Horizontal, InputManager.Vertical
         //rigidbody2d.MovePosition(InputManager.dir * moveSpeed * Time.deltaTime);
+
         Vector3 desiredVelocity;
         if (GameManager.Instance.isUsekeyboard)
         {
@@ -62,11 +61,11 @@ public class PlayerController : MonoBehaviour
             desiredVelocity = InputManager.dirOne;
             Debug.Log(InputManager.dirOne);
         }
-        
-        float maxSpeedChange = maxAcceleration * Time.deltaTime;
-        velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
-        velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
-        rigidbody2d.velocity = velocity;
+
+        //float maxSpeedChange = maxAcceleration * Time.deltaTime;
+        //velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+        //velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
+        rigidbody2d.velocity = desiredVelocity;
     }
 
     //Rotation method

@@ -7,13 +7,16 @@ public enum EventType
     MonsterHpDown,//哪个怪物，怪物扣掉的血量
     MonsterHpUp,
 
-    InitGame,
-    StartGame,
+    InitGame,//初始化游戏（游戏加载）
+    StartGame,//开始游戏，指游戏初始化后
     StopGame,//暂停游戏
     ContinueGame,//指暂停后继续游戏
-    EndGame,
+    EndGame,//游戏结束，指玩家死亡
+    GameFinish,//游戏完成，指玩家打通关
 
-
+    TakeDamage,
+    EnemyDeath,
+    PlayDamge,
 
     GetCoin,
     Buy,

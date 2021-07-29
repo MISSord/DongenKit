@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DungeonKIT;
 using System;
 
 public class Gun : MonoBehaviour, IGun
@@ -14,7 +13,7 @@ public class Gun : MonoBehaviour, IGun
     protected Transform shellPos;
     protected Vector2 mousePos;
     protected Vector2 direction;
-    
+
     protected float timer;
     protected float flipY;
     protected Animator animator;
@@ -23,22 +22,20 @@ public class Gun : MonoBehaviour, IGun
     public virtual void Init()
     {
         animator = GetComponent<Animator>();
-
         muzzlePos = transform.Find("Muzzle");
-        muzzlePos.localPosition = BaseData.MuzzlePosition;
-
+        muzzlePos.localPosition = BaseData.NormalGunMuzzlePosition;
         shellPos = transform.Find("BulletShell");
-        if(shellPos != null)
+        if (shellPos != null)
         {
             shellPos.localPosition = BaseData.BulletShellPosition;
         }
-        
+
         flipY = transform.localScale.y;
         bulletname = BaseData.Bullet;
         shellname = BaseData.BulletShell;
         playCombatManager = null;//GameManager.Instance.playerCombatManager;
     }
-    
+
     public virtual void UpdateGunPosture()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -74,8 +71,8 @@ public class Gun : MonoBehaviour, IGun
     {
         animator.SetTrigger("Shoot");
 
-        // GameObject bullet = Instantiate(bulletPrefab, muzzlePos.position, Quaternion.identity);
-         FireBullet = (GameObject bullet) => {
+        FireBullet = (GameObject bullet) =>
+        {
             bullet.transform.position = muzzlePos.position;
             bullet.transform.rotation = Quaternion.identity;
 
@@ -87,10 +84,12 @@ public class Gun : MonoBehaviour, IGun
         MessageServer.Broadcast<string, Action<GameObject>>(EventType.GetAndSetGameObject, bulletname, FireBullet);
         FireBullet.Clone();
 
-        // Instantiate(shellPrefab, shellPos.position, shellPos.rotation);
-        item = (GameObject shell) => { 
+        item = (GameObject shell) =>
+        {
             shell.transform.position = shellPos.position;
-            shell.transform.rotation = shellPos.rotation;};
-        MessageServer.Broadcast<string,Action<GameObject>>(EventType.GetAndSetGameObject,shellname, item);
+            shell.transform.rotation = shellPos.rotation;
+        };
+
+        MessageServer.Broadcast<string, Action<GameObject>>(EventType.GetAndSetGameObject, shellname, item);
     }
 }

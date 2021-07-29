@@ -50,7 +50,7 @@ public class Rocket : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             AIStats enemy = other.gameObject.GetComponent<AIStats>();
-            GameManager.Instance.TakeDamageToEnemy(enemy.ID, damageRange);
+            //GameManager.Instance.TakeDamageToEnemy(enemy.ID, damageRange);
         }
         //GameObject exp = ObjectManager.Instance.GetObject(explosionname);
         //exp.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);

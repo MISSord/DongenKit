@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
-    [HideInInspector] public Transform playerPos; //cached player position
+    [HideInInspector] 
+    public Transform playerPos; //cached player position
     Animator animator;
 
     [Header("Sprite AI")]
@@ -14,7 +15,6 @@ public class AIController : MonoBehaviour
     Vector3 startPosition; //coordinate position to return when isReturnToStartPos
 
     [Header("Radius")]
-    public float radiusFollow; //the radius at which AI begins to follow the player
     public float radiusAttack; //the radius at which AI begins to attack the player
     public float radiusStop; //radius at which AI stops
 
@@ -24,20 +24,21 @@ public class AIController : MonoBehaviour
     [Header("Settings")]
     public bool isReturnToStartPos; //if true, AI will return to the starting position when the player goes beyond radiusFollow
     public bool infinitiFollow; //if true, AI will follow the player endlessly.
-    bool isMove;
+    public bool canMove = false;
     [HideInInspector] 
     public bool isAttacked;
 
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
-        playerPos = GameManager.Instance.player; //Find player
         startPosition = transform.position; //cached start position
     }
 
+
+
     private void Update()
     {
-        if (!GameManager.Instance.isPaues && !GameManager.Instance.isGameOver) // check for pause and game state
+        if (canMove) // check for pause and game state
         {
             Animation(); //Animation logic
             Move(); // Move logic
@@ -45,70 +46,39 @@ public class AIController : MonoBehaviour
     }
     void Animation()
     {
-        animator.SetBool("Move", isMove); // Set bool in animator
+        animator.SetBool("Move", canMove); // Set bool in animator
     }
     void Move()
     {
-        if (Vector2.Distance(transform.position, playerPos.position) < radiusStop) // If the player has entered the stop radius
+        if (Vector2.Distance(transform.position, playerPos.position) > radiusAttack) //If the player has entered the pursuit radius
         {
-            isMove = false; //Stop
-            Rotation(true); // Rotation(true - look at player, false loock at target)
-        }
-        else if (Vector2.Distance(transform.position, playerPos.position) < radiusFollow) //If the player has entered the pursuit radius
-        {
-            isAttacked = false;
-            isMove = true;
+            isAttacked = true;
             transform.position = Vector2.MoveTowards(transform.position, playerPos.position, moveSpeed * Time.deltaTime); // Begin to follow
-            Rotation(true);
+            Rotation();
         }
-        else if (isAttacked) // If we were attacked
+        else if(Vector2.Distance(transform.position, playerPos.position) < radiusStop)
         {
-            transform.position = Vector2.MoveTowards(transform.position, playerPos.position, moveSpeed * Time.deltaTime);// Begin to follow
-            Rotation(true);
-        }
-        else if (isReturnToStartPos && Vector2.Distance(transform.position, playerPos.position) > radiusFollow && Vector2.Distance(transform.position, startPosition) > 0) //If isReturnToStartPos is enabled, we return to the starting position
-        {
-            isMove = true;
-            transform.position = Vector2.MoveTowards(transform.position, startPosition, moveSpeed * Time.deltaTime);
-            Rotation(false);
-        }
-        else if (infinitiFollow && isMove)//infiniti follow
-        {
-            transform.position = Vector2.MoveTowards(transform.position, playerPos.position, moveSpeed * Time.deltaTime);
-            Rotation(true);
-        }
-        else //Just stop
-        {
-            isMove = false;
+            //transform.position = Vector2.MoveTowards(transform.position, playerPos.position, moveSpeed * Time.deltaTime); // Begin to follow
+            Rotation();
         }
 
+        if (isAttacked) // If we were attacked
+        {
+            transform.position = Vector2.MoveTowards(transform.position, playerPos.position, moveSpeed * Time.deltaTime);// Begin to follow
+            Rotation();
+        }
     }
     // Rotation(true - look at player, false loock at target)
-    void Rotation(bool player)
+    void Rotation()
     {
-        if (player)
+        if (playerPos.position.x - transform.position.x > 0)
         {
-            //look right
-            if (playerPos.position.x - transform.position.x > 0)
-            {
-                aiSprite.localScale = new Vector3(1, 1, 1);
-            }
-            //lock left
-            else if (playerPos.position.x - transform.position.x < 0)
-            {
-                aiSprite.localScale = new Vector3(-1, 1, 1);
-            }
+            aiSprite.localScale = new Vector3(1, 1, 1);
         }
-        else
+        //lock left
+        else if (playerPos.position.x - transform.position.x < 0)
         {
-            if (startPosition.x - transform.position.x > 0)
-            {
-                aiSprite.localScale = new Vector3(1, 1, 1);
-            }
-            else if (startPosition.x - transform.position.x < 0)
-            {
-                aiSprite.localScale = new Vector3(-1, 1, 1);
-            }
+            aiSprite.localScale = new Vector3(-1, 1, 1);
         }
 
     }
@@ -116,16 +86,8 @@ public class AIController : MonoBehaviour
     //Method for drawing radius
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, radiusFollow);
         Gizmos.DrawWireSphere(transform.position, radiusAttack);
         Gizmos.DrawWireSphere(transform.position, radiusStop);
     }
-
-    //public Vector2 RandomPosition()
-    //{
-    //    int x = Random.Range(0, 5);
-    //    int y = Random.Range(0, 5);
-
-    //}
 
 }

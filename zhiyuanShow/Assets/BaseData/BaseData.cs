@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class BaseData 
 {
-    public static readonly Vector3 gunLocalPosition = new Vector3(0f, -0.02f, 0);
+    public static readonly Vector3 gunLocalPosition = new Vector3(0f, 0f, 0);
     public static readonly Vector3 gunScale = Vector3.one;
-    public static readonly Vector3 MuzzlePosition = new Vector3(0.2f, 0.01f, 0);
-    public static readonly Vector3 BulletShellPosition = new Vector3(0.1f, 0.01f, 0);
-    public static Vector3 normalScale = new Vector3(0.6f,0.6f, 0.6f);
+
+    public static readonly Vector3 NormalGunMuzzlePosition = new Vector3(1f, 0f, 0);
+    public static readonly Vector3 BulletShellPosition = new Vector3(0.3f, 0.16f, 0);
+
+    public static Vector3 normalScale = Vector3.one;
 
     public static readonly Vector3 Level0Player = new Vector3(0, 0, 0);
     public static readonly Vector3 Level1Player = new Vector3(0, 0, 0);
     public static Vector3 offset = new Vector3(0, 0, -10);
 
 
-    public static float bulletMinDamage = 10;
-    public static float bulletMaxDamage = 20;
+    public static float bulletMinDamage = 30;
+    public static float bulletMaxDamage = 50;
 
     public static string UI = "UI";
     public static float DamageTime = 1.0f;
@@ -66,6 +68,7 @@ public class BaseData
     public static readonly string Rocket = "Player/Bullet/Rocket";
     public static readonly string RocketExplosion = "Player/Bullet/RocketExplosion";
     public static readonly string Smoke = "Player/Bullet/Smoke";
+    
     #endregion
 
     #region UI
@@ -135,5 +138,7 @@ public class BaseData
         }
         return "AI_Orc";
     }
+
+    public static readonly string FireBall = "AI/AIWeapon/Fireball";
 
 }

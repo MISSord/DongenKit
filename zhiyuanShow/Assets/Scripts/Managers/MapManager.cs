@@ -10,8 +10,16 @@ public class MapManager : BaseManager
     public AIStats[] m_MonsterStats;
     public SingltonMap[] m_MapLevel;
     public int[,] m_Occupy;
+    public Vector3 m_playerBorn;
+    public List<GameObject> m_Mapitem;
+    public List<GameObject> m_DoorItem;
 
-    public void MakeNewMap()
+    public void Init()
+    {
+        //MessageServer.AddListener(EventType.NextLevel,PushMapToPool)
+    }
+
+    public Vector3 MakeNewMap()
     {
         m_Occupy = new int[20, 7];
 
@@ -60,9 +68,24 @@ public class MapManager : BaseManager
             }
         }
 
+        m_Mapitem = new List<GameObject>();
+        m_DoorItem = new List<GameObject>();
+
         InstantiteMap();
 
+        return m_playerBorn;
+    }
 
+    public void PushMapToPool()
+    {
+        foreach(GameObject item in m_Mapitem)
+        {
+            AssetServer.Instance.PushObjectToPool(item);
+        }
+        foreach(GameObject item in m_DoorItem)
+        {
+            AssetServer.Instance.PushObjectToPool(item);
+        }
     }
 
     public void ReSetZero()
@@ -211,25 +234,29 @@ public class MapManager : BaseManager
         {
             item = MessageServer.Broadcast<GameObject, string, bool>(ReturnMessageType.GetGameObject, BaseData.MapStart, false);
             SetDoorOrWall(m_MapInfor[X, Y], item.transform);
+            item.transform.position = new Vector3(X * 26f, Y * 13f, 0);
+            m_playerBorn = item.transform.Find("Born").gameObject.transform.position;
         }
         else if (m_Map[X, Y] == 4)
         {
             item = MessageServer.Broadcast<GameObject, string, bool>(ReturnMessageType.GetGameObject, BaseData.MapEnd, false);
             SetDoorOrWall(m_MapInfor[X, Y], item.transform);
+            item.transform.position = new Vector3(X * 26f, Y * 13f, 0);
+            //item.transform.Find("NextLevelDoor").gameObject;
         }
         else
         {
             item = MessageServer.Broadcast<GameObject, string, bool>(ReturnMessageType.GetGameObject, BaseData.MapOne, false);
             SetDoorOrWall(m_MapInfor[X, Y], item.transform);
-            SingltonMap singltonMap = new SingltonMap();
+            item.transform.position = new Vector3(X * 26f, Y * 13f, 0);
+            SingltonMap singltonMap = item.AddComponent<SingltonMap>();
             singltonMap.m_MonsterAIStats = new List<AIStats>();
             singltonMap.Init(item.transform.position);
             m_MapInfor[X, Y].singltonMonster = MessageServer.Broadcast<SingltonMonsterInfor>(ReturnMessageType.GetMonsterInfor);
             InstanceSingltMonster(singltonMap, m_MapInfor[X, Y].singltonMonster, item.transform);
             ReSetZero();
         }
-
-        item.transform.position = new Vector3(X * 26f, Y * 13f, 0);
+        m_Mapitem.Add(item);
     }
 
     public void SetDoorOrWall(SingltonMapInfor map, Transform item)
@@ -276,22 +303,26 @@ public class MapManager : BaseManager
             Door.transform.GetComponent<Door>().Init();
         }
         Door.transform.SetParent(parent);
-        Door.transform.position = position;
+        Door.transform.localPosition = position;
+        m_DoorItem.Add(Door);
     }
 
     public void InstanceSingltMonster(SingltonMap sing, SingltonMonsterInfor singltonMonster,Transform parent)
     {
+        int id = 0;
         for(int a = 0; a < singltonMonster.m_MonsterList.Count; a++)
         {
             int count = singltonMonster.m_MonsterList[a].amount;
             for(int i = 0; i < count; i++)
             {
+                
                 GameObject Monster = MessageServer.Broadcast<GameObject, string, bool>(
                     ReturnMessageType.GetGameObject,BaseData.GetAIName(singltonMonster.m_MonsterList[a].MonsterID), true);
-                Monster.transform.GetComponent<AIStats>().Init(singltonMonster.m_MonsterList[a].Hp,a + i);
+                Monster.transform.GetComponent<AIStats>().Init(singltonMonster.m_MonsterList[a].Hp,id,sing);
                 Monster.transform.parent = parent;
-                Monster.transform.position = GetTruePosititon();
+                Monster.transform.localPosition = GetTruePosititon();
                 sing.m_MonsterAIStats.Add(Monster.transform.GetComponent<AIStats>());
+                id++;
             }
         }
     }
@@ -307,7 +338,6 @@ public class MapManager : BaseManager
 
     public void GetRangePosition(out int X, out int Y)
     {
-        Debug.Log("666");
         bool isFind = false;
         X = 0;
         Y = 0;
@@ -372,8 +402,6 @@ public class MapManager : BaseManager
             m_Occupy[X, Y - 1] = 1;
         }
     }
-
-
 
     //是否生成分支
     public int IsBranch()

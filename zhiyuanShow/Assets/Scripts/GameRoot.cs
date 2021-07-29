@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DungeonKIT;
 
 /// <summary>
 /// 整个游戏最高层的管理器
@@ -89,6 +88,10 @@ public class GameRoot : MonoBehaviour
                 Debug.Log("获取面板上的IBaseManager脚本失败");
                 continue;
             }
+            if (ManagerDict.ContainsKey(item.Key))
+            {
+                continue;
+            }
             ManagerDict.Add(item.Key, itemManager);
             itemManager.Init();
         }
@@ -118,6 +121,7 @@ public class GameRoot : MonoBehaviour
             if (itemManager == null)
             {
                 Debug.Log("获取面板上的IBaseManager脚本失败");
+                continue;
             }
             itemManager.DisableManager();
             m_AssetServer.PushObjectToPool(item.Value);
@@ -128,6 +132,10 @@ public class GameRoot : MonoBehaviour
 
     public void AddManagerToRoot(GameObject item)
     {
+        if (ManagerGameObDict.ContainsKey(item.name))
+        {
+            return;
+        }
         item.transform.SetParent(this.transform.GetChild(1).transform);
         ManagerGameObDict.Add(item.name, item);
     }

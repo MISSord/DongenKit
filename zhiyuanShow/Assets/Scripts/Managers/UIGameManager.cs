@@ -46,19 +46,19 @@ public class UIGameManager : BaseManager
         m_interactionCanvas = transform.Find("Canvas").GetComponent<InteractionCanvas>();
         m_interactionCanvas.Init();
         dialogClosed += CloseShopMenu; //Add event
-
         MessageServer.AddListener(EventType.FinishSceneLoad, StartGame);
+        MessageServer.AddListener<PlayerStats>(EventType.UpdateUI, UpdateUI);
         base.Init();
     }
 
     public void StartGame()
     {
         playerStats = PlayerStats.Instance; //Set playerstats in static object of PlayerStats
-        UpdateUI(); //UpdateUI
+        UpdateUI(playerStats); //UpdateUI
     }
 
     //Update ui method
-    public void UpdateUI()
+    public void UpdateUI(PlayerStats  player)
     {
         if (playerStats == null)
         {

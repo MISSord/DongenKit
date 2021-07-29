@@ -286,12 +286,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPos: {fileID: 0}
   aiSprite: {fileID: 4372601576701200}
-  radiusFollow: 0.66
-  radiusAttack: 0.57
-  radiusStop: 0.36
-  moveSpeed: 0.2
+  radiusAttack: 3
+  radiusStop: 2
+  moveSpeed: 1
   isReturnToStartPos: 0
   infinitiFollow: 1
+  canMove: 0
   isAttacked: 0
 --- !u!114 &114113983615350344
 MonoBehaviour:
@@ -305,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b2b19e951704c47bb664b8eef35481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aiController: {fileID: 0}
   ID: 0
   isAttackState: 0
   damageEffect:
@@ -325,7 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01995ad253ce9e44b270d4742d411f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiStats: {fileID: 0}
   rangeWeapon: {fileID: 1957211797481704, guid: 514258cda55fda842885b70d38c18e59,
     type: 3}
   startTimeBtnShots: 1
@@ -511,7 +511,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300088, guid: 11216db7b4ee3e040b2e670de308b9f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

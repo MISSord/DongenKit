@@ -19,9 +19,12 @@ public class PlayerCombatManager : MonoBehaviour
 
     public void Init()
     {
-        player = GameManager.Instance.player;
-        gunGameObjects.Add(player.GetChild(1).gameObject);
-        gunNum = 0;
+        player = transform.gameObject.transform;
+        for (int i = 0; i < transform.GetChild(1).childCount; i++)
+        {
+            gunGameObjects.Add(transform.GetChild(1).GetChild(i).gameObject);
+            gunNum = 0;
+        }   
         GunInit();
     }
 
@@ -29,6 +32,10 @@ public class PlayerCombatManager : MonoBehaviour
     {
         for (int i = 0; i < gunGameObjects.Count ; i++)
         {
+            if (gunGameObjects[i] == null)
+            {
+                continue;
+            }
             gunGameObjects[i].transform.localPosition = BaseData.gunLocalPosition;
             gunGameObjects[i].transform.localScale = BaseData.gunScale;
             IGun item = gunGameObjects[i].GetComponent<IGun>();
@@ -41,15 +48,15 @@ public class PlayerCombatManager : MonoBehaviour
 
     private void Update() //Every frame
     {
-        //if (PlayerStats.Instance.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
-        //{
-        //    SwitchGun();
-        //    guns[gunNum].UpdateGunPosture();
-        //    if (InputManager.Attack)
-        //    {
-        //        guns[gunNum].Shoot();
-        //    }
-        //}
+        if (PlayerStats.Instance.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
+        {
+            SwitchGun();
+            guns[gunNum].UpdateGunPosture();
+            if (InputManager.Attack)
+            {
+                guns[gunNum].Shoot();
+            }
+        }
     }
 
     /*

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4636352515289965246}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.488, y: 0, z: 0}
+  m_LocalPosition: {x: 0.3, y: 0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3954272057843944288}
@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7709226122701333801}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 0.018, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3954272057843944288}
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 3954272057843944288}
   - component: {fileID: 4180249734756452727}
   - component: {fileID: 7158126250506164699}
-  - component: {fileID: 6276419042637840132}
+  - component: {fileID: 6992458928813971580}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -86,9 +86,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8755994267418840099}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.028333336, y: -0.041666664, z: 0}
-  m_LocalScale: {x: 0.22999997, y: 0.22999997, z: 0.22999997}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 822893399974265125}
   - {fileID: 3950147227563244371}
@@ -164,7 +164,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6276419042637840132
+--- !u!114 &6992458928813971580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,11 +173,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8755994267418840099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6e518039444d69458476cc01cb8b8cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f6f559a511017641a5bb9bd317ab04e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interval: 0.5
-  bulletPrefab: {fileID: 4028690415889179283, guid: 6a77567889405c04bab756a2dedd6d88,
-    type: 3}
-  shellPrefab: {fileID: 1831042765911411841, guid: 6fd882a57b06f6b4e9261f019f95d1d0,
-    type: 3}
+  interval: 0.2

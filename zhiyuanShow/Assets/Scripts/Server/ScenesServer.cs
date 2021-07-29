@@ -12,6 +12,7 @@ public class ScenesServer : MonoBehaviour
     [Header("Parameters")]
     public string sceneToLoad; //Set this parameter to the name of the scene you want to go to
     private Action prgCB = null;
+    public string m_currentSceneName;
 
     //Singleton
     public void Init()
@@ -34,6 +35,7 @@ public class ScenesServer : MonoBehaviour
 
     public void AsyncLoadScene(string sceneName, Action loaded)
     {
+        m_currentSceneName = sceneName;
         AsyncOperation sceneAsync = SceneManager.LoadSceneAsync(sceneName);
         prgCB = (() =>
         {

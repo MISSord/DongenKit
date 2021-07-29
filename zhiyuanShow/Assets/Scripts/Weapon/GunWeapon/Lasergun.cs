@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DungeonKIT;
 
 public class Lasergun : Gun
 {

@@ -39,12 +39,9 @@ public class AIMage : AICombat
         }
     }
     //Method of attack
-    public override void RangeAttack(GameObject rangeWeapon, Transform target)
+    public override void RangeAttack(Transform target)
     {
-        //Set up here
-
-        //
-        base.RangeAttack(rangeWeapon, target);
+        base.RangeAttack(target);
     }
 
     //AttackByRate method
@@ -52,7 +49,7 @@ public class AIMage : AICombat
     {
         if (timeBtwShots <= 0)
         {
-            RangeAttack(rangeWeapon, player.transform); //Spawn weapon
+            RangeAttack(player.transform); //Spawn weapon
             timeBtwShots = startTimeBtnShots;//Set time to start again
         }
         else

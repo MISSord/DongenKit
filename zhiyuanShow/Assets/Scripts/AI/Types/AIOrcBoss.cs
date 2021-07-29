@@ -19,7 +19,6 @@ public class AIOrcBoss : AICombat
     {
         animator = GetComponentInChildren<Animator>();
         aiController = GetComponent<AIController>();
-        aiStats = GetComponent<AIStats>();
     }
 
 
@@ -33,9 +32,7 @@ public class AIOrcBoss : AICombat
 
     public override void MeleeAttack(GameObject target) //set up attack
     {
-        //Set up here
 
-        //
         base.MeleeAttack(target); //Parent method starts
     }
 

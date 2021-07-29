@@ -1350,9 +1350,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 80
+        y: 64
         width: 16
-        height: 16
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1538,8 +1538,8 @@ TextureImporter:
       name: Dungeon_Tileset_56
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
+        x: 120
+        y: 71
         width: 16
         height: 16
       alignment: 0

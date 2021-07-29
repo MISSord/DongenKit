@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 玩家数据
 /// </summary>
-public class PlayerStats 
+public class PlayerStats : MonoBehaviour
 {
     private static PlayerStats instance; //Singleton
 
@@ -21,6 +21,7 @@ public class PlayerStats
             return instance;
         }
     }
+    public PlayerCombatManager m_combatManager;
 
     //[HideInInspector] 
     public DamageEffect damageEffect; //Damage effect
@@ -42,31 +43,34 @@ public class PlayerStats
 
     public void Init()
     {
-        playerSprite = GameManager.Instance.player.GetChild(0).GetComponent<SpriteRenderer>();
+        playerSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
         timeToDamage = BaseData.DamageTime;
         damageEffect = new DamageEffect();
-
+        m_combatManager = transform.GetComponent<PlayerCombatManager>();
+        m_combatManager.Init();
     }
 
     //Taking damage method
     public void TakingDamage()
     {
-        if (!isDamaged) // if player is't damaged
+        if (!isDamaged) 
         {
-            isDamaged = true; //block damage
-            //StartCoroutine(timeDamage()); //set timer to next damage
 
-            HP.current -= 1; //HP - 1
+            isDamaged = true;
+            StartCoroutine(timeDamage());
+
+            HP.current -= 1; 
 
             MessageServer.Broadcast<PlayerStats>(EventType.UpdateUI, this); //Update UI
 
-            //StartCoroutine(damageEffect.Damage(playerSprite)); //Damage effect
+            StartCoroutine(damageEffect.Damage(playerSprite)); //Damage effect
 
             MessageServer.Broadcast<string, bool>(EventType.PlayMusicOrBG,BaseData.PlayerDamage, false); //play damage sound
 
             if (HP.current <= 0) //If hp < 0
             {
                 Death(); //Lose 
+                isLive = false;
                 MessageServer.Broadcast(EventType.EndGame);
             }
         }
@@ -95,6 +99,7 @@ public class PlayerStats
         yield return new WaitForSeconds(timeToDamage); //Wait timeToDamage
         isDamaged = false; //can damage again
     }
+
 }
 
 
