@@ -7,6 +7,7 @@ public class PlayerCamera : MonoBehaviour
 {
     //Player position
     Transform playerTransform;
+    public bool isTrack = false;
 
     [Header("Variables")]
     public float smoothFollow = 0.2f; //Smooth parameter of camera
@@ -17,11 +18,29 @@ public class PlayerCamera : MonoBehaviour
         //Find player
         playerTransform = GameManager.Instance.player.transform;
         offset = BaseData.offset;
+        MessageServer.AddListener(EventType.NextLevel, IsNotTrack);
+        NextLevel();
+    }
+
+    public void NextLevel()
+    {
+        isTrack = true;
+        playerTransform = GameManager.Instance.player.transform;
+    }
+
+    public void IsTrack()
+    {
+        isTrack = true;
+    }
+
+    public void IsNotTrack()
+    {
+        isTrack = false;
     }
 
     private void FixedUpdate()
     {
-        CameraFollow();
+          CameraFollow();
     }
     //Camera follow method
     void CameraFollow()

@@ -40,7 +40,6 @@ public class GameRoot : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(transform);
 
-
         //服务类
         m_sceneserver = transform.GetComponent<ScenesServer>();
         m_sceneserver.Init();

@@ -323,13 +323,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e3d99587ea2824199d9bc4a00875a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_combatManager: {fileID: 0}
   damageEffect:
     hitColor: {r: 1, g: 0, b: 0, a: 0}
     normalColor: {r: 1, g: 1, b: 1, a: 0}
   HP:
-    current: 3
-    max: 3
-  money: 0
+    current: 10
+    max: 10
+  money: 100
   bottles: 0
   timeToDamage: 0
   isLive: 1

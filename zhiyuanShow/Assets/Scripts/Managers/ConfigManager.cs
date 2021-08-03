@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
 using System.IO;
+using System.Text;
 
 public class ConfigManager : BaseManager
 {
@@ -14,7 +15,7 @@ public class ConfigManager : BaseManager
         m_SingltonMonster = new List<SingltonMonsterInfor>();
         LoadAllMonsterInfo();
         MessageServer.AddListener<SingltonMonsterInfor>(ReturnMessageType.GetMonsterInfor, GetRangMonsterInfor);
-        
+        MessageServer.AddListener<List<ShopItemInfor>>(ReturnMessageType.GetShopInfor, LoadShopItemInfor);
         base.Init();
     }
 
@@ -46,6 +47,30 @@ public class ConfigManager : BaseManager
         {
             Debug.Log("文件不存在，文件路径" + filePath);
         }
+    }
+
+    public List<ShopItemInfor> LoadShopItemInfor()
+    {
+        string jsonStr = Application.dataPath + "/Config/ShopItem.json";
+        List<ShopItemInfor> item = new List<ShopItemInfor>();
+        if (File.Exists(jsonStr))
+        {
+            StreamReader sr = new StreamReader(jsonStr);
+            string json = sr.ReadToEnd();
+            sr.Close();
+            //解析JSON.
+            JsonData jsonData = JsonMapper.ToObject(File.ReadAllText(jsonStr, Encoding.GetEncoding("utf-8")));
+            for (int i = 0; i < jsonData.Count; i++)
+            {
+                ShopItemInfor ii = JsonMapper.ToObject<ShopItemInfor>(jsonData[i].ToJson());
+                item.Add(ii);
+            }
+        }
+        else
+        {
+            Debug.Log("文件不存在，文件路径" + jsonStr);
+        }
+        return item;
     }
 
     public SingltonMonsterInfor GetRangMonsterInfor()

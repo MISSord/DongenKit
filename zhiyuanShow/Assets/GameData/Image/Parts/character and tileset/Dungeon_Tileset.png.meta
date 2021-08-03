@@ -1162,7 +1162,7 @@ TextureImporter:
         serializedVersion: 2
         x: 96
         y: 96
-        width: 32
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1559,8 +1559,8 @@ TextureImporter:
       name: DoorOne2
       rect:
         serializedVersion: 2
-        x: 120
-        y: 72
+        x: 112
+        y: 96
         width: 16
         height: 16
       alignment: 9

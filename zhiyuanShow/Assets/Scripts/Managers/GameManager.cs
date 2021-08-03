@@ -25,6 +25,7 @@ public class GameManager : BaseManager
 
     public MapManager m_MapManager;
     public PlayerCamera m_playercamera;
+    public Vector3 m_ShopNpc;
 
     public bool isUsekeyboard = true;
 
@@ -52,7 +53,7 @@ public class GameManager : BaseManager
 
         MessageServer.AddListener(EventType.FinishSceneLoad, StartGame);
         MessageServer.AddListener(EventType.NextLevel, NextLevel);
-        //Mes
+        MessageServer.AddListener(EventType.EndGame, GameOver);
         base.Init();
     }
 
@@ -68,25 +69,22 @@ public class GameManager : BaseManager
         playerController = player.transform.GetComponent<PlayerController>();
         playState.Init();
         playerController.Init();
+        
+        NewLevelMap();
+    }
 
-
+    public void NewLevelMap()
+    {
+        LevelNum++;
         playerCamera = Camera.main.gameObject.AddComponent<PlayerCamera>();
         playerCamera.Init();
         player.transform.position = m_MapManager.MakeNewMap();
-
         MessageServer.Broadcast(EventType.OpenDoor);
     }
 
     public override void EnableManager()
     {
         base.EnableManager();
-    }
-
-    private void Start()
-    {
-        //GameObject NextDoor = MessageServer.Broadcast<GameObject>(ReturnMessageType.GetGameObject, BaseData.NextDoorGameOb);
-        //NextDoor.transform.position = BaseData.NextLevelDoolPosititon;
-        //nextLevelDoor = NextDoor.GetComponent<NextLevelDoor>();
     }
 
     private void Update()
@@ -96,18 +94,20 @@ public class GameManager : BaseManager
 
     void Inputs()
     {
+        if (playState == null)
+            return;
         if (InputManager.Pause) //If player press pause button
         {
             InputManager.Pause = false; //Unpress
             isPaues = true;
             MessageServer.Broadcast(EventType.StopGame);
         }
-        if (PlayerStats.Instance.isLive)
+        if (GameManager.Instance.playState.isLive)
         {
             if (InputManager.Health) //If player press helath button
             {
                 InputManager.Health = false; //Unpress
-                PlayerStats.Instance.Health(); //Player health hp
+                GameManager.Instance.playState.Health(); //Player health hp
             }
         }
     }
@@ -116,46 +116,29 @@ public class GameManager : BaseManager
     public void GameOver()
     {
         isGameOver = true; //Game status is false, and all actions on scene is stop
-        playState.isLive = false;
-        
-    }
-
-    //Complete level method
-    public void LevelComplete()
-    {
-        MessageServer.Broadcast(EventType.NextLevel);
-        levelComplete = true; //Set bool for Check door status
-        //nextLevelDoor.lockedDoor = false; //Unlock door
-        //nextLevelDoor.CheckLockStatus(); //Check door status
     }
 
     public void NextLevel()
     {
-        Action loaded = () =>
+        if(LevelNum == 5)
         {
-            StartGame();
-        };
-        if(ScenesServer.Instance.m_currentSceneName == BaseData.FirstGameScene)
-        {
-            ScenesServer.Instance.AsyncLoadScene(BaseData.SecondGameScene, loaded);
+            MessageServer.Broadcast(EventType.GameFinish);
         }
         else
         {
+            Action loaded = () =>
+                    {
+                        m_MapManager.PushMapToPool();
+                        NewLevelMap();
+                    };
             ScenesServer.Instance.AsyncLoadScene(BaseData.FirstGameScene, loaded);
+            //Load next level
         }
-        m_MapManager.PushMapToPool();
-         //Load next level
-    }
-
-    public void PlayisDead()
-    {
-        playState.isLive = false;
     }
 
     public void ReturnMainMenu()
     {
-        //GameRoot.Instance.currentSceneState = new MainMenuState(GameRoot.Instance);
-        //SaveManager.Save();
-        //GameRoot.Instance.currentSceneState.EnterScene();
+        GameRoot.Instance.ChangeSceneState(new MainMenuState());
+        SaveServer.Save();
     }
 }

@@ -28,7 +28,6 @@ public enum EventType
     ShowDialog,
     CloseDialog,
 
-
     UpdateUI,
 
     NextLevel,
@@ -50,6 +49,8 @@ public enum EventType
     CloseDoor,
 
     FinishSceneLoad,
+
+    AddGun,
 }
 
 public enum ReturnMessageType
@@ -57,6 +58,8 @@ public enum ReturnMessageType
     GetGameObject,
     GetUIObject,
     GetMonsterInfor,
+    GetShopInfor,
+    GetSprite,
 }
 
 public enum InteractionShowType
@@ -69,6 +72,7 @@ public enum InteractionShowType
 public delegate void CallBack();
 public delegate void CallBack<T>(T arg);
 public delegate T ReturnCallBack<T>();
+public delegate T ReturnCallBack<T, Z>(Z arg1);
 public delegate T ReturnCallBack<T,Z,F>(Z arg1, F arg2);
 public delegate void CallBack<T, X>(T arg1, X arg2);
 public delegate void CallBack<T, X, Y>(T arg1, X arg2, Y arg3);

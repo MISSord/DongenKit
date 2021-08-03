@@ -9,8 +9,8 @@ public class AIStats : MonoBehaviour
     public AIController aiController;
     AICanvas aICanvas;
     SpriteRenderer aiSprite;
-    AudioSource audioSource;
     public int ID = 0;
+    private bool isInit = false;
 
     public bool isAttackState = false;
 
@@ -27,15 +27,29 @@ public class AIStats : MonoBehaviour
     public void Init(int ab, int m_ID, SingltonMap sing)
     {
         m_singlton = sing;
+        HP = new DoubleFloat(ab, ab);
+        ID = m_ID;
+        if (isInit)
+        {
+            ResetItem();
+            return;
+        }
         aiSprite = GetComponentInChildren<SpriteRenderer>();
         aICanvas = GetComponentInChildren<AICanvas>();
         aiController = GetComponent<AIController>();
-        HP = new DoubleFloat(ab,ab);
-        ID = m_ID;
+        
         onDeath = () => {
             MessageServer.Broadcast<int>(EventType.EnemyDeath, ID);
-            MessageServer.Broadcast<GameObject>(EventType.PushToPool,this.transform.gameObject);
+            AssetServer.Instance.PushObjectToPool(this.transform.gameObject);
         };
+        isInit = true;
+    }
+
+    private void ResetItem()
+    {
+        aiSprite.color = Color.white;
+        aICanvas.UpdateUI();
+        aiController.canMove = false;
     }
 
     public void StartGame()
@@ -61,15 +75,17 @@ public class AIStats : MonoBehaviour
         HP.current -= damage; //damage
         aICanvas.UpdateUI(); //Update AI ui (hp bar)
         MessageServer.Broadcast<string, bool>(EventType.PlayMusicOrBG, BaseData.EnemyDamage, false); //play damage sound
-        StartCoroutine(damageEffect.Damage(aiSprite)); 
         if (HP.current <= 0) //if HP < 0 Death
-        {        
+        {
             Death();
+            return;
         }
+        StartCoroutine(damageEffect.Damage(aiSprite)); 
+        
         //Start damage effect
     }
 
-    void Death()
+    public void Death()
     {
         if (onDeath != null)
             onDeath(); // Death event

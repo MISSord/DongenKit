@@ -154,6 +154,12 @@ public class MessageServer
         m_ReturnTable[eventType] = (ReturnCallBack<T>)m_ReturnTable[eventType] + callBack;
     }
 
+    public static void AddListener<T,Z>(ReturnMessageType eventType, ReturnCallBack<T,Z> callBack)
+    {
+        OnListenerAdding(eventType, callBack);
+        m_ReturnTable[eventType] = (ReturnCallBack<T,Z>)m_ReturnTable[eventType] + callBack;
+    }
+
     public static void AddListener<T,Z,F>(ReturnMessageType eventType, ReturnCallBack<T,Z,F> callBack)
     {
         OnListenerAdding(eventType, callBack);
@@ -324,6 +330,27 @@ public class MessageServer
                 return default(T);
                 throw new Exception(string.Format("广播事件错误：事件{0}对应委托具有不同的类型", eventType));
                 
+            }
+        }
+        return default(T);
+    }
+
+    public static T Broadcast<T, Z>(ReturnMessageType eventType, Z arg1)
+    {
+        Delegate d;
+        if (m_ReturnTable.TryGetValue(eventType, out d))
+        {
+            ReturnCallBack<T, Z> callBack = d as ReturnCallBack<T, Z>;
+            if (callBack != null)
+            {
+                T item = callBack(arg1);
+                return item;
+            }
+            else
+            {
+                return default(T);
+                throw new Exception(string.Format("广播事件错误：事件{0}对应委托具有不同的类型", eventType));
+
             }
         }
         return default(T);

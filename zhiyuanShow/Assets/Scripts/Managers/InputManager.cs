@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class InputManager
 {
-
     public static Vector2 dir { get { return Vector2.ClampMagnitude( new Vector2(Horizontal, Vertical),1f); } }
     public static Vector2 dirOne = VirtualJoystick.joystickMoveDir;
 
@@ -68,7 +67,7 @@ public class InputManager
 public class InputSettings
 {
     //List of KeyCodes
-    public static KeyCode InteractionKey { get { return KeyCode.Alpha2; } } //Here you can add or edit control settings
+    public static KeyCode InteractionKey { get { return KeyCode.E; } } //Here you can add or edit control settings
     public static string AttackKey { get { return "Attack"; } } //string for Unity Input system(Edit-Projects settings-Input) 
     public static KeyCode PauseKey { get { return KeyCode.Escape; } }
     public static KeyCode HealthKey { get { return KeyCode.Alpha1; } }

@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Rocket : MonoBehaviour
 {
     public float lerp;
-    public float speed = 15;
-    public string explosionname;
+    public float speed = 20;
+    private string explosionname;
     new private Rigidbody2D rigidbody;
     private Vector3 targetPos;
     private Vector3 direction;
     private bool arrived;
-    private float damageRange = 100;
+    private float damageRange = 20;
 
     private void Awake()
     {
@@ -41,28 +42,34 @@ public class Rocket : MonoBehaviour
         }
     }
 
+    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag != "Enemy" && other.gameObject.tag != "Obstacle")
+        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Obstacle")
         {
-            return;
-        }
-        if (other.gameObject.tag == "Enemy")
-        {
-            AIStats enemy = other.gameObject.GetComponent<AIStats>();
-            //GameManager.Instance.TakeDamageToEnemy(enemy.ID, damageRange);
-        }
-        //GameObject exp = ObjectManager.Instance.GetObject(explosionname);
-        //exp.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        //exp.transform.position = transform.position;
+            if (other.gameObject.tag == "Enemy")
+            {
+                AIStats enemy = other.gameObject.GetComponent<AIStats>();
+                enemy.TakingDamage(damageRange);
+            }
 
-        rigidbody.velocity = Vector2.zero;
-        StartCoroutine(Push(gameObject, 0.3f));
+            Action<GameObject> exp = (GameObject expobj) =>
+            {
+                expobj.transform.position = transform.position;
+                expobj.transform.localScale = Vector3.one;
+            };
+
+            MessageServer.Broadcast<string, Action<GameObject>>(EventType.GetAndSetGameObject, explosionname, exp);
+
+            rigidbody.velocity = Vector2.zero;
+            StartCoroutine(Push(gameObject, 0.3f));
+        }
     }
 
     IEnumerator Push(GameObject _object, float time)
     {
         yield return new WaitForSeconds(time);
-        ObjectManager.Instance.PushObject(_object);
+        AssetServer.Instance.PushObjectToPool(_object);
     }
 }

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-    public class DoorKey : Item
+public class DoorKey : Item
+{
+    [Header("Settings")]
+    public int keyID;
+
+    public void OnPickedUp()
     {
-        [Header("Settings")]
-        public int keyID;
+        GameManager.Instance.playState.doorKeys.Add(keyID, true);
 
-        public void OnPickedUp()
-        {
-            PlayerStats.Instance.doorKeys.Add(keyID, true);
-
-            //GameManager.Instance.uiGameManager.UpdateUI(); //Update UI
-        }
-
-        public override void OnTriggerEnter2D(Collider2D collision)
-        {
-            onPickedUp += OnPickedUp;
-            base.OnTriggerEnter2D(collision);
-        }
+        //GameManager.Instance.uiGameManager.UpdateUI(); //Update UI
     }
+
+    public override void OnTriggerEnter2D(Collider2D collision)
+    {
+        onPickedUp += OnPickedUp;
+        base.OnTriggerEnter2D(collision);
+    }
+}

@@ -17,7 +17,7 @@ public class Gun : MonoBehaviour, IGun
     protected float timer;
     protected float flipY;
     protected Animator animator;
-    protected PlayerCombatManager playCombatManager;
+    protected InteractionTrigger m_interactionTrigger;
 
     public virtual void Init()
     {
@@ -29,11 +29,32 @@ public class Gun : MonoBehaviour, IGun
         {
             shellPos.localPosition = BaseData.BulletShellPosition;
         }
-
         flipY = transform.localScale.y;
         bulletname = BaseData.Bullet;
         shellname = BaseData.BulletShell;
-        playCombatManager = null;//GameManager.Instance.playerCombatManager;
+    }
+
+    public void Start()
+    {
+        m_interactionTrigger = GetComponent<InteractionTrigger>();
+        m_interactionTrigger.Init();
+    }
+
+    private void Update()
+    {
+        if (m_interactionTrigger.inTrigger)//if player in trigger
+        {
+            if (InputManager.Interaction) // if player press Interaction button
+            {
+                InputManager.Interaction = false;
+                PickGun(); //Interaction
+            }
+        }
+    }
+
+    private void PickGun()
+    {
+        MessageServer.Broadcast<GameObject>(EventType.AddGun, this.transform.gameObject);
     }
 
     public virtual void UpdateGunPosture()
@@ -91,5 +112,10 @@ public class Gun : MonoBehaviour, IGun
         };
 
         MessageServer.Broadcast<string, Action<GameObject>>(EventType.GetAndSetGameObject, shellname, item);
+    }
+
+    public void FadeGun()
+    {
+        
     }
 }

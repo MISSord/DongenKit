@@ -34,8 +34,6 @@ public class AIController : MonoBehaviour
         startPosition = transform.position; //cached start position
     }
 
-
-
     private void Update()
     {
         if (canMove) // check for pause and game state

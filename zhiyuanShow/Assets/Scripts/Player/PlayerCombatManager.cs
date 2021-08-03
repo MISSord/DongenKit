@@ -26,10 +26,12 @@ public class PlayerCombatManager : MonoBehaviour
             gunNum = 0;
         }   
         GunInit();
+        MessageServer.AddListener<GameObject>(EventType.AddGun, AddWeapon);
     }
 
     private void GunInit()
     {
+        guns.Clear();
         for (int i = 0; i < gunGameObjects.Count ; i++)
         {
             if (gunGameObjects[i] == null)
@@ -48,7 +50,7 @@ public class PlayerCombatManager : MonoBehaviour
 
     private void Update() //Every frame
     {
-        if (PlayerStats.Instance.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
+        if (GameManager.Instance.playState.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
         {
             SwitchGun();
             guns[gunNum].UpdateGunPosture();
@@ -171,6 +173,7 @@ public class PlayerCombatManager : MonoBehaviour
     {
         gunGameObjects.Add(weapon);
         gunNum = gunGameObjects.Count - 1;
+        weapon.transform.SetParent(player.GetChild(1));
         GunInit();
     }
 

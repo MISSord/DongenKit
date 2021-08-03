@@ -1,0 +1,44 @@
+﻿[
+    {
+      "itemname": "bottle",
+      "price": 1,
+      "spriteId": "DungeonTile/HpBottle",
+      "prefabName": "",
+      "ID": 0
+    },
+    {
+      "itemname": "pistol",
+      "price": 10,
+      "spriteId": "Weapons/Weapons2/pistol",
+      "prefabName": "Player/PlayerWeapon/Pistol",
+      "ID": 1
+    },
+    {
+      "itemname": "Rocket launcher",
+      "price": 10,
+      "spriteId": "Weapons/Weapons3/Rocket",
+      "prefabName": "Player/PlayerWeapon/RocketLauncher",
+      "ID": 2
+    },
+    {
+      "itemname": "Shotgun",
+      "price": 10,
+      "spriteId": "Weapons/Weapons2/Shotgun",
+      "prefabName": "Player/PlayerWeapon/Shotgun",
+      "ID": 3
+    },
+    {
+      "itemname": "Lasergun",
+      "price": 10,
+      "spriteId": "Weapons/Weapons3/Lasergun",
+      "prefabName": "Player/PlayerWeapon/Lasergun",
+      "ID": 4
+    },
+    {
+      "itemname": "Rifle",
+      "price": 10,
+      "spriteId": "Weapons/Weapons2/Rifle",
+      "prefabName": "Player/PlayerWeapon/Rifle",
+      "ID": 5
+    }
+  ]

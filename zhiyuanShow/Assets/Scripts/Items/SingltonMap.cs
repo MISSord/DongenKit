@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SingltonMap : MonoBehaviour
+public class SingltonMap 
 {
     public bool isPlaying = false;
     public List<AIStats> m_MonsterAIStats;
@@ -13,7 +13,7 @@ public class SingltonMap : MonoBehaviour
     public void Init(Vector3 parent)
     {
         m_LeftDown = parent + new Vector3(-9, -5, 0);
-        m_RightUp = parent + new Vector3(13, 4, 0);
+        m_RightUp = parent + new Vector3(13, 11, 0);
     }
 
     public bool IsInside(Vector3 target)
@@ -29,7 +29,7 @@ public class SingltonMap : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (isFinishThis)
         {
@@ -74,15 +74,24 @@ public class SingltonMap : MonoBehaviour
         }
     }
 
+    public void NextLevel()
+    {
+        foreach(AIStats item in m_MonsterAIStats)
+        {
+            if(item != null)
+               item.Death();
+        }
+        m_MonsterAIStats.Clear();
+        isPlaying = false;
+        isFinishThis = false;
+    }
+
     public void DeadEnemy(int id)
     {
         m_MonsterAIStats[id] = null;
-        Debug.Log(m_MonsterAIStats.Count);
-        Debug.Log(id);
         if (IsFinishThisLevel())
         {
             MessageServer.Broadcast(EventType.OpenDoor);
-
             MessageServer.RemoveListener<int>(EventType.EnemyDeath, DeadEnemy);
             MessageServer.RemoveListener(EventType.ContinueGame, ContinuetGame);
             MessageServer.RemoveListener(EventType.StopGame,StopGame);

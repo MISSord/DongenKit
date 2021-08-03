@@ -17,8 +17,8 @@ public class BaseData
     public static Vector3 offset = new Vector3(0, 0, -10);
 
 
-    public static float bulletMinDamage = 30;
-    public static float bulletMaxDamage = 50;
+    public static float bulletMinDamage = 50;
+    public static float bulletMaxDamage = 100;
 
     public static string UI = "UI";
     public static float DamageTime = 1.0f;
@@ -74,6 +74,7 @@ public class BaseData
     #region UI
     public static readonly string HealthPoint = "HealthPoint";
     public static readonly string DamageText = "DamageText";
+    public static readonly string Shopitem = "Item";
     #endregion
 
     #region 音乐
@@ -121,8 +122,10 @@ public class BaseData
     public static readonly string WallRight = "Items/WallRight";
     public static readonly string WallDown = "Items/WallDown";
 
-    public static readonly string DoorY = "Items/Door2";
-    public static readonly string DoorX = "Items/Door";
+    public static readonly string Door1 = "Items/Door1";
+    public static readonly string Door2 = "Items/Door2";
+    public static readonly string Door3 = "Items/Door3";
+    public static readonly string Door4 = "Items/Door4";
     //public static readonly string MapOne = "Map/A1200";
 
     public static string GetAIName(string name)

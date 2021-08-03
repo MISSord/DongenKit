@@ -3,35 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-    public class NPC : MonoBehaviour
+public class NPC : MonoBehaviour
+{
+    public DialogConfig dialogConfig; //config containing the text of the dialogue
+
+    InteractionTrigger interactionTrigger; // interaction trigger
+
+    private void Start()
     {
-        public DialogConfig dialogConfig; //config containing the text of the dialogue
+        interactionTrigger = GetComponent<InteractionTrigger>();
+        interactionTrigger.Init();
+    }
 
-        InteractionTrigger interactionTrigger; // interaction trigger
-
-        private void Start()
+    private void Update()
+    {
+        if (interactionTrigger.inTrigger)//if player in trigger
         {
-            interactionTrigger = GetComponent<InteractionTrigger>();
-            interactionTrigger.Init();
-        }
-
-        private void Update()
-        {
-            if (interactionTrigger.inTrigger)//if player in trigger
+            if (InputManager.Interaction) // if player press Interaction button
             {
-                if (InputManager.Interaction) // if player press Interaction button
-                {
-                    InputManager.Interaction = false;
-                    Interaction(); //Interaction
-                }
+                InputManager.Interaction = false;
+                Interaction(); //Interaction
             }
         }
-
-        //Interaction method
-        void Interaction()
-        {
-            MessageServer.Broadcast<DialogConfig>(EventType.ShowDialog,dialogConfig); //Show dialog UI
-        }
-
     }
+
+    //Interaction method
+    void Interaction()
+    {
+        MessageServer.Broadcast<DialogConfig>(EventType.ShowDialog, dialogConfig); //Show dialog UI
+        //MessageServer.Broadcast(EventType.StopGame);
+    }
+
+}
 

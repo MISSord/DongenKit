@@ -31,6 +31,8 @@ public class AssetServer : MonoBehaviour
         MessageServer.AddListener<string,bool>(EventType.PlayMusicOrBG, GetAudioClip);
         MessageServer.AddListener<string>(EventType.AddManager, GetManager);
 
+        MessageServer.AddListener<Sprite,string>(ReturnMessageType.GetSprite, GetSprite);
+
         //复杂操作
         MessageServer.AddListener<GameObject,string,bool>(ReturnMessageType.GetGameObject, GetGameObjectFromPool);
         MessageServer.AddListener<GameObject, string, bool>(ReturnMessageType.GetUIObject, GetUIObjectFromPool);
@@ -83,6 +85,11 @@ public class AssetServer : MonoBehaviour
     public void GetAudioClip(string path,bool isLoop)
     {
         GameRoot.Instance.PlayMusicOrBG(m_ResourceManager.GetAudioClipResource(path), isLoop);
+    }
+
+    public Sprite GetSprite(string path)
+    {
+        return m_ResourceManager.GetSpriteResource(path);
     }
 
 }

@@ -6,12 +6,12 @@ using DG.Tweening;
 
 public class Door : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
+    SpriteRenderer[] spriteRenderer;
     Collider2D doorColliders;
 
     public void Init()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentsInChildren<SpriteRenderer>();
         doorColliders = GetComponent<Collider2D>();
 
         MessageServer.AddListener(EventType.OpenDoor,OpenDoor);
@@ -20,17 +20,26 @@ public class Door : MonoBehaviour
 
     void OpenDoor()
     {
-        spriteRenderer.DOFade(0f, 1.0f).OnComplete(()=> { 
-            doorColliders.enabled = false;
-        });
+        for(int i = 0; i < spriteRenderer.Length; i++)
+        {
+            spriteRenderer[i].DOFade(0f, 1.0f).OnComplete(() =>
+            {
+                doorColliders.enabled = false;
+            });
+        }
         
     }
 
     void CloseDoor()
     {
-        spriteRenderer.DOFade(1f, 1.0f).OnComplete(()=>{ 
-            doorColliders.enabled = true;
-        });
+
+        for (int i = 0; i < spriteRenderer.Length; i++)
+        {
+            spriteRenderer[i].DOFade(1f, 1.0f).OnComplete(() =>
+            {
+                doorColliders.enabled = true;
+            });
+        }
     }
 
 }

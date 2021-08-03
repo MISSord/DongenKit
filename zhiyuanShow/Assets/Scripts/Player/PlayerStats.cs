@@ -8,27 +8,14 @@ using UnityEngine;
 /// </summary>
 public class PlayerStats : MonoBehaviour
 {
-    private static PlayerStats instance; //Singleton
-
-    public static PlayerStats Instance
-    {
-        get
-        {
-            if(instance == null)
-            {
-                instance = new PlayerStats();
-            }
-            return instance;
-        }
-    }
     public PlayerCombatManager m_combatManager;
 
     //[HideInInspector] 
     public DamageEffect damageEffect; //Damage effect
 
     [Header("Variables")]
-    public DoubleInt HP = new DoubleInt(3, 3);
-    public int money = 0;
+    public DoubleInt HP = new DoubleInt(10,10);
+    public int money = 100;
     public int bottles = 0;
     public Dictionary<int, bool> doorKeys = new Dictionary<int, bool>();
 
@@ -61,7 +48,7 @@ public class PlayerStats : MonoBehaviour
 
             HP.current -= 1; 
 
-            MessageServer.Broadcast<PlayerStats>(EventType.UpdateUI, this); //Update UI
+            MessageServer.Broadcast(EventType.UpdateUI); //Update UI
 
             StartCoroutine(damageEffect.Damage(playerSprite)); //Damage effect
 
@@ -70,8 +57,6 @@ public class PlayerStats : MonoBehaviour
             if (HP.current <= 0) //If hp < 0
             {
                 Death(); //Lose 
-                isLive = false;
-                MessageServer.Broadcast(EventType.EndGame);
             }
         }
     }
@@ -90,8 +75,8 @@ public class PlayerStats : MonoBehaviour
     //Death method
     void Death()
     {
-        GameManager.Instance.GameOver(); //Game over in gamemanager
-        //Destroy(gameObject); //Destroy this GameObject
+        isLive = false;
+        MessageServer.Broadcast(EventType.EndGame);
     }
 
     IEnumerator timeDamage()

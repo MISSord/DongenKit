@@ -7,16 +7,28 @@ public class MapManager : BaseManager
     public int[,] m_Map;
     public SingltonMapInfor[,] m_MapInfor;
     public int m_MapLength = 0;
-    public AIStats[] m_MonsterStats;
-    public SingltonMap[] m_MapLevel;
+    public List<SingltonMap> m_MapLevel;
     public int[,] m_Occupy;
     public Vector3 m_playerBorn;
     public List<GameObject> m_Mapitem;
     public List<GameObject> m_DoorItem;
 
-    public void Init()
+    protected ClassObjectPool<SingltonMap> m_SingltonMapPool = ObjectManager.Instance.GetOrCreatClassPool<SingltonMap>(30);
+
+    public override void Init()
     {
-        //MessageServer.AddListener(EventType.NextLevel,PushMapToPool)
+        
+    }
+
+    public void Update()
+    {
+        for(int i = 0;i < m_MapLevel.Count; i++)
+        {
+            if(m_MapLevel[i] != null)
+            {
+                m_MapLevel[i].Update();
+            }
+        }
     }
 
     public Vector3 MakeNewMap()
@@ -82,10 +94,18 @@ public class MapManager : BaseManager
         {
             AssetServer.Instance.PushObjectToPool(item);
         }
+        m_Mapitem.Clear();
         foreach(GameObject item in m_DoorItem)
         {
             AssetServer.Instance.PushObjectToPool(item);
         }
+        m_DoorItem.Clear();
+        foreach(SingltonMap item in m_MapLevel)
+        {
+            item.NextLevel();
+            m_SingltonMapPool.Recycle(item);
+        }
+        m_MapLevel.Clear();
     }
 
     public void ReSetZero()
@@ -200,18 +220,7 @@ public class MapManager : BaseManager
     //按照最终的地图生成地图实例
     public void InstantiteMap()
     {
-        int ab = 0;
-        for (int i = 0; i < m_MapLength; i++)
-        {
-            for (int j = 0; j < m_MapLength; j++)
-            {
-                if (m_Map[i, j] != 0)
-                {
-                    ab++;
-                }
-            }
-        }
-        m_MapLevel = new SingltonMap[ab];
+        m_MapLevel = new List<SingltonMap>();
 
         for (int i = 0; i < m_MapLength; i++)
         {
@@ -223,8 +232,6 @@ public class MapManager : BaseManager
                 }
             }
         }
-
-        
     }
 
     public void InstantiteSingletonMap(int X, int Y)
@@ -234,24 +241,24 @@ public class MapManager : BaseManager
         {
             item = MessageServer.Broadcast<GameObject, string, bool>(ReturnMessageType.GetGameObject, BaseData.MapStart, false);
             SetDoorOrWall(m_MapInfor[X, Y], item.transform);
-            item.transform.position = new Vector3(X * 26f, Y * 13f, 0);
+            item.transform.position = new Vector3(X * 26f, Y * 20f, 0);
             m_playerBorn = item.transform.Find("Born").gameObject.transform.position;
         }
         else if (m_Map[X, Y] == 4)
         {
             item = MessageServer.Broadcast<GameObject, string, bool>(ReturnMessageType.GetGameObject, BaseData.MapEnd, false);
             SetDoorOrWall(m_MapInfor[X, Y], item.transform);
-            item.transform.position = new Vector3(X * 26f, Y * 13f, 0);
-            //item.transform.Find("NextLevelDoor").gameObject;
+            item.transform.position = new Vector3(X * 26f, Y * 20f, 0);
         }
         else
         {
             item = MessageServer.Broadcast<GameObject, string, bool>(ReturnMessageType.GetGameObject, BaseData.MapOne, false);
             SetDoorOrWall(m_MapInfor[X, Y], item.transform);
-            item.transform.position = new Vector3(X * 26f, Y * 13f, 0);
-            SingltonMap singltonMap = item.AddComponent<SingltonMap>();
+            item.transform.position = new Vector3(X * 26f, Y * 20f, 0);
+            SingltonMap singltonMap = m_SingltonMapPool.Spawn(true);
             singltonMap.m_MonsterAIStats = new List<AIStats>();
             singltonMap.Init(item.transform.position);
+            m_MapLevel.Add(singltonMap);
             m_MapInfor[X, Y].singltonMonster = MessageServer.Broadcast<SingltonMonsterInfor>(ReturnMessageType.GetMonsterInfor);
             InstanceSingltMonster(singltonMap, m_MapInfor[X, Y].singltonMonster, item.transform);
             ReSetZero();
@@ -263,42 +270,42 @@ public class MapManager : BaseManager
     {
         if (map.m_isDoor[0])
         {
-            SetDoor(new Vector3(2f, 4.5f, 0), item.transform, BaseData.DoorX);
+            SetDoor(new Vector3(2f, 11.5f, 0), item.transform, BaseData.Door1);
         }
         else
         {
-            SetDoor(new Vector3(1.5f, 4.5f, 0), item.transform, BaseData.WallUp);
+            SetDoor(new Vector3(1.4f, 11.5f, 0), item.transform, BaseData.WallUp);
         }
         if (map.m_isDoor[1])
         {
-            SetDoor(new Vector3(13.2f, 0f, 0), item.transform, BaseData.DoorY);
+            SetDoor(new Vector3(13.2f, 3f, 0), item.transform, BaseData.Door2);
         }
         else
         {
-            SetDoor(new Vector3(13.5f, 0.5f, 0), item.transform, BaseData.WallRight);
+            SetDoor(new Vector3(13f, 4f, 0), item.transform, BaseData.WallRight);
         }
         if (map.m_isDoor[2])
         {
-            SetDoor(new Vector3(2f, -5.5f, 0), item.transform, BaseData.DoorX);
+            SetDoor(new Vector3(2f, -5.5f, 0), item.transform, BaseData.Door3);
         }
         else
         {
-            SetDoor(new Vector3(1.5f, -5.5f, 0), item.transform, BaseData.WallDown);
+            SetDoor(new Vector3(1.4f, -5.5f, 0), item.transform, BaseData.WallDown);
         }
         if (map.m_isDoor[3])
         {
-            SetDoor(new Vector3(-9.2f, 0f, 0), item.transform, BaseData.DoorY);
+            SetDoor(new Vector3(-9.2f, 3f, 0), item.transform, BaseData.Door4);
         }
         else
         {
-            SetDoor(new Vector3(-10.5f, 0.5f, 0), item.transform, BaseData.WallLeft);
+            SetDoor(new Vector3(-9f, 4f, 0), item.transform, BaseData.WallLeft);
         }
     }
 
     public void SetDoor(Vector3 position, Transform parent, string DoorOrWall)
     {
         GameObject Door = MessageServer.Broadcast<GameObject, string, bool>(ReturnMessageType.GetGameObject, DoorOrWall, true);
-        if(DoorOrWall == BaseData.DoorX || DoorOrWall == BaseData.DoorY)
+        if(DoorOrWall.Contains("Door"))
         {
             Door.transform.GetComponent<Door>().Init();
         }
@@ -314,8 +321,7 @@ public class MapManager : BaseManager
         {
             int count = singltonMonster.m_MonsterList[a].amount;
             for(int i = 0; i < count; i++)
-            {
-                
+            { 
                 GameObject Monster = MessageServer.Broadcast<GameObject, string, bool>(
                     ReturnMessageType.GetGameObject,BaseData.GetAIName(singltonMonster.m_MonsterList[a].MonsterID), true);
                 Monster.transform.GetComponent<AIStats>().Init(singltonMonster.m_MonsterList[a].Hp,id,sing);

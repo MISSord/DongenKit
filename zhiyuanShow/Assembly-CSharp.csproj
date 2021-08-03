@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\AI\Types\AIMage.cs" />
     <Compile Include="Assets\Scripts\AI\Types\AIOrc.cs" />
     <Compile Include="Assets\Scripts\AI\Types\AIOrcBoss.cs" />
+    <Compile Include="Assets\Scripts\ClassObjectPool.cs" />
     <Compile Include="Assets\Scripts\Components\DontDestroyOnLoad.cs" />
     <Compile Include="Assets\Scripts\Components\InteractionCanvas.cs" />
     <Compile Include="Assets\Scripts\Components\InteractionTrigger.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Assets\Scripts\Items\HelmetOfStrength_Item.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Items\NextLevelDoor.cs" />
+    <Compile Include="Assets\Scripts\Items\ShopItem.cs" />
     <Compile Include="Assets\Scripts\Items\SingltonMap.cs" />
     <Compile Include="Assets\Scripts\Items\Solider.cs" />
     <Compile Include="Assets\Scripts\Joystick\VirtualJoystick.cs" />

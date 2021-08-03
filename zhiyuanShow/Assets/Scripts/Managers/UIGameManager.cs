@@ -45,20 +45,31 @@ public class UIGameManager : BaseManager
 
         m_interactionCanvas = transform.Find("Canvas").GetComponent<InteractionCanvas>();
         m_interactionCanvas.Init();
+
         dialogClosed += CloseShopMenu; //Add event
+
+        for(int i = 0; i < transform.GetChild(0).childCount; i++)
+        {
+            transform.GetChild(0).GetChild(i).transform.gameObject.SetActive(false);
+        }
+        transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+
+
         MessageServer.AddListener(EventType.FinishSceneLoad, StartGame);
-        MessageServer.AddListener<PlayerStats>(EventType.UpdateUI, UpdateUI);
+        MessageServer.AddListener(EventType.UpdateUI, UpdateUI);
+        MessageServer.AddListener(EventType.EndGame, GameOver);
         base.Init();
     }
 
     public void StartGame()
     {
-        playerStats = PlayerStats.Instance; //Set playerstats in static object of PlayerStats
-        UpdateUI(playerStats); //UpdateUI
+        playerStats = GameManager.Instance.playState;
+        UpdateUI(); //UpdateUI
     }
 
     //Update ui method
-    public void UpdateUI(PlayerStats  player)
+    public void UpdateUI()
     {
         if (playerStats == null)
         {
@@ -107,6 +118,7 @@ public class UIGameManager : BaseManager
         isPause = true; //set pause
         dialogGO.SetActive(true); //Show dialog screen gameobject
         dialogManager.SetDialogConfig(dialogConfig); //set config to dialog
+        ShowShopMenu();
     }
 
     //Show shop menu method
@@ -119,7 +131,6 @@ public class UIGameManager : BaseManager
     public void CloseDialogMenu()
     {
         isPause = false; //disable pause
-
         dialogClosed(this, new EventArgs()); //Activate event
         dialogGO.SetActive(false); //Disable dialog screen
     }
@@ -145,7 +156,6 @@ public class UIGameManager : BaseManager
     public void ExitGame()
     {
         //GameManager.Instance.ReturnMainMenu();
-        
     }
 
     //Check active platform

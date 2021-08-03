@@ -8,7 +8,7 @@ using UnityEngine;
 
         public void OnPickedUp()
         {
-            PlayerStats playerStats = PlayerStats.Instance;
+            PlayerStats playerStats = GameManager.Instance.playState;
 
             playerStats.HP = new DoubleInt(5,5);
             //GameManager.Instance.uiGameManager.UpdateUI();
