@@ -94,7 +94,16 @@ public class ObjectManager
         GameObject m_item = null;
         if(m_ObjectPoolManager.TryGetValue(path, out m_item))
         {
-            if (!prefab.transform.parent != m_item)
+            if (prefab.transform.parent != m_item)
+            {
+                prefab.transform.SetParent(m_item.transform);
+            }
+        }
+        else
+        {
+            NewPoolToSave(path);
+            m_ObjectPoolManager.TryGetValue(path, out m_item);
+            if (prefab.transform.parent != m_item)
             {
                 prefab.transform.SetParent(m_item.transform);
             }

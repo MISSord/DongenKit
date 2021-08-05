@@ -4,24 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-    public class AICanvas : MonoBehaviour
+public class AICanvas : MonoBehaviour
+{
+    AIStats aIStats;
+
+    [Header("Elements")]
+    public Image hpBar;
+
+    public void Init(AIStats m_stats)
     {
-        AIStats aIStats;
-
-        [Header("Elements")]
-        public Image hpBar;
-
-        private void Start()
-        {
-            aIStats = GetComponentInParent<AIStats>();
-            UpdateUI();
-        }
-
-        //Method for updating the UI
-        public void UpdateUI()
-        {
-            hpBar.fillAmount = aIStats.HP.current / aIStats.HP.max;
-        }
-
+        aIStats = m_stats;
     }
+
+    //Method for updating the UI
+    public void UpdateUI()
+    {
+        hpBar.fillAmount = aIStats.HP.current / aIStats.HP.max;
+    }
+
+}
 

@@ -64,6 +64,10 @@ public class SingltonMap
 
     public void StartGame()
     {
+        foreach(AIStats ITEM in m_MonsterAIStats)
+        {
+            Debug.Log(ITEM.transform.position);
+        }
         MessageServer.AddListener<int>(EventType.EnemyDeath, DeadEnemy);
         MessageServer.AddListener(EventType.ContinueGame, ContinuetGame);
         MessageServer.AddListener(EventType.StopGame, StopGame);
@@ -88,7 +92,16 @@ public class SingltonMap
 
     public void DeadEnemy(int id)
     {
-        m_MonsterAIStats[id] = null;
+        for(int i = 0; i < m_MonsterAIStats.Count; i++)
+        {
+            if(m_MonsterAIStats[i].ID == id)
+            {
+                m_MonsterAIStats.Remove(m_MonsterAIStats[i]);
+                break;
+            }
+        }
+        Debug.Log(m_MonsterAIStats.Count);
+
         if (IsFinishThisLevel())
         {
             MessageServer.Broadcast(EventType.OpenDoor);
@@ -103,6 +116,10 @@ public class SingltonMap
 
     public bool IsFinishThisLevel()
     {
+        if(m_MonsterAIStats.Count == 0)
+        {
+            return true;
+        }
         for(int i = 0; i < m_MonsterAIStats.Count; i++)
         {
             if(m_MonsterAIStats[i] != null)

@@ -158,15 +158,6 @@ public class PlayerCombatManager : MonoBehaviour
             }
             gunGameObjects[gunNum].SetActive(true);
         }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            gunGameObjects[gunNum].SetActive(false);
-            if (++gunNum > guns.Count - 1)
-            {
-                gunNum = 0;
-            }
-            gunGameObjects[gunNum].SetActive(true);
-        }
     }
 
     public void AddWeapon(GameObject weapon)

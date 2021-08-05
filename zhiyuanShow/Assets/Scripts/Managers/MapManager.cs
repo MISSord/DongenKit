@@ -90,7 +90,12 @@ public class MapManager : BaseManager
 
     public void PushMapToPool()
     {
-        foreach(GameObject item in m_Mapitem)
+        foreach (SingltonMap item in m_MapLevel)
+        {
+            item.NextLevel();
+            m_SingltonMapPool.Recycle(item);
+        }
+        foreach (GameObject item in m_Mapitem)
         {
             AssetServer.Instance.PushObjectToPool(item);
         }
@@ -100,11 +105,7 @@ public class MapManager : BaseManager
             AssetServer.Instance.PushObjectToPool(item);
         }
         m_DoorItem.Clear();
-        foreach(SingltonMap item in m_MapLevel)
-        {
-            item.NextLevel();
-            m_SingltonMapPool.Recycle(item);
-        }
+        
         m_MapLevel.Clear();
     }
 
@@ -256,14 +257,18 @@ public class MapManager : BaseManager
             SetDoorOrWall(m_MapInfor[X, Y], item.transform);
             item.transform.position = new Vector3(X * 26f, Y * 20f, 0);
             SingltonMap singltonMap = m_SingltonMapPool.Spawn(true);
-            singltonMap.m_MonsterAIStats = new List<AIStats>();
+            if(singltonMap.m_MonsterAIStats == null)
+            {
+                singltonMap.m_MonsterAIStats = new List<AIStats>();
+            }
             singltonMap.Init(item.transform.position);
             m_MapLevel.Add(singltonMap);
             m_MapInfor[X, Y].singltonMonster = MessageServer.Broadcast<SingltonMonsterInfor>(ReturnMessageType.GetMonsterInfor);
             InstanceSingltMonster(singltonMap, m_MapInfor[X, Y].singltonMonster, item.transform);
             ReSetZero();
         }
-        m_Mapitem.Add(item);
+        if(item != null) 
+            m_Mapitem.Add(item);
     }
 
     public void SetDoorOrWall(SingltonMapInfor map, Transform item)
@@ -324,10 +329,20 @@ public class MapManager : BaseManager
             { 
                 GameObject Monster = MessageServer.Broadcast<GameObject, string, bool>(
                     ReturnMessageType.GetGameObject,BaseData.GetAIName(singltonMonster.m_MonsterList[a].MonsterID), true);
-                Monster.transform.GetComponent<AIStats>().Init(singltonMonster.m_MonsterList[a].Hp,id,sing);
+                if(Monster == null)
+                {
+                    continue;
+                }
+                if (Monster.transform.GetComponent<AIStats>().SetData(singltonMonster.m_MonsterList[a].Hp, id, sing))
+                {
+                    sing.m_MonsterAIStats.Add(Monster.transform.GetComponent<AIStats>());
+                }
+                else
+                {
+                    continue;
+                }
                 Monster.transform.parent = parent;
                 Monster.transform.localPosition = GetTruePosititon();
-                sing.m_MonsterAIStats.Add(Monster.transform.GetComponent<AIStats>());
                 id++;
             }
         }

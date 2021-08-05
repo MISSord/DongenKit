@@ -11,10 +11,8 @@ public class AIStats : MonoBehaviour
     SpriteRenderer aiSprite;
     public int ID = 0;
     private bool isInit = false;
-
     public bool isAttackState = false;
 
-        //Event
     public delegate void DeathAction(); // AI Death Event
     public event DeathAction onDeath;
 
@@ -24,32 +22,39 @@ public class AIStats : MonoBehaviour
     [Header("Settings")]
     public DoubleFloat HP; //DoubleFloat(currentHP,maxHP)
 
-    public void Init(int ab, int m_ID, SingltonMap sing)
+    private void Init()
     {
-        m_singlton = sing;
-        HP = new DoubleFloat(ab, ab);
-        ID = m_ID;
-        if (isInit)
-        {
-            ResetItem();
-            return;
-        }
         aiSprite = GetComponentInChildren<SpriteRenderer>();
         aICanvas = GetComponentInChildren<AICanvas>();
+        aICanvas.Init(this);
         aiController = GetComponent<AIController>();
         
         onDeath = () => {
+            m_singlton = null;
+            ID = 0;
             MessageServer.Broadcast<int>(EventType.EnemyDeath, ID);
             AssetServer.Instance.PushObjectToPool(this.transform.gameObject);
         };
-        isInit = true;
     }
 
-    private void ResetItem()
+    public bool SetData(int ab, int m_ID, SingltonMap sing)
     {
+        if(m_singlton != null)
+        {
+            return false;
+        }
+        m_singlton = sing;
+        HP = new DoubleFloat(ab, ab);
+        ID = m_ID;
+        if (!isInit)
+        {
+            Init();
+            isInit = true;
+        }
         aiSprite.color = Color.white;
         aICanvas.UpdateUI();
         aiController.canMove = false;
+        return true;
     }
 
     public void StartGame()
