@@ -79,6 +79,8 @@
     <Compile Include="Assets\Scripts\Components\InteractionCanvas.cs" />
     <Compile Include="Assets\Scripts\Components\InteractionTrigger.cs" />
     <Compile Include="Assets\Scripts\Components\LevelMusicZoneTrigger.cs" />
+    <Compile Include="Assets\Scripts\Config\MonsterInfor.cs" />
+    <Compile Include="Assets\Scripts\Config\PlayerInfor.cs" />
     <Compile Include="Assets\Scripts\Effects\DamageEffect.cs" />
     <Compile Include="Assets\Scripts\Factory\BaseFactory.cs" />
     <Compile Include="Assets\Scripts\Factory\FactoryManager.cs" />
@@ -110,7 +112,6 @@
     <Compile Include="Assets\Scripts\Managers\ShopManager.cs" />
     <Compile Include="Assets\Scripts\Managers\UIGameManager.cs" />
     <Compile Include="Assets\Scripts\Math\DoubleFloat.cs" />
-    <Compile Include="Assets\Scripts\MonsterInfor.cs" />
     <Compile Include="Assets\Scripts\ObjectManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCamera.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCombatManager.cs" />

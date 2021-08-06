@@ -35,7 +35,6 @@ public class BaseData
     #region 场景名称
     public static readonly string FirstGameScene = "Lvl_0";
     public static readonly string SecondGameScene = "Lvl_1";
-    public static readonly string GameUI = "GameUI";
     public static readonly string MainMenuScene = "MainMenu";
     #endregion
 
@@ -56,7 +55,7 @@ public class BaseData
     #region 游戏场景道具
     public static readonly string NextDoorGameOb = "NextLevelDoor";
     public static readonly string Player = "Player/Player";
-
+    public static readonly string Coin = "Items/Coin";
     #endregion
 
     #region
@@ -87,6 +86,10 @@ public class BaseData
     public static readonly string CoinUp = "Sound/Pickup_Coin69";
     public static readonly string PlayerDamage = "Sound/PlayerDamage";
     #endregion
+
+    public static readonly string inforLoad = Application.dataPath + @"/Resources/playerInfor.json";
+    public static readonly string ShopInfor = Application.dataPath + "/Config/ShopItem.json";
+    public static readonly string MonsterInfor = Application.dataPath + "/Config/AllMonster.json";
 
 
     public static readonly int[,] m_Map1 = new int[5, 5]{

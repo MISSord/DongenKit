@@ -25,6 +25,7 @@ public class ScenesServer : MonoBehaviour
         {
             Instance = new ScenesServer();
         }
+        m_currentSceneName = BaseData.MainMenuScene;
     }
 
     //Method to add a scene to the background

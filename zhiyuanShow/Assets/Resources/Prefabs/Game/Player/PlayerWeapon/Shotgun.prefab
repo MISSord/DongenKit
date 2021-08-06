@@ -119,8 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c4121a91681da42af23ce800d24937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interval: 1
-  bulletNum: 3
+  interval: 0.2
+  bulletNum: 4
   bulletAngle: 15
 --- !u!114 &8443443130262801749
 MonoBehaviour:

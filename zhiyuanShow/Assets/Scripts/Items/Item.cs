@@ -29,8 +29,6 @@ public class Item : MonoBehaviour
                     MessageServer.Broadcast<string, bool>(EventType.PlayMusicOrBG, BaseData.CoinUp, false); //play pickup coin sound
                     break;
             }
-
-            //Destroy(gameObject); // Destroy this GameObject
         }
     }
 

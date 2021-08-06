@@ -12,6 +12,7 @@ public class MapManager : BaseManager
     public Vector3 m_playerBorn;
     public List<GameObject> m_Mapitem;
     public List<GameObject> m_DoorItem;
+    private int Level;
 
     protected ClassObjectPool<SingltonMap> m_SingltonMapPool = ObjectManager.Instance.GetOrCreatClassPool<SingltonMap>(30);
 
@@ -31,10 +32,10 @@ public class MapManager : BaseManager
         }
     }
 
-    public Vector3 MakeNewMap()
+    public Vector3 MakeNewMap(int LevelNum)
     {
         m_Occupy = new int[20, 7];
-
+        Level = LevelNum;
         ReSetZero();
 
         int ia = Random.Range(1, 3);
@@ -263,7 +264,7 @@ public class MapManager : BaseManager
             }
             singltonMap.Init(item.transform.position);
             m_MapLevel.Add(singltonMap);
-            m_MapInfor[X, Y].singltonMonster = MessageServer.Broadcast<SingltonMonsterInfor>(ReturnMessageType.GetMonsterInfor);
+            m_MapInfor[X, Y].singltonMonster = MessageServer.Broadcast<SingltonMonsterInfor,int>(ReturnMessageType.GetMonsterInfor,Level);
             InstanceSingltMonster(singltonMap, m_MapInfor[X, Y].singltonMonster, item.transform);
             ReSetZero();
         }
@@ -327,13 +328,14 @@ public class MapManager : BaseManager
             int count = singltonMonster.m_MonsterList[a].amount;
             for(int i = 0; i < count; i++)
             { 
-                GameObject Monster = MessageServer.Broadcast<GameObject, string, bool>(
-                    ReturnMessageType.GetGameObject,BaseData.GetAIName(singltonMonster.m_MonsterList[a].MonsterID), true);
+                GameObject Monster = AssetServer.Instance.GetGameObjectFromPool(
+                    BaseData.GetAIName(singltonMonster.m_MonsterList[a].MonsterID),true);
                 if(Monster == null)
                 {
                     continue;
                 }
-                if (Monster.transform.GetComponent<AIStats>().SetData(singltonMonster.m_MonsterList[a].Hp, id, sing))
+                if (Monster.transform.GetComponent<AIStats>().SetData(singltonMonster.m_MonsterList[a].Hp, 
+                    id, sing,singltonMonster.m_MonsterList[a].coin))
                 {
                     sing.m_MonsterAIStats.Add(Monster.transform.GetComponent<AIStats>());
                 }

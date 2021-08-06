@@ -14,8 +14,8 @@ public class PlayerStats : MonoBehaviour
     public DamageEffect damageEffect; //Damage effect
 
     [Header("Variables")]
-    public DoubleInt HP = new DoubleInt(10,10);
-    public int money = 100;
+    public DoubleInt HP = null;
+    public int money = 0;
     public int bottles = 0;
     public Dictionary<int, bool> doorKeys = new Dictionary<int, bool>();
 
@@ -24,17 +24,26 @@ public class PlayerStats : MonoBehaviour
     bool isDamaged;
 
     [Header("Graphics")]
-    private SpriteRenderer playerSprite; //Player sprite
+    public SpriteRenderer playerSprite; //Player sprite
 
     public bool isLive = true;
 
-    public void Init()
+    public void Init(int m_currentHp,int m_Hp, int m_money, int m_bottles, List<string> m_gun)
     {
-        playerSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        HP = new DoubleInt(m_currentHp, m_Hp);
+        money = m_money;
+        bottles = m_bottles;
+        playerSprite = GetComponentInChildren<SpriteRenderer>();
         timeToDamage = BaseData.DamageTime;
-        damageEffect = new DamageEffect();
         m_combatManager = transform.GetComponent<PlayerCombatManager>();
-        m_combatManager.Init();
+        m_combatManager.Init(m_gun);
+        MessageServer.AddListener(EventType.PlayDamge, TakingDamage);
+    }
+
+    public void DestroySelf()
+    {
+        m_combatManager.DestroySelf();
+        m_combatManager = null;
     }
 
     //Taking damage method
@@ -42,7 +51,6 @@ public class PlayerStats : MonoBehaviour
     {
         if (!isDamaged) 
         {
-
             isDamaged = true;
             StartCoroutine(timeDamage());
 
@@ -63,12 +71,14 @@ public class PlayerStats : MonoBehaviour
     //Health method
     public void Health()
     {
+        if (HP.current == HP.max)
+            return;
         if (bottles > 0)
         {
             bottles--; //Bottles - 1
             HP.current++; //HP + 1
             MessageServer.Broadcast<string, bool>(EventType.PlayMusicOrBG, BaseData.UseItem, false); //play drink sound
-            MessageServer.Broadcast<PlayerStats>(EventType.UpdateUI, this);
+            MessageServer.Broadcast(EventType.UpdateUI);
         }
     }
 
@@ -77,6 +87,19 @@ public class PlayerStats : MonoBehaviour
     {
         isLive = false;
         MessageServer.Broadcast(EventType.EndGame);
+    }
+
+    public PlayerInfor SaveInfor()
+    {
+        PlayerInfor infor = new PlayerInfor()
+        {
+            currentHp = HP.current,
+            Hp = HP.max,
+            bottle = bottles,
+            coin = money,
+            GuiName = m_combatManager.GetGunName(),
+        };
+        return infor;
     }
 
     IEnumerator timeDamage()

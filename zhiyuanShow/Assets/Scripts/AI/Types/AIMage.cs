@@ -6,24 +6,18 @@ using UnityEngine;
 
 public class AIMage : AICombat
 {
-    AIController aiController;
-
-    GameObject player;
     [Header("Prefabs")]
     public GameObject rangeWeapon; //Prefab Throwing Weapons
 
     [Header("Parametrs")]
     float timeBtwShots; //time between shots
     public float startTimeBtnShots; // Start time between shots
+    private bool canMove = false;
 
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-        aiController = GetComponent<AIController>();
-    }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         CheckAttackRadius();
     }
 
@@ -33,7 +27,7 @@ public class AIMage : AICombat
         {
             return;
         }
-        if (Vector2.Distance(transform.position, player.transform.position) < aiController.radiusAttack) //If a player is in radiusAttack
+        if (Vector2.Distance(transform.position, player.transform.position) < radiusAttack) //If a player is in radiusAttack
         {
             AttackByRate(); //Attack
         }

@@ -15,13 +15,12 @@ public class AIOrcBoss : AICombat
     public float jumpSpeed; // AI Jump Speed
     public float jumpPower; // Range and strength of the jump
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         animator = GetComponentInChildren<Animator>();
         aiController = GetComponent<AIController>();
     }
-
-
     private void OnCollisionEnter2D(Collision2D collision) //If the player entered the trigger
     {
         if (collision.gameObject.tag == "Player") //If its is player
@@ -32,14 +31,14 @@ public class AIOrcBoss : AICombat
 
     public override void MeleeAttack(GameObject target) //set up attack
     {
-
         base.MeleeAttack(target); //Parent method starts
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         //If a player enters raduisAttack
-        if (Vector2.Distance(aiController.playerPos.position, transform.position) < aiController.radiusAttack)
+        if (Vector2.Distance(GameManager.Instance.player.position, transform.position) < aiController.radiusAttack)
         {
             AttackByRate(); //Attack by rate
         }
@@ -64,7 +63,6 @@ public class AIOrcBoss : AICombat
         {
             timeBtwShots -= Time.deltaTime; //Time minus 1 sec
         }
-
     }
 
     //IEnumerator for smooth jump

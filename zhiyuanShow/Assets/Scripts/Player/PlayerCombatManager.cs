@@ -17,21 +17,33 @@ public class PlayerCombatManager : MonoBehaviour
     public List<GameObject> gunGameObjects = new List<GameObject>();
     public int gunNum;
 
-    public void Init()
+    public void Init(List<string> gun)
     {
-        player = transform.gameObject.transform;
-        for (int i = 0; i < transform.GetChild(1).childCount; i++)
+        if(gun != null)
         {
-            gunGameObjects.Add(transform.GetChild(1).GetChild(i).gameObject);
-            gunNum = 0;
-        }   
+            AddWeapons(gun);
+        }
+        player = transform.gameObject.transform;
         GunInit();
         MessageServer.AddListener<GameObject>(EventType.AddGun, AddWeapon);
+    }
+
+    public void AddWeapons(List<string> gun)
+    {
+        for(int i = 0; i < gun.Count; i++)
+        {
+            GameObject item = MessageServer.Broadcast<GameObject, string, bool>(ReturnMessageType.GetGameObject, gun[i], true);
+            AddWeapon(item);
+        }
     }
 
     private void GunInit()
     {
         guns.Clear();
+        if(gunGameObjects.Count == 0)
+        {
+            return;
+        }
         for (int i = 0; i < gunGameObjects.Count ; i++)
         {
             if (gunGameObjects[i] == null)
@@ -50,6 +62,8 @@ public class PlayerCombatManager : MonoBehaviour
 
     private void Update() //Every frame
     {
+        if (guns.Count == 0)
+            return;
         if (GameManager.Instance.playState.isLive && !GameManager.Instance.isPaues) //If pause disable, and is game
         {
             SwitchGun();
@@ -60,6 +74,7 @@ public class PlayerCombatManager : MonoBehaviour
             }
         }
     }
+
 
     /*
     //Attack method
@@ -171,6 +186,26 @@ public class PlayerCombatManager : MonoBehaviour
     public void ThrowWeapon()
     {
 
+    }
+
+    public void DestroySelf()
+    {
+        for(int i = 0; i < gunGameObjects.Count; i++)
+        {
+            MessageServer.Broadcast<GameObject>(EventType.PushToPool,gunGameObjects[i]);
+        }
+        gunGameObjects.Clear();
+        guns.Clear();
+    }
+
+    public List<string> GetGunName()
+    {
+        List<string> item = new List<string>();
+        for(int i = 0; i < gunGameObjects.Count; i++)
+        {
+            item.Add(gunGameObjects[i].name);
+        }
+        return item;
     }
 }
 

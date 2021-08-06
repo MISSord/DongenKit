@@ -6,7 +6,9 @@ using UnityEngine;
 public class AIStats : MonoBehaviour
 {
     SingltonMap m_singlton;
-    public AIController aiController;
+    private AIController aiController;
+    private AICombat aiCombat;
+
     AICanvas aICanvas;
     SpriteRenderer aiSprite;
     public int ID = 0;
@@ -15,12 +17,11 @@ public class AIStats : MonoBehaviour
 
     public delegate void DeathAction(); // AI Death Event
     public event DeathAction onDeath;
-
-    [HideInInspector]
     public DamageEffect damageEffect; //Visual damage effect
 
     [Header("Settings")]
     public DoubleFloat HP; //DoubleFloat(currentHP,maxHP)
+    private int coin = 0;
 
     private void Init()
     {
@@ -28,7 +29,8 @@ public class AIStats : MonoBehaviour
         aICanvas = GetComponentInChildren<AICanvas>();
         aICanvas.Init(this);
         aiController = GetComponent<AIController>();
-        
+        aiCombat = GetComponent<AICombat>();
+
         onDeath = () => {
             m_singlton = null;
             ID = 0;
@@ -37,7 +39,7 @@ public class AIStats : MonoBehaviour
         };
     }
 
-    public bool SetData(int ab, int m_ID, SingltonMap sing)
+    public bool SetData(int ab, int m_ID, SingltonMap sing, int m_coin)
     {
         if(m_singlton != null)
         {
@@ -46,6 +48,7 @@ public class AIStats : MonoBehaviour
         m_singlton = sing;
         HP = new DoubleFloat(ab, ab);
         ID = m_ID;
+        coin = m_coin;
         if (!isInit)
         {
             Init();
@@ -60,17 +63,20 @@ public class AIStats : MonoBehaviour
     public void StartGame()
     {
         aiController.canMove = true;
+        aiCombat.canMove = true;
         aiController.playerPos = GameManager.Instance.player;
     }
 
     public void ContinueGame()
     {
         aiController.canMove = true;
+        aiCombat.canMove = true;
     }
 
     public void StopGame()
     {
         aiController.canMove = false;
+        aiCombat.canMove = false;
     }
 
     //Сaused by taking damage
@@ -83,6 +89,11 @@ public class AIStats : MonoBehaviour
         if (HP.current <= 0) //if HP < 0 Death
         {
             Death();
+            for (int i = 0; i < coin; i++)
+            {
+                GameObject coin = MessageServer.Broadcast<GameObject, string, bool>(ReturnMessageType.GetGameObject, BaseData.Coin, false);
+                coin.transform.position = transform.position;
+            }
             return;
         }
         StartCoroutine(damageEffect.Damage(aiSprite)); 
@@ -92,6 +103,7 @@ public class AIStats : MonoBehaviour
 
     public void Death()
     {
+        aiCombat.Death();
         if (onDeath != null)
             onDeath(); // Death event
     }

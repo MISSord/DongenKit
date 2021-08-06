@@ -6,11 +6,18 @@ using UnityEngine;
 public class AICombat : MonoBehaviour
 {
     [HideInInspector]
-    //public AIStats aiStats;
-
-    private void Start()
+    public int radiusAttack;
+    protected GameObject player;
+    public bool canMove = true;
+    protected virtual void Start()
     {
-        //aiStats = GetComponent<AIStats>();
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    protected virtual void Update()
+    {
+        if (!canMove)
+            return;
     }
 
     //Virtual method for Range Attack, reconfigured in child classes
@@ -27,5 +34,10 @@ public class AICombat : MonoBehaviour
     {
         PlayerStats playerStats = GameManager.Instance.playState;
         playerStats.TakingDamage();
+    }
+
+    public virtual void Death()
+    {
+        StopAllCoroutines();
     }
 }

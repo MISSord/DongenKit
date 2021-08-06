@@ -28,6 +28,6 @@ public class BulletTracer : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        ObjectManager.Instance.PushObject(gameObject);
+        AssetServer.Instance.PushObjectToPool(this.transform.gameObject);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class MainMenuState : BaseSceneState
@@ -11,7 +10,10 @@ public class MainMenuState : BaseSceneState
 
     public override void EnterScene()
     {
-        MessageServer.Broadcast<string>(EventType.AddManager, BaseData.MainMenuManager);
-        base.EnterScene();
+        ScenesServer.Instance.AsyncLoadScene(BaseData.MainMenuScene,
+            () =>{
+                MessageServer.Broadcast<string>(EventType.AddManager, BaseData.MainMenuManager);
+                base.EnterScene();
+            });
     }
 }

@@ -41,19 +41,29 @@ public class GameManager : BaseManager
     [Header("Enemy")]
     public Vector3 playerBorn;
 
+    private PlayerInfor m_playInfor;
+
     public override void Init()
     {
-        instance = this;
+        if (GameRoot.Instance.continueGame)
+        {
+            m_playInfor = MessageServer.Broadcast<PlayerInfor>(ReturnMessageType.GetInfor);
+        }
+        else
+        {
+            m_playInfor = new PlayerInfor() { LevelNum = 0,currentHp = 10, Hp = 10, coin = 30, bottle = 5, GuiName = null };
+        }
 
+        instance = this;
         m_MapManager = transform.GetComponent<MapManager>();
         m_MapManager.Init();
-
         isGameOver = false;
         isPaues = false;
-
         MessageServer.AddListener(EventType.FinishSceneLoad, StartGame);
         MessageServer.AddListener(EventType.NextLevel, NextLevel);
         MessageServer.AddListener(EventType.EndGame, GameOver);
+        MessageServer.AddListener(EventType.StopGame, () => { isPaues = true; });
+        MessageServer.AddListener(EventType.ContinueGame, () => { isPaues = false; });
         base.Init();
     }
 
@@ -63,22 +73,21 @@ public class GameManager : BaseManager
         {
             return;
         }
-
         player = MessageServer.Broadcast<GameObject,string,bool>(ReturnMessageType.GetGameObject, BaseData.Player, true).transform;
         playState = player.transform.GetComponent<PlayerStats>();
         playerController = player.transform.GetComponent<PlayerController>();
-        playState.Init();
+        playState.Init(m_playInfor.currentHp, m_playInfor.Hp,m_playInfor.coin,m_playInfor.bottle, m_playInfor.GuiName);
         playerController.Init();
-        
         NewLevelMap();
+        MessageServer.Broadcast<string,bool>(EventType.PlayMusicOrBG, BaseData.BattleBG, true);
     }
 
     public void NewLevelMap()
     {
-        LevelNum++;
+        m_playInfor.LevelNum++;
         playerCamera = Camera.main.gameObject.AddComponent<PlayerCamera>();
         playerCamera.Init();
-        player.transform.position = m_MapManager.MakeNewMap();
+        player.transform.position = m_MapManager.MakeNewMap(m_playInfor.LevelNum);
         MessageServer.Broadcast(EventType.OpenDoor);
     }
 
@@ -130,15 +139,30 @@ public class GameManager : BaseManager
                     {
                         m_MapManager.PushMapToPool();
                         NewLevelMap();
+                        LevelNum++;
                     };
             ScenesServer.Instance.AsyncLoadScene(BaseData.FirstGameScene, loaded);
-            //Load next level
+            
         }
     }
 
     public void ReturnMainMenu()
     {
+        m_MapManager.PushMapToPool();
+        PlayerInfor item = playState.SaveInfor();
+        item.LevelNum = LevelNum;
+        MessageServer.Broadcast<PlayerInfor>(EventType.SaveInfor, item);
+        PlayFade();
         GameRoot.Instance.ChangeSceneState(new MainMenuState());
-        SaveServer.Save();
+        
+    }
+
+    private void PlayFade()
+    {
+        playerCamera = null;
+        playerController = null;
+        playState.DestroySelf();
+        MessageServer.Broadcast<GameObject>(EventType.PushToPool, player.gameObject);
+        player = null;
     }
 }

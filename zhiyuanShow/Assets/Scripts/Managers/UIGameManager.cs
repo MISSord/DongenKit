@@ -119,6 +119,7 @@ public class UIGameManager : BaseManager
         dialogGO.SetActive(true); //Show dialog screen gameobject
         dialogManager.SetDialogConfig(dialogConfig); //set config to dialog
         ShowShopMenu();
+        MessageServer.Broadcast(EventType.StopGame);
     }
 
     //Show shop menu method
@@ -133,6 +134,7 @@ public class UIGameManager : BaseManager
         isPause = false; //disable pause
         dialogClosed(this, new EventArgs()); //Activate event
         dialogGO.SetActive(false); //Disable dialog screen
+        MessageServer.Broadcast(EventType.ContinueGame);
     }
 
     //Close shop menu method
@@ -144,7 +146,8 @@ public class UIGameManager : BaseManager
     //Pause method
     public void ShowPauseMenu()
     {
-        pauseGo.SetActive(!pauseGo.activeSelf); //Reverse pause screen active status 
+        pauseGo.SetActive(true); //Reverse pause screen active status 
+        MessageServer.Broadcast(EventType.StopGame);
     }
 
     //UI GameOver method
@@ -155,7 +158,13 @@ public class UIGameManager : BaseManager
 
     public void ExitGame()
     {
-        //GameManager.Instance.ReturnMainMenu();
+        GameManager.Instance.ReturnMainMenu();
+    }
+
+    public void ContinueGame()
+    {
+        MessageServer.Broadcast(EventType.ContinueGame);
+        pauseGo.SetActive(false);
     }
 
     //Check active platform

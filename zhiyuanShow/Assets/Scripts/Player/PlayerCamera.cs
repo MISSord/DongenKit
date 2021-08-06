@@ -19,6 +19,7 @@ public class PlayerCamera : MonoBehaviour
         playerTransform = GameManager.Instance.player.transform;
         offset = BaseData.offset;
         MessageServer.AddListener(EventType.NextLevel, IsNotTrack);
+        transform.GetComponent<Camera>().orthographicSize = 10.0f;
         NextLevel();
     }
 

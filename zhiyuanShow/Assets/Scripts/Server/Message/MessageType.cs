@@ -13,6 +13,7 @@ public enum EventType
     ContinueGame,//指暂停后继续游戏
     EndGame,//游戏结束，指玩家死亡
     GameFinish,//游戏完成，指玩家打通关
+    LoadGame,
 
     TakeDamage,
     EnemyDeath,
@@ -51,6 +52,9 @@ public enum EventType
     FinishSceneLoad,
 
     AddGun,
+
+    SaveInfor,
+    ReadInfor,
 }
 
 public enum ReturnMessageType
@@ -60,6 +64,7 @@ public enum ReturnMessageType
     GetMonsterInfor,
     GetShopInfor,
     GetSprite,
+    GetInfor,
 }
 
 public enum InteractionShowType

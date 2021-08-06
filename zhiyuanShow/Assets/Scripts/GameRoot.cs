@@ -62,7 +62,6 @@ public class GameRoot : MonoBehaviour
 
         currentSceneState = new MainMenuState();
         currentSceneState.EnterScene();
-
     }
 
     public void PlayMusicOrBG(AudioClip item,bool isLoop)
@@ -89,6 +88,7 @@ public class GameRoot : MonoBehaviour
             }
             if (ManagerDict.ContainsKey(item.Key))
             {
+                Debug.Log("重复加入管理器：" + item.Key);
                 continue;
             }
             ManagerDict.Add(item.Key, itemManager);
@@ -135,6 +135,7 @@ public class GameRoot : MonoBehaviour
         {
             return;
         }
+        item.SetActive(true);
         item.transform.SetParent(this.transform.GetChild(1).transform);
         ManagerGameObDict.Add(item.name, item);
     }

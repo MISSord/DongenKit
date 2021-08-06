@@ -19,11 +19,12 @@ public class Gun : MonoBehaviour, IGun
     protected Animator animator;
     protected InteractionTrigger m_interactionTrigger;
 
+    protected bool canShoot = true;
+
     public virtual void Init()
     {
         animator = GetComponent<Animator>();
         muzzlePos = transform.Find("Muzzle");
-        muzzlePos.localPosition = BaseData.NormalGunMuzzlePosition;
         shellPos = transform.Find("BulletShell");
         if (shellPos != null)
         {
@@ -32,6 +33,7 @@ public class Gun : MonoBehaviour, IGun
         flipY = transform.localScale.y;
         bulletname = BaseData.Bullet;
         shellname = BaseData.BulletShell;
+
     }
 
     public void Start()
@@ -40,8 +42,9 @@ public class Gun : MonoBehaviour, IGun
         m_interactionTrigger.Init();
     }
 
-    private void Update()
+    public virtual void Update()
     {
+        
         if (m_interactionTrigger.inTrigger)//if player in trigger
         {
             if (InputManager.Interaction) // if player press Interaction button
@@ -66,12 +69,14 @@ public class Gun : MonoBehaviour, IGun
         else
             transform.localScale = new Vector3(flipY, flipY, 1);
 
-        direction = (mousePos - new Vector2(transform.position.x, transform.position.y)).normalized;
-        transform.right = direction;
+        direction = (mousePos - new Vector2(transform.position.x, transform.position.y));
+        transform.right = direction.normalized;
     }
 
     public virtual void Shoot()
     {
+        if (!canShoot)
+            return;
         if (timer != 0)
         {
             timer -= Time.deltaTime;

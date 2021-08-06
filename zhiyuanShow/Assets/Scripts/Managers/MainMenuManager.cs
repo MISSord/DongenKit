@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using System.IO;
 
 
 public class MainMenuManager : BaseManager
@@ -25,9 +26,9 @@ public class MainMenuManager : BaseManager
         loadGameBtn = GameObject.Find("Continue");
         loadGameBtn.SetActive(false);
 
-        if (PlayerPrefs.GetString(BaseData.GameLevel) != "")
+        if (File.Exists(BaseData.inforLoad))
             loadGameBtn.SetActive(true);
-
+        isAnyKeyDown = false;
         MessageServer.Broadcast<string,bool>(EventType.PlayMusicOrBG, BaseData.MainMenuBG,true);
         base.Init();
     }
@@ -46,6 +47,5 @@ public class MainMenuManager : BaseManager
         isAnyKeyDown = true;
         mainMenuAnimatorManager.PlayPlayableDirector(mainMenuAnimatorManager.timelineAssets[1], DirectorWrapMode.None); //Play main menu animation
     }
-    
 
 }

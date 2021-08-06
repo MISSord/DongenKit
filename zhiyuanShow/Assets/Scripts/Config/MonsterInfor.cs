@@ -20,6 +20,7 @@ public class SingltonMonsterInfor
         public int Hp;
         public string MonsterID;
         public int amount;
+        public int coin;
     }
 }
 

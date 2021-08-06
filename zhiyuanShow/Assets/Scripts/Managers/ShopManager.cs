@@ -16,7 +16,7 @@ public class ShopManager : BaseManager
     private void Start()
     {
         playerStats = GameManager.Instance.playState;
-        m_ShopFieldContent = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).transform;
+        m_ShopFieldContent = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).transform;
         MessageServer.AddListener<int>(EventType.Buy, Buy);
         UpdateItemInfor();
     }

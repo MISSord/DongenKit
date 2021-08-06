@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 4392692289735627701}
   m_Layer: 0
   m_Name: WallLeft
-  m_TagString: Wall
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

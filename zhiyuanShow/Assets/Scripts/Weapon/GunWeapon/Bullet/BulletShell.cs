@@ -38,7 +38,6 @@ public class BulletShell : MonoBehaviour
             sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.g, sprite.color.a - fadeSpeed);
             yield return new WaitForFixedUpdate();
         }
-        // Destroy(gameObject);
-        ObjectManager.Instance.PushObject(gameObject);
+        AssetServer.Instance.PushObjectToPool(gameObject);
     }
 }

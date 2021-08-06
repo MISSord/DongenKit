@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 5778741568220215597}
   m_Layer: 0
   m_Name: WallUp
-  m_TagString: Wall
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

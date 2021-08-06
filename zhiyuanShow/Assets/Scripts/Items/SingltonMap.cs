@@ -64,10 +64,6 @@ public class SingltonMap
 
     public void StartGame()
     {
-        foreach(AIStats ITEM in m_MonsterAIStats)
-        {
-            Debug.Log(ITEM.transform.position);
-        }
         MessageServer.AddListener<int>(EventType.EnemyDeath, DeadEnemy);
         MessageServer.AddListener(EventType.ContinueGame, ContinuetGame);
         MessageServer.AddListener(EventType.StopGame, StopGame);
@@ -100,8 +96,6 @@ public class SingltonMap
                 break;
             }
         }
-        Debug.Log(m_MonsterAIStats.Count);
-
         if (IsFinishThisLevel())
         {
             MessageServer.Broadcast(EventType.OpenDoor);

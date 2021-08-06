@@ -5,12 +5,14 @@
       {
         "Hp": 100,
         "MonsterID": "AI_Orc",
-        "amount": 4
+        "amount": 2,
+        "coin": 1
       },
       {
         "Hp": 100,
         "MonsterID": "AI_Mage",
-        "amount": 4
+        "amount": 2,
+        "coin": 1
       }
     ]
   },
@@ -20,12 +22,71 @@
       {
         "Hp": 100,
         "MonsterID": "AI_Orc",
-        "amount": 4
+        "amount": 3,
+        "coin": 1
       },
       {
         "Hp": 100,
         "MonsterID": "AI_Mage",
-        "amount": 4
+        "amount": 3,
+        "coin": 1
+      }
+    ]
+  },
+  {
+    "m_MonsterID": "A0003",
+    "MonsterInfor": [
+      {
+        "Hp": 200,
+        "MonsterID": "AI_Boss",
+        "amount": 1,
+        "coin": 1
+      },
+      {
+        "Hp": 100,
+        "MonsterID": "AI_Mage",
+        "amount": 2,
+        "coin": 1
+      }
+    ]
+  },
+  {
+    "m_MonsterID": "A0004",
+    "MonsterInfor": [
+      {
+        "Hp": 100,
+        "MonsterID": "AI_Orc",
+        "amount": 4,
+        "coin": 1
+      },
+      {
+        "Hp": 100,
+        "MonsterID": "AI_Mage",
+        "amount": 4,
+        "coin": 1
+      }
+    ]
+  },
+  {
+    "m_MonsterID": "A0005",
+    "MonsterInfor": [
+      {
+        "Hp": 100,
+        "MonsterID": "AI_Orc",
+        "amount": 2,
+        "coin": 1
+      },
+      {
+        "Hp": 100,
+        "MonsterID": "AI_Mage",
+        "amount": 2,
+        "coin": 1
+      },
+      {
+        "Hp": 200,
+        "MonsterID": "AI_Boss",
+        "amount": 3,
+        "coin": 1
       }
     ]
   }

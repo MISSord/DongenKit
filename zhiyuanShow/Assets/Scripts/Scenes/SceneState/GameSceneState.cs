@@ -19,14 +19,8 @@ public class GameSceneState : BaseSceneState
                     base.EnterScene();
                     MessageServer.Broadcast(EventType.FinishSceneLoad);
                 };
-        if (GameRoot.Instance.continueGame)
-        {
-            ScenesServer.Instance.AsyncLoadScene(BaseData.SecondGameScene, done);
-        }
-        else
-        {
-            ScenesServer.Instance.AsyncLoadScene(BaseData.FirstGameScene,done);
-        }
-        
+     
+         ScenesServer.Instance.AsyncLoadScene(BaseData.FirstGameScene, done);
+
     }
 }

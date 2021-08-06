@@ -12,8 +12,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidbody2d;
 
     [Header("Components")]
-    public GameObject playerSprite;
-    public SpriteRenderer playerSpriteRenderer;
+    private GameObject playerSprite;
 
     [Header("Parameters")]
     public float moveSpeed;
@@ -24,6 +23,7 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2d = GetComponent<Rigidbody2D>(); 
         playerAnimator = transform.GetChild(0).GetComponent<Animator>();
+        playerSprite = transform.GetChild(0).gameObject;
         SaveServer.Save(); //Save level state
     }
 
@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
         {
             CheckActions();
         }
+        if (GameManager.Instance.isPaues)
+        {
+            rigidbody2d.velocity = Vector2.zero;
+        }
     }
     //Actions method
     void CheckActions()
@@ -41,17 +45,16 @@ public class PlayerController : MonoBehaviour
         Move(); //Player move 移动
         Animation(); //Player animation 播放动画
     }
-
-    Vector3 velocity = Vector3.zero;
     [SerializeField, Range(0f,20f)]
     float maxAcceleration = 10f;
     //Move method
+    Vector2 velocity = Vector2.zero;
     void Move()
     {
         //Movement of the character depending on the values InputManager.Horizontal, InputManager.Vertical
         //rigidbody2d.MovePosition(InputManager.dir * moveSpeed * Time.deltaTime);
 
-        Vector3 desiredVelocity;
+        Vector2 desiredVelocity;
         if (GameManager.Instance.isUsekeyboard)
         {
             desiredVelocity = new Vector2(InputManager.Horizontal, InputManager.Vertical) * moveSpeed;
@@ -62,10 +65,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log(InputManager.dirOne);
         }
 
-        //float maxSpeedChange = maxAcceleration * Time.deltaTime;
-        //velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
-        //velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
+        float maxSpeedChange = maxAcceleration * Time.deltaTime;
+        velocity += desiredVelocity * Time.deltaTime;
+        velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+        velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
         rigidbody2d.velocity = desiredVelocity;
+        velocity = desiredVelocity;
     }
 
     //Rotation method
@@ -102,7 +107,7 @@ public class PlayerController : MonoBehaviour
     //Animation method
     void Animation()
     {
-        if (velocity != Vector3.zero) //if character is move
+        if (rigidbody2d.velocity != Vector2.zero) //if character is move
         {
             playerAnimator.SetBool("Move", true); //Animator set move 
         }

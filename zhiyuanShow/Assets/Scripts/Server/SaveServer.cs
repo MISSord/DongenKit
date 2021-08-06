@@ -17,7 +17,7 @@ public class SaveServer : MonoBehaviour
         PlayerPrefs.SetInt(BaseData.Hp, GameManager.Instance.playState.HP.max);
         PlayerPrefs.SetInt(BaseData.Money, GameManager.Instance.playState.money);
         PlayerPrefs.SetInt(BaseData.Bottles, GameManager.Instance.playState.bottles);
-        PlayerPrefs.SetString(BaseData.GameLevel, SceneManager.GetActiveScene().name);
+        PlayerPrefs.SetInt(BaseData.GameLevel, GameManager.Instance.LevelNum);
     }
 
     public static void Load()
@@ -26,5 +26,6 @@ public class SaveServer : MonoBehaviour
             PlayerPrefs.GetInt(BaseData.Hp));
         GameManager.Instance.playState.money = PlayerPrefs.GetInt(BaseData.Money);
         GameManager.Instance.playState.bottles = PlayerPrefs.GetInt(BaseData.Bottles);
+        GameManager.Instance.LevelNum = PlayerPrefs.GetInt(BaseData.GameLevel);
     }
 }
